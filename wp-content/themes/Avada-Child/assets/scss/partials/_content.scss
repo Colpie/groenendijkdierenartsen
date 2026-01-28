@@ -14,4 +14,44 @@
       will-change: transform, opacity, color;
     }
   }
+
+  .usp-column {
+
+    .fusion-column-wrapper {
+      border-radius: 50px;
+      padding: 45px;
+      background: rgba($white, .1);
+
+      .fusion-title {
+
+        .fusion-title-heading {
+          text-transform: none !important;
+          font-family: $font-bold !important;
+          font-size: 22px !important;
+
+          display: flex;
+          align-items: center;
+          color: $white !important;
+
+          img {
+            width: 100px;
+            height: 100px;
+            min-width: 100px;
+
+            object-fit: contain;
+          }
+        }
+      }
+
+      .fusion-text {
+
+        p {
+
+          &:last-child {
+            margin-bottom: 0 !important;
+          }
+        }
+      }
+    }
+  }
 }

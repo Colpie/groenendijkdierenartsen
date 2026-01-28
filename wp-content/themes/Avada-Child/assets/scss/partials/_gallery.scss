@@ -7,5 +7,18 @@
     padding: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
+
+    max-width: 90vw;
+    margin: 0 auto;
+
+    .gda-tile {
+      //height: 450px;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
   }
 }

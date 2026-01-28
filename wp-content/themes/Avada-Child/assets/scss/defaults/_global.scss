@@ -9,6 +9,7 @@
 @use "mobile-menu";
 @use "theme-fixes";
 @use "../layouts/layouts";
+@use "../layouts/tables";
 @use "../legal/cookie";
 @use "../legal/legal-page";
 @use "../partials/content";
@@ -20,3 +21,4 @@
 @use "../partials/reviews";
 @use "../partials/gallery";
 @use "../partials/news";
+@use "../partials/toggles";

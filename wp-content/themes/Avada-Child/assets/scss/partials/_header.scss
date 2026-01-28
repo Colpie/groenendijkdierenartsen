@@ -1,6 +1,29 @@
 @use "../variables/fonts" as *;
 @use "../variables/colors" as *;
 
+.home {
+
+  #boxed-wrapper {
+
+    header {
+
+      .fusion-header {
+
+        .logo-column {
+
+          .fusion-logo {
+            width: 350px !important;
+
+            @media (max-width: 1230px) {
+              width: 200px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 #boxed-wrapper {
 
   header {
@@ -132,11 +155,8 @@
           .fusion-logo {
             margin: 0 !important;
             text-align: center;
-            width: 350px;
+            width: 200px;
 
-            @media (max-width: 1230px) {
-              width: 200px !important;
-            }
           }
         }
 

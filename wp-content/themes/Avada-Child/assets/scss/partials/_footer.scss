@@ -201,6 +201,10 @@
           a {
             color: rgba($white, .25) !important;
             font-size: 14px !important;
+
+            &:hover {
+              color: $white !important;
+            }
           }
         }
       }

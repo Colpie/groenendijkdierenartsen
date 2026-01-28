@@ -64,15 +64,28 @@
         height: auto;
       }
 
-      h2 {
-        color: $black !important;
-
-        &:after {
-          left: 0 !important;
-          transform: none !important;
-          bottom: -14px !important;
-        }
+      h3 {
+        font-size: 24px !important;
+        text-transform: none !important;
       }
+    }
+  }
+}
+
+#boxed-wrapper {
+
+  .legal-page {
+
+    h2 {
+      font-size: 24px !important;
+      text-transform: none !important;
+      font-family: $font-bold !important;
+    }
+
+    h3 {
+      font-size: 20px !important;
+      text-transform: none !important;
+      font-family: $font-medium !important;
     }
   }
 }

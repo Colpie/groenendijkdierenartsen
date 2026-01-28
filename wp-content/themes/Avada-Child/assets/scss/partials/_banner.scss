@@ -7,7 +7,13 @@
     min-height: 700px;
     height: 80vh;
 
-    .banner-video-column {
+    &.default-banner {
+      height: 550px;
+      min-height: 0 !important;
+    }
+
+    .banner-video-column,
+    .banner-image-column {
       position: absolute;
       left: 0;
       top: 0;
@@ -31,16 +37,22 @@
           z-index: 10;
         }
 
-        .fusion-video {
+        .fusion-video,
+        .fusion-image-element {
           height: 100%;
 
-          .video-wrapper {
+          .video-wrapper,
+          .fusion-imageframe {
             height: 100%;
+            width: 100%;
 
-            video {
+            video,
+            img {
               width: 100%;
               height: 100%;
               object-fit: cover;
+
+              object-position: center 20%;
             }
           }
         }
@@ -55,8 +67,10 @@
 
           .fusion-title-heading {
             font-size: 38px !important;
+            color: $white !important;
 
             p {
+              color: $white !important;
               font-size: 38px !important;
             }
           }

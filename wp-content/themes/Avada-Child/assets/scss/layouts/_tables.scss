@@ -1,0 +1,112 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  table {
+    border: 0 !important;
+    box-shadow: none !important;
+    table-layout: fixed;
+
+    @media (min-width: 641px) {
+      width: 100%;
+    }
+
+    thead {
+
+      tr {
+        border: 0 !important;
+        border-bottom: 1px solid rgba($text-color, .3) !important;
+
+        th {
+          padding: 10px;
+          color: $text-color !important;
+          background: rgba($text-color, .05);
+
+          border: 0 !important;
+          font-size: 16px !important;
+          font-family: $font-bold !important;
+        }
+      }
+    }
+
+    tbody {
+      border: 0 !important;
+
+
+      tr {
+        position: relative;
+        border-bottom: 1px solid rgba($text-color, .3);
+
+        &:nth-of-type(even) {
+          background: rgba($text-color, .05) !important;
+
+          td {
+            background: transparent !important;
+          }
+        }
+
+        td {
+          background: rgba($text-color, .05) !important;
+          font-size: 14px !important;
+          border: 0 !important;
+
+          padding: 10px;
+          font-family: $font-medium !important;
+        }
+      }
+    }
+  }
+
+  .table-row {
+    background: rgba($text-color, .05);
+    border-radius: 120px;
+  }
+
+  .table-layout {
+    padding: 20px 20px 40px;
+    border-radius: 28px;
+    background: rgba($text-color, .03) !important;
+
+    display: none;
+
+    &.active {
+      display: block;
+    }
+
+    &.always-active {
+      display: block !important;
+    }
+
+    thead {
+
+      th {
+        background: rgba($text-color, .03) !important;
+        font-size: 16px !important;
+
+        &.center {
+          text-align: center;
+        }
+      }
+
+    }
+
+    tbody {
+
+      tr {
+
+        &:nth-of-type(even) {
+          background: rgba($text-color, .03) !important;
+
+          td {
+            background: transparent !important;
+          }
+        }
+      }
+
+      td {
+        background: rgba($text-color, .03) !important;
+      }
+    }
+  }
+}

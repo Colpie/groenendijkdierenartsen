@@ -82,6 +82,11 @@
       height: 100%;
     }
 
+    &.full-height-absolute {
+      //position: absolute;
+      //right: 0;
+    }
+
     .fusion-column-wrapper {
 
       @media (min-width: 1360px) {

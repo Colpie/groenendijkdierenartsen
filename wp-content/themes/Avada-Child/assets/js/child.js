@@ -1,7 +1,55 @@
 (function ($) {
     $(document).ready(function () {
 
+        jQuery(function ($) {
+            if (!window.gsap || !window.ScrollTrigger) return;
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            const $items = $(".usp-column");
+            if (!$items.length) return;
+
+            // Pak liever een container die ALLE usp-columns bevat
+            // (parent() is vaak ok, maar als Avada wrappers gebruikt kan closest beter zijn)
+            const $wrap = $items.first().closest(".fusion-row, .fusion-builder-row, .fusion-fullwidth, .fusion-content-boxes").first();
+            const triggerEl = $wrap.length ? $wrap[0] : $items.first().parent()[0];
+
+            // Start state
+            gsap.set($items, { autoAlpha: 0, y: 30 });
+
+            // Timeline met stagger
+            const tl = gsap.timeline({ paused: true });
+            tl.to($items.toArray(), {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power3.out",
+                stagger: 0.20,
+                overwrite: true,
+                // ❌ clearProps weg laten, anders reverse “doet niets”
+                // clearProps: "transform",
+            });
+
+            ScrollTrigger.create({
+                trigger: triggerEl,
+                start: "top 85%",
+                end: "bottom 60%",
+                invalidateOnRefresh: true,
+                // markers: true,
+
+                onEnter: () => tl.play(),
+                onLeaveBack: () => tl.reverse(),
+            });
+
+            // Avada layout/images => refresh
+            ScrollTrigger.refresh(true);
+            $(window).on("load", function () {
+                ScrollTrigger.refresh(true);
+            });
+        });
+
         (function () {
+
             function findScroller(el) {
                 // zoekt de dichtste ancestor die effectief scrollt
                 let p = el.parentElement;
@@ -42,7 +90,7 @@
 
                     gsap.fromTo(
                         col,
-                        { y: amount / 2 },
+                        {y: amount / 2},
                         {
                             y: -amount / 2,
                             ease: "none",
@@ -159,7 +207,7 @@
                 spaceBetween: 0,
 
                 effect: "fade",
-                fadeEffect: { crossFade: true },
+                fadeEffect: {crossFade: true},
 
                 autoplay: {
                     delay: 7000,
@@ -232,7 +280,7 @@
                         gsap.killTweensOf($img[0]);
                         gsap.fromTo(
                             $img[0],
-                            { autoAlpha: 0 },
+                            {autoAlpha: 0},
                             {
                                 autoAlpha: 1,
                                 duration: 0.5,
@@ -264,7 +312,7 @@
 
                 gsap.fromTo(
                     contentTargets,
-                    { autoAlpha: 0, y: 25 },
+                    {autoAlpha: 0, y: 25},
                     {
                         autoAlpha: 1,
                         y: 0,
@@ -279,7 +327,7 @@
                 if (img) {
                     gsap.fromTo(
                         img,
-                        { scale: 1.5 },
+                        {scale: 1.5},
                         {
                             scale: 1.0,
                             duration: 1.2,
@@ -522,7 +570,7 @@
 
         $('.legal-menu a').on('click', function (e) {
 
-            if ( $(this).attr('target') == '_blank' ) {
+            if ($(this).attr('target') == '_blank') {
                 // Leave empty
             } else {
                 e.preventDefault();
