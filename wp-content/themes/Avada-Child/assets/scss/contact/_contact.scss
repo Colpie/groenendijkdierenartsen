@@ -1,0 +1,200 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+// contact defaults
+.unaccepted, .invalid {
+
+  .wpcf7-validates-as-required {
+    border-color: red !important;
+  }
+}
+
+.screen-reader-response {
+  display: none !important;
+}
+
+.alert-custom {
+  display: none !important;
+
+  &.success {
+    display: inline-block !important;
+    padding-left: 0 !important;
+  }
+
+  .close {
+    display: none !important;
+  }
+}
+
+.wpcf7-not-valid-tip {
+  display: none !important;
+}
+
+.wpcf7-validation-errors {
+  display: none !important;
+}
+
+.wpcf7-acceptance-missing {
+  display: none !important;
+}
+
+.alert-icon {
+  display: none !important;
+}
+
+.your-consent .wpcf7-not-valid {
+  input {
+    border-color: red !important;
+  }
+}
+
+.wpcf7 {
+  position: relative !important;
+}
+
+.wpcf7-mail-sent-ok,
+.fusion-success {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+
+  font-size: 14px !important;
+  text-transform: none !important;
+  //font-family: $text-regular !important;
+
+  position: absolute !important;
+  left: 0px;
+  bottom: -20px;
+
+  margin-bottom: 0 !important;
+  //color: $light-color !important;
+  text-align: left !important;
+
+  @media (max-width: 1024px) {
+    right: 30px !important;
+  }
+
+
+  @media (max-width: 850px) {
+    position: relative !important;
+    right: auto;
+    bottom: auto;
+
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  @media (max-width: 640px) {
+    text-align: left !important;
+    padding-left: 30px !important;
+  }
+
+
+  .fusion-alert-content-wrapper {
+    line-height: 1 !important;
+  }
+}
+
+.loading-spinner {
+  width: 40px !important;
+  height: 40px !important;
+  position: absolute;
+
+  bottom: 0;
+  right: 0;
+
+  img {
+    object-fit: contain !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+input::-webkit-input-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+input:-moz-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+input::-moz-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+input:-ms-input-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+textarea::-webkit-input-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+textarea:-moz-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+textarea::-moz-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+textarea:-ms-input-placeholder {
+  //color: $text-color !important;
+  //font-family: $font-medium !important;
+}
+
+.wpcf7 {
+
+  input[type="checkbox"],
+  input[type=radio] {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: #fff;
+    /* Not removed via appearance */
+    margin: 0;
+
+    font: inherit;
+    //color: $text-color;
+    width: 1.15em;
+    height: 1.15em;
+
+    border: 1px solid rgba(#eeeeee, .7);
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+
+    display: grid;
+    place-content: center;
+  }
+
+  input[type="checkbox"],
+  input[type=radio] {
+    /* ...existing styles */
+    display: grid;
+    place-content: center;
+  }
+
+  input[type="checkbox"]::before,
+  input[type=radio]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    //box-shadow: inset 1em 1em $light-color;
+  }
+
+  input[type="checkbox"]:checked::before,
+  input[type=radio]:checked::before {
+    transform: scale(1);
+  }
+}

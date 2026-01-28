@@ -1,0 +1,30 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  .service-column {
+    margin-bottom: 60px !important;
+
+    @media (max-width: 1200px) {
+      width: 50% !important;
+    }
+
+    @media (max-width: 767px) {
+      width: 100% !important;
+    }
+
+    .fusion-column-wrapper {
+      @media (min-width: 1201px) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .fusion-button {
+        position: absolute;
+        right: 0;
+        bottom: 30px;
+      }
+    }
+  }
+}

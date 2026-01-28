@@ -1,0 +1,177 @@
+// Defaults
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+// Captcha hidden
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+
+// Body & paragraphs
+
+body {
+  -webkit-font-smoothing: antialiased !important;
+  font-family: $font !important;
+  font-size: 19px !important;
+
+  color: $white !important;
+  line-height: 1.2 !important;
+}
+
+#boxed-wrapper {
+
+  p, li, td {
+    -webkit-font-smoothing: antialiased !important;
+    font-family: $font !important;
+    font-size: 19px !important;
+
+    color: $white !important;
+    line-height: 1.2 !important;
+  }
+
+  strong, b {
+    font-family: $font-bold !important;
+  }
+
+  // Links & buttons
+
+  a {
+    transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+
+    text-decoration: none !important;
+    font-family: $font !important;
+    color: $white !important;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+
+    &.fusion-button {
+      padding: 5px 5px 5px 35px !important;
+      border-radius: 30px !important;
+      background: $text-color !important;
+
+      text-transform: uppercase !important;
+      letter-spacing: 1px !important;
+      font-size: 16px !important;
+
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+
+      @media (max-width: 640px) {
+        width: 100% !important;
+      }
+
+      &:hover {
+
+        &:before,
+        &:after {
+          width: 100%;
+          height: 100%;
+          visibility: visible;
+          opacity: 1;
+        }
+
+        .button-icon {
+          background-color: $blue-color;
+        }
+      }
+
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        content: "";
+        width: 50%;
+        height: 0;
+
+        visibility: hidden;
+        background-color: $blue-color;
+        opacity: 0;
+
+        z-index: -1;
+        transition: all 0.4s ease-in-out;
+      }
+
+      &:after {
+        position: absolute;
+        background-color: $blue-color;
+        bottom: 0;
+
+        right: 0;
+        content: "";
+        width: 50%;
+
+        height: 0;
+        visibility: hidden;
+        opacity: 0;
+
+        z-index: -1;
+        transition: all 0.4s ease-in-out;
+      }
+
+      .fusion-button-text {
+
+      }
+
+      .button-icon {
+        position: relative;
+        font-size: 18px;
+        height: 44px;
+
+        width: 44px;
+        display: flex;
+        align-items: center;
+
+        justify-content: center;
+        background-color: rgba($white, .15);
+        border-radius: 50%;
+
+        transition: all 0.5s linear;
+        margin-left: 30px;
+
+        img {
+          width: 20px;
+          object-fit: contain;
+        }
+      }
+
+      &.green-button {
+        background: $accent-color !important;
+
+        &:before,
+        &:after {
+          background-color: rgba($white, .15);
+        }
+
+        &:hover {
+
+          .button-icon {
+            background-color: $accent-color;
+          }
+        }
+      }
+    }
+  }
+
+  .wpcf7-submit {
+
+
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  // Fontawesome
+
+  i {
+    font-family: 'Font Awesome 5 Pro' !important;
+    font-style: normal !important;
+  }
+}

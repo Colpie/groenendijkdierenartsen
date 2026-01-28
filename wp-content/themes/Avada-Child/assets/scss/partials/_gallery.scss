@@ -1,0 +1,11 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  .gda-collage {
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+}

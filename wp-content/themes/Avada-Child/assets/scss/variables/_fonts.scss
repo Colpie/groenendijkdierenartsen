@@ -1,0 +1,45 @@
+// import fonts
+@font-face {
+  font-family: font-regular;
+  src: url(/wp-content/themes/Avada-Child/assets/fonts/Silka-Regular.otf);
+}
+
+@font-face {
+  font-family: font-medium;
+  src: url(/wp-content/themes/Avada-Child/assets/fonts/Silka-Medium.otf);
+}
+
+@font-face {
+  font-family: font-bold;
+  src: url(/wp-content/themes/Avada-Child/assets/fonts/Silka-Bold.otf);
+}
+// set font variables
+
+//$heading-font:
+//$primary-font:
+$font: font-regular;
+$font-medium: font-medium;
+$font-bold: font-bold;
+
+// set font sizes
+
+$size-tn: 12px;
+$size-xs: 14px;
+$size-sm: 16px;
+$size-md: 18px;
+$size-lg: 20px;
+$size-xl: 22px;
+$size-xl-1: 24px;
+$size-xl-2: 26px;
+
+
+// heading sizes
+$size-heading-tn: 30px;
+$size-heading-sm: 34px;
+$size-heading-md: 38px;
+$size-heading-lg: 42px;
+$size-heading-xl: 46px;
+
+// special sizes
+
+// icons size

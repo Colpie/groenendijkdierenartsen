@@ -1,0 +1,44 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  #post-404page {
+    padding-top: 90px !important;
+    padding-bottom: 90px !important;
+    display: flex;
+
+    justify-content: center;
+
+    .error-page {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .error-message {
+      text-align: center;
+      margin-top: 90px !important;
+      margin-bottom: 90px !important;
+    }
+
+    h2 {
+      text-align: center !important;
+    }
+
+    .error-button {
+      text-align: center;
+
+      a {
+        padding: 15px !important;
+
+        &.classic {
+
+          &:hover {
+            color: $white !important;
+          }
+        }
+      }
+    }
+  }
+}

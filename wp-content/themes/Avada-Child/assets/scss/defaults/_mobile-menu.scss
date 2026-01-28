@@ -1,0 +1,257 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  .fusion-mobile-menu-design-flyout.fusion-flyout-active .fusion-header {
+    top: 0 !important;
+    position: relative !important;
+  }
+
+  .fusion-header-has-flyout-menu .fusion-flyout-menu-icons .fusion-toggle-icon-line {
+    background: $white !important;
+  }
+
+  .fusion-flyout-menu-toggle {
+
+    .fusion-toggle-icon-line {
+      background: $white !important;
+    }
+
+    &:hover {
+
+      .fusion-toggle-icon-line {
+        background: $accent-color !important;
+      }
+    }
+  }
+
+  .fusion-flyout-menu {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: none;
+
+    &.active {
+      pointer-events: all;
+    }
+
+    .fusion-menu {
+      overflow: auto;
+      margin: 0 !important;
+      display: block !important;
+      border: none !important;
+
+      li {
+        padding: 14px !important;
+        position: relative;
+
+        &.fusion-mobile-current-nav-item {
+
+          a {
+            color: $accent-color !important;
+
+            &:before {
+              transform: scale3d(1, 1, 1);
+            }
+
+            .menu-text {
+
+              span {
+                color: $accent-color !important;
+              }
+            }
+          }
+        }
+
+        &:last-child {
+
+          a {
+
+            .menu-text {
+              justify-content: center;
+              align-items: center;
+              gap: 5px;
+            }
+          }
+        }
+
+
+        a {
+          display: inline-flex !important;
+          align-items: center !important;
+          z-index: 9 !important;
+          color: $white !important;
+
+          padding: 0 !important;
+          height: auto !important;
+          border: 0 !important;
+
+          width: 100%;
+          justify-content: center;
+          position: relative;
+
+          font-family: $font !important;
+          font-size: 26px !important;
+          line-height: 1 !important;
+
+          .menu-text {
+            display: flex;
+            flex-direction: column;
+
+            span {
+              color: $white !important;
+              font-size: 14px !important;
+              font-weight: 300 !important;
+            }
+          }
+
+          &:hover {
+            text-decoration: none;
+            color: $accent-color !important;
+          }
+        }
+
+        .custom-caret {
+          position: absolute;
+          right: 0;
+          top: 50%;
+
+          transform: translateY(-50%);
+          width: 32px;
+          height: 32px;
+
+          text-align: center;
+          font-size: 16px;
+          line-height: 32px;
+
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.10);
+          cursor: pointer;
+
+          border-radius: 2px;
+          -webkit-transition: all 500ms ease;
+          -moz-transition: all 500ms ease;
+
+          -ms-transition: all 500ms ease;
+          -o-transition: all 500ms ease;
+          transition: all 500ms ease;
+
+          z-index: 999;
+          animation-delay: .3s;
+          display: inline-block;
+
+          &.rotate {
+            transform: rotate(90deg);
+            background: $accent-color;
+          }
+        }
+
+        .sub-menu {
+          border-color: $accent-color !important;
+          height: 0 !important;
+          padding: 0 !important;
+
+          opacity: 0 !important;
+          display: flex !important;
+          flex-direction: column !important;
+
+          &.open {
+            padding-top: 14px !important;
+            display: flex !important;
+            height: auto !important;
+
+            opacity: 1 !important;
+          }
+
+          li {
+
+            &.fusion-mobile-current-nav-item {
+
+              a {
+                color: $accent-color !important;
+
+                &:before {
+                  transform: scale3d(1, 1, 1);
+                }
+
+                &.awb-justify-title {
+                  color: $white !important;
+                }
+              }
+
+              .sub-menu {
+
+                li {
+
+                  &.fusion-mobile-current-nav-item {
+
+                    a {
+                      color: $accent-color !important;
+                    }
+                  }
+
+                  a {
+                    color: $white !important;
+                  }
+                }
+              }
+            }
+
+            a {
+              font-size: 16px !important;
+              position: relative;
+              color: $white !important;
+
+              text-transform: uppercase !important;
+              font-weight: 300 !important;
+              letter-spacing: 1.5px;
+
+              font-family: $font !important;
+
+              &:hover {
+                color: $accent-color !important;
+              }
+
+              &:before {
+                transform: scale3d(0, 1, 1);
+              }
+
+              .custom-caret {
+                display: none !important;
+              }
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  .change {
+
+    .fusion-flyout-menu-toggle {
+
+      .fusion-toggle-icon-line {
+        background: $white !important;
+        color: $white !important;
+        z-index: 99999;
+      }
+    }
+  }
+
+  .fusion-flyout-menu-bg {
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.85);
+
+    &.active-bg {
+      pointer-events: all;
+    }
+  }
+}

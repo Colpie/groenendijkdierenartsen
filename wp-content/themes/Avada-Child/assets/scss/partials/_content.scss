@@ -1,0 +1,17 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  .bigger-text {
+
+    p {
+      font-size: 24px !important;
+    }
+
+    .word {
+      display: inline-block;
+      will-change: transform, opacity, color;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+.page-template-legal_info {
+
+  .fusion-fullwidth {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .legal-page-content {
+    padding: 120px 0 100px;
+    overflow: hidden;
+
+    .grid-fix {
+
+      @media (max-width: 1200px) {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    .legal-menu {
+
+      ul {
+        padding: 0 !important;
+        margin: 0 !important;
+        list-style: none;
+
+        @media (max-width: 1200px) {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
+          margin-bottom: 60px !important;
+        }
+
+        @media (max-width: 767px) {
+          flex-direction: column !important;
+        }
+
+        li {
+          padding: 15px 0;
+
+          a {
+            font-weight: 600 !important;
+            text-transform: uppercase;
+            position: relative;
+
+            &.active {
+              color: $black !important;
+            }
+          }
+        }
+      }
+    }
+
+    .legal-content {
+      opacity: 0;
+      height: 0;
+
+      &.active {
+        opacity: 1;
+        height: auto;
+      }
+
+      h2 {
+        color: $black !important;
+
+        &:after {
+          left: 0 !important;
+          transform: none !important;
+          bottom: -14px !important;
+        }
+      }
+    }
+  }
+}

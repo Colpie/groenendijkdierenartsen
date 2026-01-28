@@ -1,0 +1,160 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  header {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    padding-top: 20px;
+
+    &.is-fixed {
+
+      @media (min-width: 1200px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        right: 0;
+        background: $blue-color;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+        .fusion-header {
+          will-change: padding, height;
+
+          .fusion-row {
+
+            .logo-column {
+
+              img {
+                max-width: 50%;
+                height: auto;
+                transform-origin: center center;
+
+                will-change: transform;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .fusion-header {
+      background: transparent !important;
+      padding: 0 15px;
+
+      .fusion-row {
+        max-width: 100%;
+        display: flex;
+
+        flex-wrap: wrap;
+
+        @media (min-width: 1601px) {
+          max-width: calc(var(--site_width) + 200px);
+        }
+
+        @media (min-width: 1231px) {
+          justify-content: space-between;
+        }
+
+        .menu-column {
+          padding: 0 !important;
+
+          @media (max-width: 1520px) {
+            width: 40% !important;
+          }
+
+          @media (max-width: 1230px) {
+            display: none !important;
+          }
+
+          &.last-menu-column {
+
+            ul {
+
+              @media (max-width: 1520px) {
+                justify-content: flex-end;
+              }
+            }
+          }
+
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            display: flex;
+            gap: 20px;
+
+            @media (max-width: 1300px) {
+              gap: 10px;
+            }
+
+            li {
+
+              a {
+                font-family: $font-medium !important;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+
+                font-size: 16px !important;
+
+                &:hover {
+                  color: $accent-color !important;
+                }
+              }
+            }
+          }
+        }
+
+        .logo-column {
+          text-align: center;
+          display: flex;
+          justify-content: center;
+
+          @media (min-width: 1231px) and (max-width: 1520px) {
+            width: 20% !important;
+          }
+
+          @media (min-width: 768px) and (max-width: 1230px) {
+            width: 60% !important;
+            justify-content: flex-start;
+          }
+
+          @media (max-width: 767px) {
+            justify-content: flex-start;
+            padding: 0 !important;
+          }
+
+          .fusion-logo {
+            margin: 0 !important;
+            text-align: center;
+            width: 350px;
+
+            @media (max-width: 1230px) {
+              width: 200px !important;
+            }
+          }
+        }
+
+        .main-mobile-menu {
+
+          @media (min-width: 1231px) {
+            display: none !important;
+          }
+
+          @media (min-width: 767px) {
+            width: 40% !important;
+          }
+
+          .fusion-main-menu {
+
+          }
+        }
+      }
+    }
+  }
+}

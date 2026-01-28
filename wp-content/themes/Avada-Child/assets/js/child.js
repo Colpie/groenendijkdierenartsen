@@ -1,0 +1,641 @@
+(function ($) {
+    $(document).ready(function () {
+
+        (function () {
+            function findScroller(el) {
+                // zoekt de dichtste ancestor die effectief scrollt
+                let p = el.parentElement;
+                while (p && p !== document.body) {
+                    const s = getComputedStyle(p);
+                    const canScroll =
+                        (s.overflowY === "auto" || s.overflowY === "scroll") &&
+                        p.scrollHeight > p.clientHeight + 5;
+                    if (canScroll) return p;
+                    p = p.parentElement;
+                }
+                return window; // fallback
+            }
+
+            window.initColumnFloatParallax = function initColumnFloatParallax() {
+                if (!window.gsap || !window.ScrollTrigger) {
+                    console.warn("[Parallax] gsap/ScrollTrigger missing");
+                    return;
+                }
+
+                gsap.registerPlugin(ScrollTrigger);
+
+                const cols = gsap.utils.toArray(".full-height-image-column");
+                if (!cols.length) return;
+
+                // kill oude triggers/tweens voor deze elems (handig bij reload/resize)
+                cols.forEach((col) => {
+                    ScrollTrigger.getAll().forEach((st) => {
+                        if (st && st.vars && st.vars.trigger === col) st.kill();
+                    });
+                    gsap.killTweensOf(col);
+                });
+
+                const amount = 180;
+
+                cols.forEach((col) => {
+                    const scroller = findScroller(col);
+
+                    gsap.fromTo(
+                        col,
+                        { y: amount / 2 },
+                        {
+                            y: -amount / 2,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: col,
+                                scroller: scroller, // 👈 KEY FIX
+                                start: "top bottom",
+                                end: "bottom top",
+                                scrub: true,
+                                invalidateOnRefresh: true,
+                                // markers: true, // 👈 zet aan om te debuggen
+                            },
+                        }
+                    );
+                });
+
+                ScrollTrigger.refresh(true);
+            };
+
+            jQuery(window).on("load", function () {
+                setTimeout(() => window.initColumnFloatParallax(), 500);
+            });
+        })();
+
+        document.querySelectorAll('.bigger-text').forEach(el => {
+            // Bewaar originele structuur
+            const originalHTML = el.innerHTML;
+            const temp = document.createElement('div');
+            temp.innerHTML = originalHTML;
+
+            // Split text nodes in WORD spans, behoud tags zoals <strong> en <br>
+            function splitWords(node) {
+                // Text node
+                if (node.nodeType === 3) {
+                    const text = node.textContent;
+                    const frag = document.createDocumentFragment();
+
+                    // Split op spaties, maar behoud de spaties in output
+                    // (zodat layout identiek blijft)
+                    const parts = text.split(/(\s+)/);
+
+                    parts.forEach(part => {
+                        if (!part) return;
+
+                        // Whitespace -> gewoon tekst terugplaatsen
+                        if (/^\s+$/.test(part)) {
+                            frag.appendChild(document.createTextNode(part));
+                        } else {
+                            const span = document.createElement('span');
+                            span.className = 'word';
+                            span.textContent = part;
+                            frag.appendChild(span);
+                        }
+                    });
+
+                    return frag;
+                }
+
+                // Element node (bv strong, p, br)
+                if (node.nodeType === 1) {
+                    const clone = node.cloneNode(false);
+                    node.childNodes.forEach(child => clone.appendChild(splitWords(child)));
+                    return clone;
+                }
+
+                return document.createTextNode('');
+            }
+
+            // Rebuild content
+            el.innerHTML = '';
+            temp.childNodes.forEach(n => el.appendChild(splitWords(n)));
+
+            const words = el.querySelectorAll('.word');
+            // Bepaal eindkleur op basis van class
+            const endColor = el.classList.contains('other-color')
+                ? '#ffffff'
+                : '#215074';
+
+            gsap.fromTo(
+                words,
+                {
+                    color: '#fff',
+                    opacity: 0.6,
+                    y: 6
+                },
+                {
+                    color: endColor,
+                    opacity: 1,
+                    y: 0,
+                    ease: 'none',     // cruciaal voor perfecte scrub
+                    stagger: 0.12,
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%',
+                        end: 'top 35%',
+                        scrub: true
+                        // markers: true
+                    }
+                }
+            );
+
+        });
+
+        $(".reviews-swiper").each(function () {
+            const $el = $(this);
+
+            // voorkom dubbele init
+            if ($el.data("swiper-initialized")) return;
+            $el.data("swiper-initialized", true);
+
+            const swiper = new Swiper(this, {
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 0,
+
+                effect: "fade",
+                fadeEffect: { crossFade: true },
+
+                autoplay: {
+                    delay: 7000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: false,
+                },
+
+                navigation: {
+                    nextEl: $el.find(".swiper-button-next")[0],
+                    prevEl: $el.find(".swiper-button-prev")[0],
+                },
+
+                on: {
+                    init: function () {
+                        updateReviewHeader(this);
+                        runReviewSlideAnim(this);
+                    },
+                    slideChangeTransitionStart: function () {
+                        updateReviewHeader(this);
+                        runReviewSlideAnim(this);
+                    },
+                },
+            });
+
+            /**
+             * 🔄 UPDATE HEADER IMAGE (bovenste kolom)
+             * Zoekt [reviews_header_image] binnen dezelfde Avada row
+             */
+            function updateReviewHeader(sw) {
+                if (!sw || !sw.slides) return;
+
+                // 1) zoek actieve slide
+                let slide = sw.slides[sw.activeIndex];
+                let headerUrl = slide ? slide.getAttribute("data-header") : "";
+
+                // 2) fallback: zoek eerste slide met header (bij loop/duplicates)
+                if (!headerUrl) {
+                    for (let i = 0; i < sw.slides.length; i++) {
+                        const url = sw.slides[i].getAttribute("data-header");
+                        if (url) {
+                            headerUrl = url;
+                            break;
+                        }
+                    }
+                }
+
+                if (!headerUrl) return;
+
+                // 3) zoek header IMG in dezelfde Avada sectie
+                const $row = $el.closest(
+                    ".fusion-fullwidth, .fusion-builder-row, .fusion-row"
+                );
+
+                let $img = $row.find("img[data-reviews-header='1']").first();
+
+                // ultieme fallback: globaal
+                if (!$img.length) {
+                    $img = $("img[data-reviews-header='1']").first();
+                }
+
+                if (!$img.length) return;
+
+                // 4) swap alleen als nodig
+                if ($img.attr("src") !== headerUrl) {
+                    $img.attr("src", headerUrl);
+                    $img.removeAttr("srcset").removeAttr("sizes");
+
+                    // subtiele fade
+                    if (window.gsap) {
+                        gsap.killTweensOf($img[0]);
+                        gsap.fromTo(
+                            $img[0],
+                            { autoAlpha: 0 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.5,
+                                ease: "power2.out",
+                                overwrite: true,
+                            }
+                        );
+                    }
+                }
+            }
+
+            /**
+             * 🎬 JOUW BESTAANDE SLIDE-ANIMATIES
+             */
+            function runReviewSlideAnim(sw) {
+                if (!window.gsap) return;
+
+                const slide = sw.slides[sw.activeIndex];
+                if (!slide) return;
+
+                const contentTargets = slide.querySelectorAll(
+                    "h1,h2,h3,h4,p,.fusion-title,.fusion-text,.review-content,.review-author,.review-stars"
+                );
+
+                const img = slide.querySelector("img");
+
+                gsap.killTweensOf(contentTargets);
+                if (img) gsap.killTweensOf(img);
+
+                gsap.fromTo(
+                    contentTargets,
+                    { autoAlpha: 0, y: 25 },
+                    {
+                        autoAlpha: 1,
+                        y: 0,
+                        duration: 0.7,
+                        ease: "power3.out",
+                        stagger: 0.06,
+                        overwrite: true,
+                        delay: 0.05,
+                    }
+                );
+
+                if (img) {
+                    gsap.fromTo(
+                        img,
+                        { scale: 1.5 },
+                        {
+                            scale: 1.0,
+                            duration: 1.2,
+                            ease: "power2.out",
+                            overwrite: true,
+                        }
+                    );
+                }
+            }
+        });
+
+        jQuery(function ($) {
+            const $popup = $('.ae-popup');
+
+            // Click toggle → overal
+            $(document).on('click', '.ae-popup-icon', function (e) {
+                e.preventDefault();
+                $(this).closest('.ae-popup').toggleClass('active');
+            });
+
+            // ⏱️ Timers enkel op frontpage
+            if ($('body').hasClass('home')) {
+
+                // Auto open after 3 seconds
+                setTimeout(function () {
+                    $popup.addClass('active');
+                }, 3000);
+
+                // Auto close after 7 seconds
+                setTimeout(function () {
+                    $popup.removeClass('active');
+                }, 7000);
+
+            }
+        });
+
+        (function () {
+            const header = document.querySelector('#boxed-wrapper header'); // jouw wrapper
+            if (!header) return;
+
+            const fusionHeader = header.querySelector('.fusion-header');
+            const row = header.querySelector('.fusion-row');
+            const logoImg = header.querySelector('.logo-column img');
+            const portal = header.querySelector('.client-portal');
+
+            const TRIGGER_Y = 80;
+            const mq = window.matchMedia('(min-width: 1200px)');
+
+            let placeholder = null;
+            let isFixed = false;
+
+            // Timeline: animeer enkel inner stuff (niet header)
+            const tl = gsap.timeline({
+                paused: true,
+                defaults: {ease: 'power2.out', duration: 0.25}
+            });
+
+            if (fusionHeader) tl.to(fusionHeader, {paddingTop: 8, paddingBottom: 8}, 0);
+            if (row) tl.to(row, {paddingTop: 0, paddingBottom: 0}, 0);
+            if (logoImg) tl.to(logoImg, {scale: 0.82, transformOrigin: 'left center'}, 0);
+            if (portal) tl.to(portal, {scale: 0.92, transformOrigin: 'right center'}, 0);
+
+            function ensurePlaceholder() {
+                if (placeholder) return;
+                placeholder = document.createElement('div');
+                placeholder.className = 'fusion-header-placeholder';
+                placeholder.style.display = 'none';
+                header.parentNode.insertBefore(placeholder, header.nextSibling);
+            }
+
+            function updatePlaceholderHeight() {
+                if (!placeholder) return;
+                placeholder.style.height = header.offsetHeight + 'px';
+            }
+
+            function resetToNormal() {
+                isFixed = false;
+                header.classList.remove('is-fixed');
+
+                if (placeholder) placeholder.style.display = 'none';
+
+                tl.pause(0);
+                gsap.set([fusionHeader, row, logoImg, portal].filter(Boolean), {clearProps: 'transform,padding'});
+            }
+
+            function setFixed(state) {
+                if (state === isFixed) return;
+                isFixed = state;
+
+                if (state) {
+                    ensurePlaceholder();
+                    updatePlaceholderHeight();
+                    placeholder.style.display = 'block';
+                    header.classList.add('is-fixed');
+                    tl.play();
+                } else {
+                    header.classList.remove('is-fixed');
+                    if (placeholder) placeholder.style.display = 'none';
+                    tl.reverse();
+                }
+            }
+
+            function onScroll() {
+                if (!mq.matches) return;
+                setFixed(window.scrollY > TRIGGER_Y);
+            }
+
+            function enableDesktop() {
+                ensurePlaceholder();
+                updatePlaceholderHeight();
+                window.addEventListener('resize', updatePlaceholderHeight);
+                window.addEventListener('scroll', onScroll, {passive: true});
+                onScroll();
+            }
+
+            function disableDesktop() {
+                window.removeEventListener('resize', updatePlaceholderHeight);
+                window.removeEventListener('scroll', onScroll);
+                resetToNormal();
+            }
+
+            function handleMQChange() {
+                if (mq.matches) enableDesktop();
+                else disableDesktop();
+            }
+
+            handleMQChange();
+
+            if (typeof mq.addEventListener === 'function') mq.addEventListener('change', handleMQChange);
+            else mq.addListener(handleMQChange);
+        })();
+
+        // Mobile menu
+        $(function () {
+            let menuOpen = false;
+
+            const $menuBg = $('.fusion-flyout-menu-bg');
+            const $menu = $('.fusion-flyout-menu');
+            const $menuItems = $('.fusion-flyout-menu .fusion-menu > li');
+            const $toggle = $('.fusion-flyout-menu-toggle');
+
+            function resetSubmenus() {
+                $('.sub-menu').removeClass('open').css({height: 0, opacity: 0});
+                $('.custom-caret').removeClass('rotate');
+            }
+
+            $toggle.on('click', function (e) {
+                e.preventDefault();
+                $('.fusion-header').removeAttr('style');
+                $('.fusion-flyout-mobile-menu-icons').toggleClass('change');
+                $('.custom-caret').remove();
+
+                if (!menuOpen) {
+                    menuOpen = true;
+
+                    // Add caret icons
+                    $('.fusion-flyout-menu .fusion-menu .menu-item-has-children > a').each(function () {
+                        $(this).append('<span class="fusion-caret custom-caret"><i class="fusion-dropdown-indicator" aria-hidden="true"></i></span>');
+                    });
+
+                    // Submenu toggle logic
+                    $('.custom-caret').on('click', function (e) {
+                        e.preventDefault();
+                        const $submenu = $(this).closest('li').find('.sub-menu').first();
+                        const isOpen = $submenu.hasClass('open');
+
+                        if (isOpen) {
+                            gsap.to($submenu, {height: 0, opacity: 0, duration: 0.4});
+                            $submenu.removeClass('open');
+                            $submenu.find('.sub-menu').removeClass('open');
+                            $(this).removeClass('rotate');
+                        } else {
+                            $submenu.addClass('open');
+                            $submenu.find('.sub-menu').addClass('open');
+                            gsap.set($submenu, {height: 'auto'});
+                            gsap.from($submenu, {height: 0, opacity: 0, duration: 0.4});
+                            $(this).addClass('rotate');
+                        }
+                    });
+
+                    // Animate background in
+                    gsap.set($menuBg, {y: '100%', autoAlpha: 0});
+                    gsap.to($menuBg, {y: '0%', autoAlpha: 1, duration: 0.7, ease: 'power3.out'});
+
+                    // Animate menu in
+                    gsap.set($menu, {y: 50, autoAlpha: 0});
+                    gsap.to($menu, {y: 0, autoAlpha: 1, duration: 0.6, delay: 0.2, ease: 'power3.out'});
+
+                    // Animate items
+                    gsap.fromTo($menuItems, {
+                        opacity: 0,
+                        y: 30
+                    }, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        delay: 0.3,
+                        stagger: 0.05,
+                        ease: 'power3.out'
+                    });
+
+                } else {
+                    // CLOSE SEQUENCE
+                    menuOpen = false;
+                    resetSubmenus();
+
+                    // Animate menu items out
+                    gsap.to($menuItems.get().reverse(), {
+                        opacity: 0,
+                        y: 30,
+                        duration: 0.6,
+                        stagger: 0.06,
+                        ease: 'power2.in',
+                        onComplete: function () {
+                            // Then animate menu down
+                            gsap.to($menu, {
+                                y: 50,
+                                autoAlpha: 0,
+                                duration: 0.6,
+                                ease: 'power3.inOut',
+                                onComplete: function () {
+                                    // Finally hide background
+                                    gsap.to($menuBg, {
+                                        y: '100%',
+                                        autoAlpha: 0,
+                                        duration: 0.7,
+                                        ease: 'power3.inOut'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        // Legal menu
+        $('.legal-content:first-child').addClass('active fadeInUp animated');
+        $('.legal-menu li:first-child a').addClass('active');
+
+        $('.legal-menu a').on('click', function (e) {
+
+            if ( $(this).attr('target') == '_blank' ) {
+                // Leave empty
+            } else {
+                e.preventDefault();
+                $('.legal-menu a.active').removeClass('active');
+                $(this).addClass('active');
+                $('.legal-content').removeClass('active fadeInUp');
+
+                var menu_id = $(this).attr('href');
+                var hash = menu_id.split('#')[1];
+                menu_id = $('#' + hash);
+
+                menu_id.addClass('active fadeInUp animated');
+            }
+        });
+
+        // Form submit
+        $('.wpcf7-submit').on('click', function () {
+            $('.contact-form').prepend('<div class="loading-spinner"><img src="/wp-content/themes/Avada-Child/assets/images/Spinner.gif"> </div>');
+            setTimeout(function () {
+                if ($('.wpcf7-acceptance-as-validation').hasClass('sent')) {
+                    // $('.wpcf7-response-output.success').remove();
+                    // $('.loading-spinner').hide();
+                }
+
+                if ($('.wpcf7-acceptance-as-validation').hasClass('invalid')) {
+                    $('.loading-spinner').hide();
+                }
+
+            }, 5000);
+        });
+
+        $('.schade .wpcf7-submit').on('click', function () {
+            setTimeout(function () {
+                if ($('.wpcf7-acceptance-as-validation').hasClass('sent')) {
+                    $('.fusion-alert.fusion-success .fusion-alert-content-wrapper .fusion-alert-content').text('Bedankt, uw bericht is succesvol verzonden.');
+                }
+            }, 5000);
+        });
+
+        // $('.fusion-flyout-menu').append('<div class="menu-cover-title">Menu</div>');
+        // *********************************************************************************
+
+        // Equal heights
+        $.fn.equalHeights = function () {
+            var max_height = 0;
+            $(this).each(function () {
+                max_height = Math.max($(this).height(), max_height);
+            });
+            $(this).each(function () {
+                $(this).height(max_height);
+            });
+        };
+
+        $('.equal-height').equalHeights();
+
+        // Cijfers en indexen
+        $('.insufeed-category').click(function (e) {
+            e.preventDefault();
+
+            $(this).siblings('.cijfers-content-container').slideToggle();
+
+        });
+
+        // Lord icons
+        if ($('lord-icon').length) {
+
+            $('.trigger-hover').on('mouseenter', function (e) {
+                $(this).find('lord-icon').attr('trigger', 'loop');
+            });
+
+            $('.trigger-hover').on('mouseleave', function () {
+                $(this).find('lord-icon').attr('trigger', '');
+            });
+        }
+
+        // News clicktrough
+        $('.latest-news-item .card').on('click', function () {
+            var url = $(this).find('a').attr('href');
+            window.location = url;
+        });
+
+
+        // Animations
+
+        var t = 0.2;
+        $('.delay').each(function (i) {
+            $(this).css('animation-delay', t + 's');
+            t = t + 0.2;
+        });
+
+        // Animation Callup (always on bottom of this script !!!!)
+        WOW.prototype.addBox = function (element) {
+            this.boxes.push(element);
+        };
+
+        // Init WOW.js and get instance
+        var wow = new WOW();
+        wow.init();
+
+        // Attach scrollSpy to .wow elements for detect view exit events,
+        // then reset elements and add again for animation
+        $('.wow').on('scrollSpy:exit', function () {
+            $(this).css({
+                'visibility': 'hidden',
+                'animation-name': 'none'
+            }).removeClass('animated');
+            wow.addBox(this);
+        }).scrollSpy();
+
+        new WOW().init();
+
+        // *********************************************************************************
+
+    });
+
+})(jQuery);

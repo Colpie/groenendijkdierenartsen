@@ -1,0 +1,68 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#boxed-wrapper {
+
+  .ae-popup {
+    position: fixed;
+    right: 0;
+    top: 300px;
+
+    z-index: 99999;
+    transform: translateX(calc(100% - 120px));
+    transition: transform .3s ease-in-out;
+
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+
+    @media (max-width: 640px) {
+      top: 200px;
+    }
+
+    &.active {
+      transform: translateX(0);
+    }
+
+    .ae-popup-wrap {
+      position: relative;
+      display: flex;
+      padding: 15px 30px 15px 45px;
+
+      border-radius: 60px 0 0 60px;
+      background: $accent-color;
+      align-items: center;
+
+      @media (max-width: 640px) {
+        padding: 25px 15px;
+      }
+
+      .ae-popup-icon {
+        margin-right: 25px;
+        cursor: pointer;
+
+        img {
+          width: 50px;
+          object-fit: contain;
+        }
+      }
+
+      .ae-popup-content {
+
+        strong {
+          color: $white !important;
+        }
+
+        p {
+          color: $white !important;
+
+          @media (max-width: 640px) {
+            font-size: 13px !important;
+          }
+
+          &:last-child {
+            margin-bottom: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}

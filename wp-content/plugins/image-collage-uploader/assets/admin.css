@@ -1,0 +1,74 @@
+.gda-collage-wrap .gda-toolbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin: 12px 0 18px;
+}
+
+.gda-shortcode{
+    margin-left:auto;
+    opacity:.85;
+}
+
+.gda-items{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    max-width: 980px;
+}
+
+.gda-row{
+    display:grid;
+    grid-template-columns: 180px 1fr;
+    gap:14px;
+    padding:12px;
+    border:1px solid #dcdcdc;
+    border-radius:12px;
+    background:#fff;
+}
+
+.gda-thumb{
+    width:180px;
+    height:120px;
+    border-radius:12px;
+    overflow:hidden;
+    background:#f3f3f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px dashed #cfcfcf;
+}
+
+.gda-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.gda-thumb-empty{
+    font-size:12px;
+    opacity:.7;
+}
+
+.gda-fields{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:8px;
+}
+
+.gda-actions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.gda-note{
+    font-size:12px;
+    opacity:.75;
+}
+
+.gda-preview{
+    max-width: 1100px;
+}

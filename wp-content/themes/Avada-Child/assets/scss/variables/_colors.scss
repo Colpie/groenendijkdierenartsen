@@ -1,0 +1,28 @@
+// Color variables
+$black: #000000;
+$white: #ffffff;
+
+//$primary-color: #a1bb19;
+$text-color: #215074;
+$blue-color: #002B57;
+$accent-color: #AFC130;
+$green-after: #A1B22F;
+
+#boxed-wrapper {
+
+  .white-color {
+    color: $white !important;
+
+    h1, h2, h3, h4, h5, h6, p {
+      color: $white !important;
+    }
+  }
+
+  .text-color {
+    color: $text-color !important;
+
+    h1, h2, h3, h4, h5, h6, p {
+      color: $text-color !important;
+    }
+  }
+}

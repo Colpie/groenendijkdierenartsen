@@ -1,0 +1,38 @@
+// Theme fixes
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#main {
+
+  .static-row {
+
+    .fusion-builder-row {
+      position: static !important
+    }
+  }
+
+  .title-sep-container {
+    display: none !important;
+  }
+
+  .fusion-title-center {
+    justify-content: center !important;
+  }
+
+  .large-row {
+
+    .fusion-builder-row {
+      max-width: calc(var(--site_width) + 100px) !important;
+    }
+  }
+
+  .button-flex {
+    display: flex;
+    gap: 10px;
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      gap: 45px;
+    }
+  }
+}

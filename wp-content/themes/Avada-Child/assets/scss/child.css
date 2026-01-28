@@ -1,0 +1,63 @@
+/*
+Theme Name: Avada Child
+Description: Child theme for Avada theme
+Author: ThemeFusion
+Author URI: https://theme-fusion.com
+Template: Avada
+Version: 1.0.0
+Text Domain:  Avada
+*/
+.image-cropper {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%; }
+
+div.image-cropper > img {
+  height: 100%;
+  object-fit: cover; }
+
+.rating-stars ul {
+  list-style-type: none;
+  padding: 0;
+  -moz-user-select: none;
+  -webkit-user-select: none; }
+
+.rating-stars ul > li.star {
+  display: inline-block; }
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+  font-size: 1.5em;
+  /* Change the size of the stars */
+  color: #ccc;
+  /* Color on idle state */ }
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+  color: #FFCC36; }
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+  color: #FF912C; }
+
+#cookie-popup {
+  bottom: 0px;
+  position: fixed;
+  display: block;
+  width: 100%;
+  z-index: 9999;
+  padding: 15px;
+  border-top: 1px solid #000;
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75); }
+  #cookie-popup a, #cookie-popup a:visited {
+    color: #000; }
+  #cookie-popup a:focus, #cookie-popup a:hover, #cookie-popup a:active {
+    color: #000; }
+  #cookie-popup #btn-agree {
+    color: #000; }
+
+/*# sourceMappingURL=child.css.map */
