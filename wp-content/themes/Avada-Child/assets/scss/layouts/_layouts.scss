@@ -12,6 +12,23 @@
     }
   }
 
+  .moving-image {
+
+    @media (min-width: 641px) and (max-width: 1024px) {
+      margin: 0 auto !important;
+    }
+  }
+
+  .flex-reverse {
+
+    .fusion-builder-row {
+
+      @media (max-width: 1024px) {
+        flex-direction: column-reverse !important;
+      }
+    }
+  }
+
   .full-width-absolute-image-column {
     position: absolute;
     left: 0;
@@ -72,6 +89,13 @@
           }
         }
       }
+    }
+  }
+
+  .center-30 {
+
+    img {
+      object-position: center 30% !important;
     }
   }
 

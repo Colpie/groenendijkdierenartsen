@@ -1,6 +1,55 @@
 (function ($) {
     $(document).ready(function () {
 
+        (function initBrSwap() {
+
+            function setupBrSwap($els, breakpoint, ns) {
+                if (!$els || !$els.length) return;
+
+                // Bewaar per element de originele HTML 1x
+                $els.each(function () {
+                    var $el = $(this);
+                    if (!$el.data('brswapOriginal')) {
+                        $el.data('brswapOriginal', $el.html());
+                    }
+                });
+
+                function stripBr(html) {
+                    return (html || '').replace(/<br\s*\/?>/gi, ' ');
+                }
+
+                function update() {
+                    var isSmall = $(window).width() < breakpoint;
+
+                    $els.each(function () {
+                        var $el = $(this);
+                        var originalHTML = $el.data('brswapOriginal') || $el.html();
+                        var noBrHTML = stripBr(originalHTML);
+
+                        if (isSmall) {
+                            if ($el.html() !== noBrHTML) $el.html(noBrHTML);
+                        } else {
+                            if ($el.html() !== originalHTML) $el.html(originalHTML);
+                        }
+                    });
+                }
+
+                update();
+
+                // unieke namespace per swap + debounce
+                var resizeTimer;
+                $(window).off('resize.' + ns).on('resize.' + ns, function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(update, 150);
+                });
+            }
+
+            // jouw 2 cases
+            setupBrSwap($('.intro-title h2'), 640, 'brSwapH2');
+            setupBrSwap($('.banner-row .fusion-title-heading'), 640, 'brSwapBannerP');
+
+        })();
+
         jQuery(function ($) {
             if (!window.gsap || !window.ScrollTrigger) return;
 
@@ -51,7 +100,6 @@
         (function () {
 
             function findScroller(el) {
-                // zoekt de dichtste ancestor die effectief scrollt
                 let p = el.parentElement;
                 while (p && p !== document.body) {
                     const s = getComputedStyle(p);
@@ -61,58 +109,115 @@
                     if (canScroll) return p;
                     p = p.parentElement;
                 }
-                return window; // fallback
+                return window;
             }
 
-            window.initColumnFloatParallax = function initColumnFloatParallax() {
-                if (!window.gsap || !window.ScrollTrigger) {
-                    console.warn("[Parallax] gsap/ScrollTrigger missing");
-                    return;
-                }
+            // ---- Helpers
+            let parallaxSTs = [];
+            let parallaxMM = null;
+
+            function killParallax() {
+                // kill triggers die wij gemaakt hebben
+                parallaxSTs.forEach(st => {
+                    try { st.kill(true); } catch (e) {}
+                });
+                parallaxSTs = [];
+
+                // reset transforms zodat er niets "blijft hangen"
+                const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
+                if (cols.length) gsap.set(cols, { clearProps: "transform" });
+            }
+
+            function buildParallax() {
+                if (!window.gsap || !window.ScrollTrigger) return;
 
                 gsap.registerPlugin(ScrollTrigger);
 
-                const cols = gsap.utils.toArray(".full-height-image-column");
+                const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
                 if (!cols.length) return;
-
-                // kill oude triggers/tweens voor deze elems (handig bij reload/resize)
-                cols.forEach((col) => {
-                    ScrollTrigger.getAll().forEach((st) => {
-                        if (st && st.vars && st.vars.trigger === col) st.kill();
-                    });
-                    gsap.killTweensOf(col);
-                });
 
                 const amount = 180;
 
                 cols.forEach((col) => {
                     const scroller = findScroller(col);
 
-                    gsap.fromTo(
+                    const tween = gsap.fromTo(
                         col,
-                        {y: amount / 2},
+                        { y: amount / 2 },
                         {
                             y: -amount / 2,
                             ease: "none",
+                            overwrite: true,
                             scrollTrigger: {
                                 trigger: col,
-                                scroller: scroller, // 👈 KEY FIX
+                                scroller: scroller,
                                 start: "top bottom",
                                 end: "bottom top",
                                 scrub: true,
                                 invalidateOnRefresh: true,
-                                // markers: true, // 👈 zet aan om te debuggen
-                            },
+                            }
                         }
                     );
+
+                    // tween.scrollTrigger is de ScrollTrigger instance
+                    if (tween.scrollTrigger) parallaxSTs.push(tween.scrollTrigger);
                 });
 
                 ScrollTrigger.refresh(true);
+            }
+
+            // ---- Public init (als je die elders wil blijven callen)
+            window.initColumnFloatParallax = function initColumnFloatParallax() {
+                if (!window.gsap || !window.ScrollTrigger) return;
+
+                gsap.registerPlugin(ScrollTrigger);
+
+                // matchMedia: parallax enkel op desktop
+                if (parallaxMM) {
+                    try { parallaxMM.kill(); } catch (e) {}
+                    parallaxMM = null;
+                }
+
+                parallaxMM = gsap.matchMedia();
+
+                parallaxMM.add("(min-width: 1200px)", () => {
+                    killParallax();
+                    buildParallax();
+
+                    // bij refresh (na fonts/images/Avada recalcs) opnieuw correct zetten
+                    const onRefresh = () => {
+                        killParallax();
+                        buildParallax();
+                    };
+                    ScrollTrigger.addEventListener("refreshInit", onRefresh);
+
+                    return () => {
+                        ScrollTrigger.removeEventListener("refreshInit", onRefresh);
+                        killParallax();
+                    };
+                });
+
+                // Mobiel: kill + reset (geen parallax)
+                parallaxMM.add("(max-width: 1199px)", () => {
+                    killParallax();
+                    return () => killParallax();
+                });
             };
 
+            // Init na load (zoals je al deed)
             jQuery(window).on("load", function () {
                 setTimeout(() => window.initColumnFloatParallax(), 500);
             });
+
+            // Extra: debounce resize -> refresh (Avada doet soms rare reflows)
+            let rT = null;
+            window.addEventListener("resize", function () {
+                clearTimeout(rT);
+                rT = setTimeout(function () {
+                    if (window.ScrollTrigger) ScrollTrigger.refresh(true);
+                }, 200);
+            });
+
         })();
 
         document.querySelectorAll('.bigger-text').forEach(el => {

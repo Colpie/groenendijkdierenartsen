@@ -7,6 +7,25 @@
 
     header {
 
+      &.is-fixed {
+
+        @media (min-width: 1200px) {
+
+          .fusion-header {
+
+            .fusion-row {
+
+              .logo-column {
+
+                img {
+                  max-width: 200px;
+                }
+              }
+            }
+          }
+        }
+      }
+
       .fusion-header {
 
         .logo-column {
@@ -53,10 +72,8 @@
             .logo-column {
 
               img {
-                max-width: 50%;
                 height: auto;
                 transform-origin: center center;
-
                 will-change: transform;
               }
             }
@@ -117,6 +134,13 @@
             }
 
             li {
+
+              &.current-menu-item {
+
+                a {
+                  color: $accent-color !important;
+                }
+              }
 
               a {
                 font-family: $font-medium !important;
