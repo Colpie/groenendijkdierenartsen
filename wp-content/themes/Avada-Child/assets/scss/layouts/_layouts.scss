@@ -12,6 +12,14 @@
     }
   }
 
+  .border-bottom-radius-mobile {
+    @media (max-width: 640px) {
+
+      --awb-border-radius-bottom-left: 90px !important;
+      --awb-border-radius-bottom-right: 90px !important;
+    }
+  }
+
   .moving-image {
 
     @media (min-width: 641px) and (max-width: 1024px) {
@@ -48,6 +56,22 @@
 
             &:after {
               background: rgba($blue-color, .9);
+            }
+          }
+        }
+      }
+    }
+
+    &.no-after {
+
+      .fusion-column-wrapper {
+
+        .fusion-image-element {
+
+          .fusion-imageframe {
+
+            &:after {
+              display: none !important;
             }
           }
         }
@@ -96,6 +120,13 @@
 
     img {
       object-position: center 30% !important;
+    }
+  }
+
+  .center-bottom {
+
+    img {
+      object-position: center bottom !important;
     }
   }
 

@@ -22,6 +22,10 @@
       padding: 45px;
       background: rgba($white, .1);
 
+      @media (max-width: 640px) {
+        padding: 45px 30px;
+      }
+
       .fusion-title {
 
         .fusion-title-heading {
@@ -50,6 +54,39 @@
           &:last-child {
             margin-bottom: 0 !important;
           }
+        }
+      }
+    }
+  }
+
+  .contact-column {
+
+    .fusion-column-wrapper {
+      border-radius: 50px;
+      padding: 45px;
+      background: rgba($white, .1);
+
+      align-items: center;
+
+      @media (max-width: 640px) {
+        padding: 45px 30px;
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+        min-width: 100px;
+
+        object-fit: contain;
+        margin-bottom: 25px;
+      }
+
+
+      .bigger-text {
+          color: $white !important;
+
+        p {
+          color: $white !important;
         }
       }
     }

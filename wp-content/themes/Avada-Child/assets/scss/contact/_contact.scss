@@ -158,17 +158,16 @@ textarea:-ms-input-placeholder {
     -webkit-appearance: none;
     appearance: none;
     /* For iOS < 15 to remove gradient background */
-    background-color: #fff;
+    background-color: #FAFFD8;
     /* Not removed via appearance */
     margin: 0;
 
     font: inherit;
     //color: $text-color;
-    width: 1.15em;
-    height: 1.15em;
+    width: 16px;
+    height: 16px;
 
     border: 1px solid rgba(#eeeeee, .7);
-    border-radius: 0.15em;
     transform: translateY(-0.075em);
 
     display: grid;
@@ -185,16 +184,106 @@ textarea:-ms-input-placeholder {
   input[type="checkbox"]::before,
   input[type=radio]::before {
     content: "";
-    width: 0.65em;
-    height: 0.65em;
+    width: 16px;
+    height: 16px;
 
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    //box-shadow: inset 1em 1em $light-color;
+    box-shadow: inset 1em 1em $accent-color;
   }
 
   input[type="checkbox"]:checked::before,
   input[type=radio]:checked::before {
     transform: scale(1);
+  }
+}
+
+#boxed-wrapper {
+
+  .contact-form {
+
+    .form-row {
+      margin-left: -15px;
+      margin-right: -15px;
+
+      &:last-child {
+
+        p {
+          margin-bottom: 0 !important;
+        }
+      }
+
+      .wpcf7-form-control {
+        height: 50px;
+        background: #FAFFD8;
+        margin-bottom: 10px;
+
+        font-family: $font !important;
+        font-size: 19px !important;
+        border-radius: 50px;
+
+        color: #91A700 !important;
+
+        &::placeholder {
+          font-family: $font !important;
+          font-size: 19px !important;
+          color: #91A700 !important;
+        }
+
+        &.wpcf7-textarea {
+          min-height: 90px;
+          border-radius: 25px;
+          padding-top: 10px;
+        }
+
+        &.wpcf7-acceptance {
+          border: 0 !important;
+          height: auto !important;
+          display: flex;
+
+          background: transparent !important;
+
+          &.wpcf7-not-valid {
+
+            .wpcf7-list-item {
+
+              label {
+
+                input {
+                  border-color: red !important;
+                }
+              }
+            }
+          }
+
+          .wpcf7-list-item {
+
+            label {
+              display: flex;
+              align-items: center;
+              font-size: 14px !important;
+
+              line-height: 1 !important;
+
+              p, a {
+                font-size: 14px !important;
+              }
+
+              .wpcf7-list-item-label {
+                color: $white !important;
+              }
+
+              a {
+                color: $white !important;
+              }
+
+              input {
+                margin-right: 10px !important;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

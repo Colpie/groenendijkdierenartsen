@@ -1,6 +1,12 @@
 (function ($) {
     $(document).ready(function () {
 
+        $('img').hover(function () {
+            $(this).data('title', $(this).attr('title')).removeAttr('title');
+        }, function () {
+            $(this).attr('title', $(this).data('title'));
+        });
+
         (function initBrSwap() {
 
             function setupBrSwap($els, breakpoint, ns) {
@@ -55,7 +61,7 @@
 
             gsap.registerPlugin(ScrollTrigger);
 
-            const $items = $(".usp-column");
+            const $items = $(".usp-column, .contact-column");
             if (!$items.length) return;
 
             // Pak liever een container die ALLE usp-columns bevat
@@ -112,27 +118,25 @@
                 return window;
             }
 
-            // ---- Helpers
             let parallaxSTs = [];
             let parallaxMM = null;
+            let mobileFloatTweens = [];
 
-            function killParallax() {
-                // kill triggers die wij gemaakt hebben
-                parallaxSTs.forEach(st => {
-                    try { st.kill(true); } catch (e) {}
-                });
+            function killAll() {
+                // kill desktop STs
+                parallaxSTs.forEach(st => { try { st.kill(true); } catch (e) {} });
                 parallaxSTs = [];
 
-                // reset transforms zodat er niets "blijft hangen"
+                // kill mobile floats
+                mobileFloatTweens.forEach(tw => { try { tw.kill(); } catch (e) {} });
+                mobileFloatTweens = [];
+
+                // reset transforms
                 const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
                 if (cols.length) gsap.set(cols, { clearProps: "transform" });
             }
 
-            function buildParallax() {
-                if (!window.gsap || !window.ScrollTrigger) return;
-
-                gsap.registerPlugin(ScrollTrigger);
-
+            function buildDesktopParallax() {
                 const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
                 if (!cols.length) return;
 
@@ -159,20 +163,46 @@
                         }
                     );
 
-                    // tween.scrollTrigger is de ScrollTrigger instance
                     if (tween.scrollTrigger) parallaxSTs.push(tween.scrollTrigger);
                 });
 
                 ScrollTrigger.refresh(true);
             }
 
-            // ---- Public init (als je die elders wil blijven callen)
+            function buildMobileSubtleFloat() {
+                const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
+                if (!cols.length) return;
+
+                cols.forEach((col, i) => {
+                    // heel subtiel + wat variatie zodat het niet “synchroon” beweegt
+                    const base = 20;                 // px (subtiel)
+                    const variance = (i % 3) * 1.5; // kleine variatie
+                    const yAmount = base + variance;
+
+                    const dur = 3.6 + (i % 4) * 0.35; // variatie in timing
+
+                    // start state
+                    gsap.set(col, { willChange: "transform" });
+
+                    const tw = gsap.to(col, {
+                        y: -yAmount,
+                        // rotation: 0.15, // 👈 optioneel, meestal niet nodig
+                        duration: dur,
+                        ease: "sine.inOut",
+                        yoyo: true,
+                        repeat: -1,
+                        overwrite: true
+                    });
+
+                    mobileFloatTweens.push(tw);
+                });
+            }
+
             window.initColumnFloatParallax = function initColumnFloatParallax() {
                 if (!window.gsap || !window.ScrollTrigger) return;
 
                 gsap.registerPlugin(ScrollTrigger);
 
-                // matchMedia: parallax enkel op desktop
                 if (parallaxMM) {
                     try { parallaxMM.kill(); } catch (e) {}
                     parallaxMM = null;
@@ -180,36 +210,39 @@
 
                 parallaxMM = gsap.matchMedia();
 
+                // Desktop: scroll-parallax
                 parallaxMM.add("(min-width: 1200px)", () => {
-                    killParallax();
-                    buildParallax();
+                    killAll();
+                    buildDesktopParallax();
 
-                    // bij refresh (na fonts/images/Avada recalcs) opnieuw correct zetten
                     const onRefresh = () => {
-                        killParallax();
-                        buildParallax();
+                        killAll();
+                        buildDesktopParallax();
                     };
                     ScrollTrigger.addEventListener("refreshInit", onRefresh);
 
                     return () => {
                         ScrollTrigger.removeEventListener("refreshInit", onRefresh);
-                        killParallax();
+                        killAll();
                     };
                 });
 
-                // Mobiel: kill + reset (geen parallax)
+                // Mobile: subtiele float (geen ScrollTrigger)
                 parallaxMM.add("(max-width: 1199px)", () => {
-                    killParallax();
-                    return () => killParallax();
+                    killAll();
+                    buildMobileSubtleFloat();
+
+                    return () => {
+                        killAll();
+                    };
                 });
             };
 
-            // Init na load (zoals je al deed)
             jQuery(window).on("load", function () {
                 setTimeout(() => window.initColumnFloatParallax(), 500);
             });
 
-            // Extra: debounce resize -> refresh (Avada doet soms rare reflows)
+            // debounce resize -> refresh (voor desktop ST)
             let rT = null;
             window.addEventListener("resize", function () {
                 clearTimeout(rT);
