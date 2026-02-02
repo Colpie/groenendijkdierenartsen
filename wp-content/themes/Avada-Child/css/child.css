@@ -3530,7 +3530,6 @@ body {
 @media (max-width: 640px) {
   #boxed-wrapper .info-column .fusion-column-wrapper {
     flex-direction: column !important;
-    align-items: flex-start;
   }
 }
 @media (min-width: 641px) {
@@ -3543,6 +3542,11 @@ body {
   height: 60px;
   min-width: 60px;
   object-fit: contain;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .info-column .fusion-column-wrapper .fusion-text {
+    text-align: center;
+  }
 }
 #boxed-wrapper .info-column .fusion-column-wrapper .fusion-text p {
   margin-bottom: 0;
