@@ -177,11 +177,7 @@
   }
 
   .awb-carousel {
-    padding: 0 60px;
-
-    @media (max-width: 1520px) {
-      padding: 0;
-    }
+    overflow: visible;
 
     .swiper-slide {
       opacity: 0;
@@ -224,24 +220,29 @@
       @media (max-width: 1520px) {
         position: relative !important;
         top: auto !important;
-        bottom: 0 !important;
+        bottom: auto !important;
+
+        left: auto !important;
+        right: auto !important;
       }
 
       &.awb-swiper-button-next {
         transform: rotate(0) translateY(-50%);
+        right: -90px;
 
         @media (max-width: 1520px) {
-          transform: translateY(0);
-          left: calc(50% + 30px);
+          //transform: translateY(0);
+          //left: calc(50% + 30px);
         }
       }
 
       &.awb-swiper-button-prev {
         transform: rotate(180deg) translateY(50%);
-
+        left: -90px;
+        
         @media (max-width: 1520px) {
-          transform: rotate(180deg) translateY(-44px);
-          left: calc(50% - 30px);
+          //transform: rotate(180deg) translateY(-44px);
+          //left: calc(50% - 30px);
         }
       }
 

@@ -3281,12 +3281,7 @@ body {
   margin-bottom: 0 !important;
 }
 #boxed-wrapper .awb-carousel {
-  padding: 0 60px;
-}
-@media (max-width: 1520px) {
-  #boxed-wrapper .awb-carousel {
-    padding: 0;
-  }
+  overflow: visible;
 }
 #boxed-wrapper .awb-carousel .swiper-slide {
   opacity: 0;
@@ -3322,26 +3317,18 @@ body {
   #boxed-wrapper .awb-carousel .awb-swiper-button {
     position: relative !important;
     top: auto !important;
-    bottom: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
   }
 }
 #boxed-wrapper .awb-carousel .awb-swiper-button.awb-swiper-button-next {
   transform: rotate(0) translateY(-50%);
-}
-@media (max-width: 1520px) {
-  #boxed-wrapper .awb-carousel .awb-swiper-button.awb-swiper-button-next {
-    transform: translateY(0);
-    left: calc(50% + 30px);
-  }
+  right: -90px;
 }
 #boxed-wrapper .awb-carousel .awb-swiper-button.awb-swiper-button-prev {
   transform: rotate(180deg) translateY(50%);
-}
-@media (max-width: 1520px) {
-  #boxed-wrapper .awb-carousel .awb-swiper-button.awb-swiper-button-prev {
-    transform: rotate(180deg) translateY(-44px);
-    left: calc(50% - 30px);
-  }
+  left: -90px;
 }
 #boxed-wrapper .awb-carousel .awb-swiper-button i {
   display: none !important;

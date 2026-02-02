@@ -29,6 +29,23 @@
                 }
             }
 
+            function wrapSwiperNavigation(carousel) {
+                const prev = carousel.querySelector('.awb-swiper-button-prev');
+                const next = carousel.querySelector('.awb-swiper-button-next');
+
+                if (!prev || !next) return;
+
+                // voorkom dubbel wrappen
+                if (prev.parentElement.classList.contains('custom-navigation')) return;
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'custom-navigation';
+
+                prev.parentNode.insertBefore(wrapper, prev);
+                wrapper.appendChild(prev);
+                wrapper.appendChild(next);
+            }
+
             function overrideAvadaCarousel() {
                 document.querySelectorAll('.awb-swiper-carousel').forEach(function (carousel) {
 
@@ -57,6 +74,7 @@
                         on: {
                             init() {
                                 setVisibleSlides(this);
+                                wrapSwiperNavigation(carousel);
                             },
                             slideChange() {
                                 setVisibleSlides(this);
