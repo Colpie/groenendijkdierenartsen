@@ -48,8 +48,16 @@
               .fusion-title-heading {
                 font-size: 38px !important;
 
+                @media (max-width: 640px) {
+                  font-size: 32px !important;
+                }
+
                 p {
                   font-size: 38px !important;
+
+                  @media (max-width: 640px) {
+                    font-size: 32px !important;
+                  }
                 }
               }
             }
@@ -72,9 +80,17 @@
             font-size: 38px !important;
             color: $white !important;
 
+            @media (max-width: 640px) {
+              font-size: 32px !important;
+            }
+
             p {
               color: $white !important;
               font-size: 38px !important;
+
+              @media (max-width: 640px) {
+                font-size: 32px !important;
+              }
             }
           }
         }
