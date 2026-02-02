@@ -3895,6 +3895,7 @@ body {
 }
 @media (max-width: 767px) {
   #boxed-wrapper .banner-row.default-banner {
+    min-height: 230px !important;
     height: auto;
   }
   #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column {
