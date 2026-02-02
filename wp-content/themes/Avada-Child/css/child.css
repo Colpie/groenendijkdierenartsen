@@ -4082,6 +4082,12 @@ body {
   height: 100%;
   z-index: 10;
 }
+@media (max-width: 767px) {
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper:after,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper:after {
+    border-radius: 0 0 90px 90px;
+  }
+}
 #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-video,
 #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-image-element,
 #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-video,
@@ -4119,6 +4125,26 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+@media (max-width: 767px) {
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-video .video-wrapper video,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-video .video-wrapper img,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-video .fusion-imageframe video,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-video .fusion-imageframe img,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-image-element .video-wrapper video,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-image-element .video-wrapper img,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe video,
+  #boxed-wrapper .banner-row .banner-video-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-video .video-wrapper video,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-video .video-wrapper img,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-video .fusion-imageframe video,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-video .fusion-imageframe img,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-image-element .video-wrapper video,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-image-element .video-wrapper img,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe video,
+  #boxed-wrapper .banner-row .banner-image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+    border-radius: 0 0 90px 90px;
+  }
 }
 #boxed-wrapper .banner-row .banner-bottom-image-column {
   position: absolute;

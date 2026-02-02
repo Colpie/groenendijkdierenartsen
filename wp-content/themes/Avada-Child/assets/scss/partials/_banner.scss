@@ -184,6 +184,10 @@
 
           height: 100%;
           z-index: 10;
+
+          @media (max-width: 767px) {
+            border-radius: 0 0 90px 90px;
+          }
         }
 
         .fusion-video,
@@ -202,6 +206,10 @@
               object-fit: cover;
 
               object-position: center center;
+
+              @media (max-width: 767px) {
+                border-radius: 0 0 90px 90px;
+              }
             }
           }
         }
