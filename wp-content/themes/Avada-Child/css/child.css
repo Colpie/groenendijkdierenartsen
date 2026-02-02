@@ -3239,6 +3239,11 @@ body {
   height: 150%;
   object-fit: cover;
 }
+@media (max-width: 640px) {
+  #boxed-wrapper .full-width-absolute-image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+    height: 110%;
+  }
+}
 #boxed-wrapper .center-30 img {
   object-position: center 30% !important;
 }
