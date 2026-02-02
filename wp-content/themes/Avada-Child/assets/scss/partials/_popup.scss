@@ -16,6 +16,7 @@
 
     @media (max-width: 640px) {
       top: 200px;
+      transform: translateX(calc(100% - 75px));
     }
 
     &.active {
