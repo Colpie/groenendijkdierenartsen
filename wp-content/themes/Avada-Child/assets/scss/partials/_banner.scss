@@ -19,7 +19,6 @@
 
 
       @media (max-width: 767px) {
-        min-height: 230px !important;
         height: auto;
 
         .fusion-layout-column {
@@ -30,6 +29,10 @@
             margin-right: -30px !important;
 
             margin-top: 0 !important;
+
+            @media (max-width: 767px) {
+              min-height: 230px !important;
+            }
 
             .fusion-column-wrapper {
 

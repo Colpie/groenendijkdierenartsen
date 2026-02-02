@@ -3895,7 +3895,6 @@ body {
 }
 @media (max-width: 767px) {
   #boxed-wrapper .banner-row.default-banner {
-    min-height: 230px !important;
     height: auto;
   }
   #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column {
@@ -3904,6 +3903,13 @@ body {
     margin-right: -30px !important;
     margin-top: 0 !important;
   }
+}
+@media (max-width: 767px) and (max-width: 767px) {
+  #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column {
+    min-height: 230px !important;
+  }
+}
+@media (max-width: 767px) {
   #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column .fusion-column-wrapper:after {
     border-radius: 0 0 90px 90px;
   }
