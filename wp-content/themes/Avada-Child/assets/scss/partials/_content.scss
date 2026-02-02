@@ -44,6 +44,11 @@
           align-items: center;
           color: $white !important;
 
+          @media (max-width: 640px) {
+            flex-direction: column !important;
+            align-items: flex-start;
+          }
+
           img {
             width: 100px;
             height: 100px;
@@ -109,8 +114,16 @@
       flex-direction: row !important;
       align-items: center;
 
+      @media (max-width: 640px) {
+        flex-direction: column !important;
+        align-items: flex-start;
+      }
+
       .fusion-image-element {
-        margin-right: 20px;
+
+        @media (min-width: 641px) {
+          margin-right: 20px;
+        }
 
         .fusion-imageframe {
 
