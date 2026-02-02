@@ -1,186 +1,54 @@
-//@use "../variables/fonts" as *;
-//@use "../variables/colors" as *;
-//
-//.fusion-body {
-//
-//  .fusion-button {
-//    //background: $yellow !important;
-//    border-radius: 0 !important;
-//    padding: 12px 10px !important;
-//
-//    position: relative;
-//    z-index: 1;
-//    //color: $text-color !important;
-//
-//    text-transform: none !important;
-//
-//    &:after {
-//      content: "";
-//      position: absolute;
-//      left: 0;
-//
-//      top: 0;
-//      bottom: 0;
-//      right: 0;
-//
-//      //background: $text-color;
-//      width: 100%;
-//      height: 100%;
-//
-//      transition: .5s;
-//      z-index: -1;
-//      transform: scale(0);
-//    }
-//
-//    &:hover {
-//      //color: $yellow !important;
-//
-//      &:after {
-//        transform: scale(1);
-//      }
-//    }
-//  }
-//
-//  #cookies-agree {
-//    margin-bottom: 10px !important;
-//    font-size: 12px !important;
-//    display: none;
-//  }
-//
-//  .cookie-options {
-//    font-size: 12px;
-//  }
-//
-//  .cookie-popup {
-//    z-index: 9999 !important;
-//    max-width: 400px !important;
-//    right: 30px;
-//
-//    bottom: 30px;
-//    left: auto;
-//
-//    @media (max-width: 500px) {
-//      max-width: 100% !important;
-//      left: 30px;
-//    }
-//
-//    img {
-//      width: 25px;
-//      height: 25px;
-//      object-fit: contain;
-//
-//      position: absolute;
-//      right: 15px;
-//      top: 30px;
-//    }
-//
-//    .content {
-//      display: none;
-//    }
-//
-//    .title {
-//      //color: $text-color !important;
-//      font-size: 16px !important;
-//      font-weight: 600 !important;
-//    }
-//
-//    .cookie-preferences .content ul {
-//      //border-color: $text-color !important;
-//    }
-//
-//    .main-cookies {
-//      max-width: 1200px !important;
-//
-//      .cookie-link {
-//        //color: $yellow !important;
-//      }
-//    }
-//
-//    p {
-//      font-size: 14px !important;
-//      line-height: 1.2 !important;
-//      margin-bottom: 10px !important;
-//    }
-//
-//    .custom-link {
-//      display: inline-block !important;
-//      float: left;
-//      //color: $text-color !important;
-//
-//      &:focus {
-//        outline: none !important;
-//      }
-//    }
-//
-//    .save-cookies {
-//      display: flex;
-//      flex-direction: column-reverse;
-//    }
-//
-//    .cookie-preferences {
-//      width: 100% !important;
-//
-//      ul {
-//        list-style: none;
-//        border-radius: 0;
-//        background: $white;
-//
-//        flex-direction: column !important;
-//
-//        li {
-//          //color: $text-color !important;
-//          font-size: 14px !important;
-//          margin-bottom: 5px !important;
-//
-//          a {
-//            //color: $text-color !important;
-//            text-decoration: none !important;
-//            font-size: 14px !important;
-//
-//            &:hover {
-//              text-decoration: none;
-//              //color: darken($text-color, 20%) !important;
-//            }
-//
-//            &:after {
-//              display: none;
-//            }
-//          }
-//
-//          .css-checkbox {
-//            background: #eeeeee;
-//
-//            &:focus {
-//              outline: none !important;
-//            }
-//
-//            &:after {
-//              background: #eeeeee;
-//            }
-//
-//            &:checked {
-//              //background: $yellow;
-//
-//              &:after {
-//                background: #eeeeee;
-//              }
-//            }
-//          }
-//        }
-//      }
-//    }
-//  }
-//
-//  .vb-show {
-//    display: block !important;
-//  }
-//
-//  .vb-hidden {
-//    display: none !important;
-//  }
-//
-//  .cookie-reload {
-//    //color: $yellow !important;
-//    padding: 0 !important;
-//  }
-//}
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+#cookie-popup {
+  border-radius: 8px;
+  padding: 25px 30px;
+
+  box-shadow: 0 4px 70px 0 rgba(0, 0, 0, .20), 0 6px 20px 0 rgba(0, 0, 0, .19);
+  z-index: 99999;
+  animation-delay: 2s;
+
+  animation-duration: .5s;
+  background: $blue-color;
+
+  @media (max-width: 640px) {
+    left: 30px !important;
+    right: 30px !important;
+    max-width: 100% !important;
+  }
+
+  #cookies-agree {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    img {
+      width: 16px !important;
+      filter: brightness(0) invert(1) contrast(1.2);
+    }
+  }
+
+  p, a {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0 !important;
+
+    font-family: $font-medium !important;
+    font-weight: normal !important;
+
+    &:before,
+    &:after {
+      display: none !important;
+    }
+
+    a {
+      //color: $orange !important;
+
+      &:before,
+      &:after {
+        display: none !important;
+      }
+    }
+  }
+}
