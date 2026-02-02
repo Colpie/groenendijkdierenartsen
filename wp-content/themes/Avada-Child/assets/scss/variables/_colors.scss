@@ -25,4 +25,16 @@ $green-after: #A1B22F;
       color: $text-color !important;
     }
   }
+
+  .accent-color {
+    color: $accent-color !important;
+
+    h1, h2, h3, h4, h5, h6, p {
+      color: $accent-color !important;
+    }
+  }
+
+  .white-image {
+    filter: brightness(0) invert(1) contrast(1.2);
+  }
 }

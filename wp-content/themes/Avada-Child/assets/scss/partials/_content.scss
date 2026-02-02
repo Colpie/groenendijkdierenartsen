@@ -15,6 +15,13 @@
     }
   }
 
+  .bigger-normal-text {
+
+    p {
+      font-size: 24px !important;
+    }
+  }
+
   .usp-column {
 
     .fusion-column-wrapper {
@@ -83,10 +90,94 @@
 
 
       .bigger-text {
-          color: $white !important;
+        color: $white !important;
 
         p {
           color: $white !important;
+        }
+      }
+    }
+  }
+
+  .info-column {
+
+    .fusion-column-wrapper {
+      padding: 15px 45px;
+      border-radius: 50px;
+      //background: rgba($blue-color, .2);
+
+      flex-direction: row !important;
+      align-items: center;
+
+      .fusion-image-element {
+        margin-right: 20px;
+
+        .fusion-imageframe {
+
+          img {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+
+            object-fit: contain;
+          }
+        }
+      }
+
+      .fusion-text {
+
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .arrow-list {
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        padding-bottom: 10px;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        &:before {
+          height: 44px;
+          width: 44px;
+          display: flex;
+
+          align-items: center;
+          justify-content: center;
+          background-color: rgba($white, .15);
+
+          background-image: url("/wp-content/themes/Avada-Child/assets/images/icon/pijltje_wit.gif");
+          background-size: 30px;
+          content: '';
+
+          background-repeat: no-repeat;
+          border-radius: 50%;
+          background-position: center center;
+
+          margin-right: 15px;
+          min-width: 44px;
+        }
+
+        a {
+          font-size: 21px !important;
+
+          &:hover {
+            color: $accent-color !important;
+          }
         }
       }
     }

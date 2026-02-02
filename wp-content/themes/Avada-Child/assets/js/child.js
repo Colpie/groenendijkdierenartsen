@@ -7,6 +7,110 @@
             $(this).attr('title', $(this).data('title'));
         });
 
+        (function () {
+
+            function setVisibleSlides(swiper) {
+                const slides = swiper.slides;
+                const activeIndex = swiper.activeIndex;
+                const visibleCount = swiper.params.slidesPerView;
+
+                // reset
+                slides.forEach(slide => {
+                    slide.classList.remove('is-visible');
+                });
+
+                // active + volgende zichtbare slides
+                for (let i = 0; i < visibleCount; i++) {
+                    const slide = slides[activeIndex + i];
+                    if (slide) {
+                        slide.classList.add('is-visible');
+                    }
+                }
+            }
+
+            function overrideAvadaCarousel() {
+                document.querySelectorAll('.awb-swiper-carousel').forEach(function (carousel) {
+
+                    if (carousel.swiper) {
+                        carousel.swiper.destroy(true, true);
+                    }
+
+                    const swiper = new Swiper(carousel, {
+                        slidesPerView: 3,
+                        spaceBetween: 13,
+                        speed: 500,
+                        loop: true,
+                        autoHeight: true,
+                        navigation: {
+                            nextEl: carousel.querySelector('.awb-swiper-button-next'),
+                            prevEl: carousel.querySelector('.awb-swiper-button-prev')
+                        },
+                        breakpoints: {
+                            0: {
+                                slidesPerView: 2
+                            },
+                            768: {
+                                slidesPerView: 3
+                            }
+                        },
+                        on: {
+                            init() {
+                                setVisibleSlides(this);
+                            },
+                            slideChange() {
+                                setVisibleSlides(this);
+                            },
+                            resize() {
+                                setVisibleSlides(this);
+                            }
+                        }
+                    });
+
+                });
+            }
+
+            window.addEventListener('load', function () {
+                setTimeout(overrideAvadaCarousel, 300);
+            });
+
+        })();
+
+        // Paralax image
+        jQuery(function ($) {
+            if (!window.gsap || !window.ScrollTrigger) return;
+
+            gsap.registerPlugin(ScrollTrigger);
+
+            $(".parallax-image-column").each(function () {
+                const column = this;
+                const img = column.querySelector("img");
+
+                if (!img) return;
+
+                // startpositie
+                gsap.set(img, { yPercent: -10 });
+
+                gsap.to(img, {
+                    yPercent: 10,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: column,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true,
+                        invalidateOnRefresh: true,
+                        // markers: true,
+                    }
+                });
+            });
+
+            // Avada / images
+            ScrollTrigger.refresh(true);
+            $(window).on("load", function () {
+                ScrollTrigger.refresh(true);
+            });
+        });
+
         (function initBrSwap() {
 
             function setupBrSwap($els, breakpoint, ns) {
@@ -702,27 +806,6 @@
             });
         });
 
-        // Legal menu
-        $('.legal-content:first-child').addClass('active fadeInUp animated');
-        $('.legal-menu li:first-child a').addClass('active');
-
-        $('.legal-menu a').on('click', function (e) {
-
-            if ($(this).attr('target') == '_blank') {
-                // Leave empty
-            } else {
-                e.preventDefault();
-                $('.legal-menu a.active').removeClass('active');
-                $(this).addClass('active');
-                $('.legal-content').removeClass('active fadeInUp');
-
-                var menu_id = $(this).attr('href');
-                var hash = menu_id.split('#')[1];
-                menu_id = $('#' + hash);
-
-                menu_id.addClass('active fadeInUp animated');
-            }
-        });
 
         // Form submit
         $('.wpcf7-submit').on('click', function () {
@@ -730,7 +813,7 @@
             setTimeout(function () {
                 if ($('.wpcf7-acceptance-as-validation').hasClass('sent')) {
                     // $('.wpcf7-response-output.success').remove();
-                    // $('.loading-spinner').hide();
+                    $('.loading-spinner').hide();
                 }
 
                 if ($('.wpcf7-acceptance-as-validation').hasClass('invalid')) {
