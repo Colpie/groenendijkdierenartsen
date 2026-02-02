@@ -4341,11 +4341,21 @@ body {
   padding: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;
-  max-width: 90vw;
   margin: 0 auto;
+  width: 100%;
+}
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage {
+    max-width: 90vw;
+  }
 }
 #boxed-wrapper .gda-collage .gda-tile {
   margin-bottom: 0;
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .gda-collage .gda-tile {
+    height: 350px;
+  }
 }
 #boxed-wrapper .gda-collage .gda-tile img {
   height: 100%;
@@ -4353,34 +4363,48 @@ body {
   object-fit: cover;
   border-radius: 50px;
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-1 {
-  padding-left: 120px;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-1 {
+    padding-left: 120px;
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-2 {
-  padding-right: 120px;
-  transform: translateY(90px);
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-2 {
+    padding-right: 120px;
+    transform: translateY(90px);
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-3 {
-  grid-column: 1/span 4;
-  grid-row: 6/span 6;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-3 {
+    grid-column: 1/span 4;
+    grid-row: 6/span 6;
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-4 {
-  grid-column: 5/span 4;
-  grid-row: 6/span 5;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-4 {
+    grid-column: 5/span 4;
+    grid-row: 6/span 5;
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-5 {
-  transform: translateY(90px);
-  grid-column: 9/span 4;
-  grid-row: 6/span 4;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-5 {
+    transform: translateY(90px);
+    grid-column: 9/span 4;
+    grid-row: 6/span 4;
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-6 {
-  grid-column: 1/span 4;
-  grid-row: 12/span 4;
-  padding-left: 60px;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-6 {
+    grid-column: 1/span 4;
+    grid-row: 12/span 4;
+    padding-left: 60px;
+  }
 }
-#boxed-wrapper .gda-collage .gda-tile.gda-pos-7 {
-  transform: translateY(100px);
-  padding-right: 120px;
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-collage .gda-tile.gda-pos-7 {
+    transform: translateY(100px);
+    padding-right: 120px;
+  }
 }
 
 #boxed-wrapper .latest-news {

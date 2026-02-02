@@ -8,11 +8,19 @@
     border-radius: 0 !important;
     background: transparent !important;
 
-    max-width: 90vw;
     margin: 0 auto;
+    width: 100%;
+
+    @media (min-width: 1025px) {
+      max-width: 90vw;
+    }
 
     .gda-tile {
       margin-bottom: 0;
+
+      @media (max-width: 1024px) {
+        height: 350px;
+      }
 
       img {
         height: 100%;
@@ -23,39 +31,60 @@
       }
 
       &.gda-pos-1 {
-        padding-left: 120px;
+
+        @media (min-width: 1025px) {
+          padding-left: 120px;
+        }
       }
 
       &.gda-pos-2 {
-        padding-right: 120px;
-        transform: translateY(90px);
+
+        @media (min-width: 1025px) {
+          padding-right: 120px;
+          transform: translateY(90px);
+        }
       }
 
       &.gda-pos-3 {
-        grid-column: 1 / span 4;
-        grid-row: 6 / span 6;
+
+        @media (min-width: 1025px) {
+          grid-column: 1 / span 4;
+          grid-row: 6 / span 6;
+        }
       }
 
       &.gda-pos-4 {
-        grid-column: 5 / span 4;
-        grid-row: 6 / span 5;
+
+        @media (min-width: 1025px) {
+          grid-column: 5 / span 4;
+          grid-row: 6 / span 5;
+        }
       }
 
       &.gda-pos-5 {
-        transform: translateY(90px);
-        grid-column: 9 / span 4;
-        grid-row: 6 / span 4;
+
+        @media (min-width: 1025px) {
+          transform: translateY(90px);
+          grid-column: 9 / span 4;
+          grid-row: 6 / span 4;
+        }
       }
 
       &.gda-pos-6 {
-        grid-column: 1 / span 4;
-        grid-row: 12 / span 4;
-        padding-left: 60px;
+
+        @media (min-width: 1025px) {
+          grid-column: 1 / span 4;
+          grid-row: 12 / span 4;
+          padding-left: 60px;
+        }
       }
 
       &.gda-pos-7 {
-        transform: translateY(100px);
-        padding-right: 120px;
+
+        @media (min-width: 1025px) {
+          transform: translateY(100px);
+          padding-right: 120px;
+        }
       }
     }
   }

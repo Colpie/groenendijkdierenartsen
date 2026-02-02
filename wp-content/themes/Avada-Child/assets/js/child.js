@@ -183,6 +183,7 @@
 
         })();
 
+        // Fade in up columns
         jQuery(function ($) {
             if (!window.gsap || !window.ScrollTrigger) return;
 
@@ -230,6 +231,7 @@
             });
         });
 
+        // Moving image
         (function () {
 
             function findScroller(el) {
@@ -380,6 +382,7 @@
 
         })();
 
+        // Bigger text
         document.querySelectorAll('.bigger-text').forEach(el => {
             // Bewaar originele structuur
             const originalHTML = el.innerHTML;
@@ -459,6 +462,7 @@
 
         });
 
+        // Reviews Swiper
         $(".reviews-swiper").each(function () {
             const $el = $(this);
 
@@ -604,6 +608,7 @@
             }
         });
 
+        // Popup
         jQuery(function ($) {
             const $popup = $('.ae-popup');
 
@@ -629,6 +634,7 @@
             }
         });
 
+        // Fixed header
         (function () {
             const header = document.querySelector('#boxed-wrapper header'); // jouw wrapper
             if (!header) return;
