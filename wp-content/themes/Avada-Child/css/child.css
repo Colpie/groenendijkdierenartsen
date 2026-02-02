@@ -3686,7 +3686,7 @@ body {
 }
 #boxed-wrapper .custom-footer .fusion-row .footer-column .footer-column-inner {
   padding: 20px 30px;
-  background: #002B57;
+  background: rgba(0, 43, 87, 0.2);
   border-radius: 50px;
 }
 #boxed-wrapper .custom-footer .fusion-row .footer-column .footer-column-inner strong {
