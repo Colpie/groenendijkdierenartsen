@@ -32,6 +32,26 @@
 
             @media (max-width: 767px) {
               min-height: 230px !important;
+
+              .fusion-column-wrapper {
+                height: 100%;
+
+                .fusion-image-element {
+                  height: 100%;
+
+                  .fusion-imageframe {
+                    height: 100%;
+                    width: 100%;
+
+                    img {
+                      height: 100%;
+                      width: 100%;
+                      object-fit: cover;
+                    }
+
+                  }
+                }
+              }
             }
 
             .fusion-column-wrapper {
