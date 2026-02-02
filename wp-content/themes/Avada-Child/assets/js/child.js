@@ -157,7 +157,7 @@
             }
 
             // jouw 2 cases
-            setupBrSwap($('.br-swap p'), 640, 'brSwapP');
+            setupBrSwap($('.br-swap p'), 640, 'brSwapH2');
             setupBrSwap($('.banner-row .fusion-title-heading'), 640, 'brSwapBannerP');
 
         })();
