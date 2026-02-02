@@ -28,6 +28,10 @@
     color: $text-color !important;
     text-transform: uppercase;
 
+    @media (max-width: 640px) {
+      font-size: 26px !important;
+    }
+
     p {
       font-family: $font-medium !important;
       line-height: 1.2 !important;
@@ -35,6 +39,10 @@
 
       color: $text-color !important;
       text-transform: uppercase;
+
+      @media (max-width: 640px) {
+        font-size: 26px !important;
+      }
     }
   }
 
@@ -46,6 +54,10 @@
     color: $text-color !important;
     text-transform: uppercase;
 
+    @media (max-width: 640px) {
+      font-size: 24px !important;
+    }
+
     p {
       font-family: $font-bold !important;
       line-height: 1.2 !important;
@@ -53,6 +65,10 @@
 
       color: $text-color !important;
       text-transform: uppercase;
+
+      @media (max-width: 640px) {
+        font-size: 24px !important;
+      }
     }
   }
 

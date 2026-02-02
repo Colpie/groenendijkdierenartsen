@@ -2916,12 +2916,22 @@ body {
   color: #215074 !important;
   text-transform: uppercase;
 }
+@media (max-width: 640px) {
+  #boxed-wrapper h2 {
+    font-size: 26px !important;
+  }
+}
 #boxed-wrapper h2 p {
   font-family: font-medium !important;
   line-height: 1.2 !important;
   font-size: 30px !important;
   color: #215074 !important;
   text-transform: uppercase;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper h2 p {
+    font-size: 26px !important;
+  }
 }
 #boxed-wrapper h3 {
   font-family: font-bold !important;
@@ -2930,12 +2940,22 @@ body {
   color: #215074 !important;
   text-transform: uppercase;
 }
+@media (max-width: 640px) {
+  #boxed-wrapper h3 {
+    font-size: 24px !important;
+  }
+}
 #boxed-wrapper h3 p {
   font-family: font-bold !important;
   line-height: 1.2 !important;
   font-size: 26px !important;
   color: #215074 !important;
   text-transform: uppercase;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper h3 p {
+    font-size: 24px !important;
+  }
 }
 #boxed-wrapper h4 {
   font-family: font-medium !important;
@@ -3456,6 +3476,11 @@ body {
 
 #boxed-wrapper .bigger-text p {
   font-size: 24px !important;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .bigger-text p {
+    font-size: 22px !important;
+  }
 }
 #boxed-wrapper .bigger-text .word {
   display: inline-block;
