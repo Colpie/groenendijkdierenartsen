@@ -3957,6 +3957,7 @@ body {
 @media (max-width: 767px) and (max-width: 767px) {
   #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column {
     height: 230px !important;
+    position: relative;
   }
   #boxed-wrapper .banner-row.default-banner .fusion-layout-column.banner-image-column .fusion-column-wrapper {
     height: 100%;
@@ -4533,5 +4534,69 @@ body {
   height: 20px;
   object-fit: contain;
   min-width: 20px;
+}
+
+.single #boxed-wrapper #main {
+  background: #AFC130;
+}
+.single #boxed-wrapper .banner-row {
+  margin-bottom: 120px;
+  display: flex;
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  .single #boxed-wrapper .banner-row {
+    flex-direction: column;
+  }
+}
+@media (max-width: 640px) {
+  .single #boxed-wrapper .banner-row {
+    margin-bottom: 90px;
+    height: 230px !important;
+  }
+}
+.single #boxed-wrapper .banner-row .fusion-column-wrapper {
+  border: 0 !important;
+}
+.single #boxed-wrapper .banner-row .fusion-column-wrapper:after {
+  border-radius: 0 0 180px 180px;
+}
+@media (max-width: 767px) {
+  .single #boxed-wrapper .banner-row .fusion-column-wrapper:after {
+    border-radius: 0 0 90px 90px;
+  }
+}
+.single #boxed-wrapper .banner-row .fusion-column-wrapper .fusion-image-element .fusion-imageframe {
+  border-radius: 0 0 180px 180px;
+}
+@media (max-width: 767px) {
+  .single #boxed-wrapper .banner-row .fusion-column-wrapper .fusion-image-element .fusion-imageframe {
+    border-radius: 0 0 90px 90px;
+  }
+}
+.single #boxed-wrapper .banner-row .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+  object-position: center center;
+}
+.single #boxed-wrapper .banner-row .single-title {
+  display: flex;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+  padding: 0 30px;
+}
+.single #boxed-wrapper .banner-row .single-title h1 {
+  color: #ffffff !important;
+  margin: 0 !important;
+  text-align: center;
+}
+.single #boxed-wrapper .overview-button {
+  margin-bottom: 120px;
+}
+@media (max-width: 640px) {
+  .single #boxed-wrapper .overview-button {
+    margin-bottom: 90px;
+  }
 }
 /*# sourceMappingURL=maps/child.css.map */

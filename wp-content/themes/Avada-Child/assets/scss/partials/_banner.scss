@@ -17,7 +17,6 @@
       height: 550px;
       min-height: 0 !important;
 
-
       @media (max-width: 767px) {
         height: auto;
 
@@ -32,6 +31,7 @@
 
             @media (max-width: 767px) {
               height: 230px !important;
+              position: relative;
 
               .fusion-column-wrapper {
                 height: 100%;

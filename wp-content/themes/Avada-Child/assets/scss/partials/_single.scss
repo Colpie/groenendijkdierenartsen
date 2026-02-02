@@ -1,0 +1,81 @@
+@use "../variables/fonts" as *;
+@use "../variables/colors" as *;
+
+.single {
+
+  #boxed-wrapper {
+
+    #main {
+      background: $accent-color;
+    }
+
+    .banner-row {
+      margin-bottom: 120px;
+      display: flex;
+      justify-content: center;
+
+      @media (max-width: 767px) {
+        flex-direction: column;
+      }
+
+      @media (max-width: 640px) {
+        margin-bottom: 90px;
+        height: 230px !important;
+      }
+
+      .fusion-column-wrapper {
+        border: 0 !important;
+
+        &:after {
+          border-radius: 0 0 180px 180px;
+
+          @media (max-width: 767px) {
+            border-radius: 0 0 90px 90px;
+          }
+
+        }
+
+        .fusion-image-element {
+
+          .fusion-imageframe {
+            border-radius: 0 0 180px 180px;
+
+            @media (max-width: 767px) {
+              border-radius: 0 0 90px 90px;
+            }
+
+            img {
+              object-position: center center;
+            }
+          }
+        }
+      }
+
+      .single-title {
+        display: flex;
+        z-index: 10;
+        align-items: center;
+
+        justify-content: center;
+        position: relative;
+        height: 100%;
+
+        padding: 0 30px;
+
+        h1 {
+          color: $white !important;
+          margin: 0 !important;
+          text-align: center;
+        }
+      }
+    }
+
+    .overview-button {
+      margin-bottom: 120px;
+
+      @media (max-width: 640px) {
+        margin-bottom: 90px;
+      }
+    }
+  }
+}
