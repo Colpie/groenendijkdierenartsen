@@ -11,12 +11,20 @@
 
     color: $text-color !important;
 
+    @media (max-width: 640px) {
+      font-size: 30px !important;
+    }
+
     p {
       font-family: $font-bold !important;
       line-height: 1.2 !important;
       font-size: 34px !important;
 
       color: $text-color !important;
+
+      @media (max-width: 640px) {
+        font-size: 30px !important;
+      }
     }
   }
 

@@ -2903,11 +2903,21 @@ body {
   font-size: 34px !important;
   color: #215074 !important;
 }
+@media (max-width: 640px) {
+  #boxed-wrapper h1 {
+    font-size: 30px !important;
+  }
+}
 #boxed-wrapper h1 p {
   font-family: font-bold !important;
   line-height: 1.2 !important;
   font-size: 34px !important;
   color: #215074 !important;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper h1 p {
+    font-size: 30px !important;
+  }
 }
 #boxed-wrapper h2 {
   font-family: font-medium !important;
@@ -3226,7 +3236,7 @@ body {
 }
 #boxed-wrapper .full-width-absolute-image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
   width: 100%;
-  height: 100%;
+  height: 150%;
   object-fit: cover;
 }
 #boxed-wrapper .center-30 img {
