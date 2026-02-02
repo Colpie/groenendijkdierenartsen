@@ -7,6 +7,7 @@
             $(this).attr('title', $(this).data('title'));
         });
 
+        // Default swiper
         (function () {
 
             function setVisibleSlides(swiper) {
@@ -111,6 +112,7 @@
             });
         });
 
+        // BrSwap
         (function initBrSwap() {
 
             function setupBrSwap($els, breakpoint, ns) {
@@ -155,7 +157,7 @@
             }
 
             // jouw 2 cases
-            setupBrSwap($('.intro-title h2'), 640, 'brSwapH2');
+            setupBrSwap($('.br-swap p'), 640, 'brSwapP');
             setupBrSwap($('.banner-row .fusion-title-heading'), 640, 'brSwapBannerP');
 
         })();
