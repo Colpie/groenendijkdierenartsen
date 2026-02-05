@@ -636,7 +636,7 @@
 
         // Fixed header
         (function () {
-            const header = document.querySelector('#boxed-wrapper header'); // jouw wrapper
+            const header = document.querySelector('#boxed-wrapper header');
             if (!header) return;
 
             const fusionHeader = header.querySelector('.fusion-header');
@@ -644,22 +644,32 @@
             const logoImg = header.querySelector('.logo-column img');
             const portal = header.querySelector('.client-portal');
 
+            if (!logoImg) return;
+
             const TRIGGER_Y = 80;
             const mq = window.matchMedia('(min-width: 1200px)');
+
+            // ✅ Vul deze in
+            const DEFAULT_LOGO_URL = logoImg.getAttribute('src'); // pakt huidige logo
+            const STICKY_LOGO_URL  = '/wp-content/themes/Avada-Child/assets/images/logo_fixed.png';
+
+            // Bewaar ook srcset/sizes zodat je die kan terugzetten
+            const DEFAULT_SRCSET = logoImg.getAttribute('srcset');
+            const DEFAULT_SIZES  = logoImg.getAttribute('sizes');
 
             let placeholder = null;
             let isFixed = false;
 
-            // Timeline: animeer enkel inner stuff (niet header)
+            // Timeline
             const tl = gsap.timeline({
                 paused: true,
-                defaults: {ease: 'power2.out', duration: 0.25}
+                defaults: { ease: 'power2.out', duration: 0.25 }
             });
 
-            if (fusionHeader) tl.to(fusionHeader, {paddingTop: 8, paddingBottom: 8}, 0);
-            if (row) tl.to(row, {paddingTop: 0, paddingBottom: 0}, 0);
-            if (logoImg) tl.to(logoImg, {scale: 0.82, transformOrigin: 'left center'}, 0);
-            if (portal) tl.to(portal, {scale: 0.92, transformOrigin: 'right center'}, 0);
+            if (fusionHeader) tl.to(fusionHeader, { paddingTop: 8, paddingBottom: 8 }, 0);
+            if (row) tl.to(row, { paddingTop: 0, paddingBottom: 0 }, 0);
+            if (logoImg) tl.to(logoImg, { scale: 0.82, transformOrigin: 'left center' }, 0);
+            if (portal) tl.to(portal, { scale: 0.92, transformOrigin: 'right center' }, 0);
 
             function ensurePlaceholder() {
                 if (placeholder) return;
@@ -674,14 +684,36 @@
                 placeholder.style.height = header.offsetHeight + 'px';
             }
 
+            // ✅ logo swap helpers
+            function setStickyLogo() {
+                // srcset kan conflict geven met svg/png swap -> weghalen voor zekerheid
+                logoImg.setAttribute('src', STICKY_LOGO_URL);
+                logoImg.removeAttribute('srcset');
+                logoImg.removeAttribute('sizes');
+                logoImg.classList.add('is-sticky-logo');
+            }
+
+            function setDefaultLogo() {
+                logoImg.setAttribute('src', DEFAULT_LOGO_URL);
+                if (DEFAULT_SRCSET) logoImg.setAttribute('srcset', DEFAULT_SRCSET);
+                else logoImg.removeAttribute('srcset');
+
+                if (DEFAULT_SIZES) logoImg.setAttribute('sizes', DEFAULT_SIZES);
+                else logoImg.removeAttribute('sizes');
+
+                logoImg.classList.remove('is-sticky-logo');
+            }
+
             function resetToNormal() {
                 isFixed = false;
                 header.classList.remove('is-fixed');
-
                 if (placeholder) placeholder.style.display = 'none';
 
+                // logo terug normaal
+                setDefaultLogo();
+
                 tl.pause(0);
-                gsap.set([fusionHeader, row, logoImg, portal].filter(Boolean), {clearProps: 'transform,padding'});
+                gsap.set([fusionHeader, row, logoImg, portal].filter(Boolean), { clearProps: 'transform,padding' });
             }
 
             function setFixed(state) {
@@ -693,10 +725,18 @@
                     updatePlaceholderHeight();
                     placeholder.style.display = 'block';
                     header.classList.add('is-fixed');
+
+                    // ✅ logo sticky
+                    setStickyLogo();
+
                     tl.play();
                 } else {
                     header.classList.remove('is-fixed');
                     if (placeholder) placeholder.style.display = 'none';
+
+                    // ✅ logo terug
+                    setDefaultLogo();
+
                     tl.reverse();
                 }
             }
@@ -710,7 +750,7 @@
                 ensurePlaceholder();
                 updatePlaceholderHeight();
                 window.addEventListener('resize', updatePlaceholderHeight);
-                window.addEventListener('scroll', onScroll, {passive: true});
+                window.addEventListener('scroll', onScroll, { passive: true });
                 onScroll();
             }
 
@@ -730,7 +770,6 @@
             if (typeof mq.addEventListener === 'function') mq.addEventListener('change', handleMQChange);
             else mq.addListener(handleMQChange);
         })();
-
         // Mobile menu
         $(function () {
             let menuOpen = false;

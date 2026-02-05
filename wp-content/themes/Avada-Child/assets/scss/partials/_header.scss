@@ -10,10 +10,12 @@
       &.is-fixed {
 
         @media (min-width: 1200px) {
+          padding-bottom: 20px;
 
           .fusion-header {
 
             .fusion-row {
+              align-items: center;
 
               .logo-column {
 

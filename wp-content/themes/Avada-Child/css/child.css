@@ -3837,6 +3837,12 @@ body {
 }
 
 @media (min-width: 1200px) {
+  .home #boxed-wrapper header.is-fixed {
+    padding-bottom: 20px;
+  }
+  .home #boxed-wrapper header.is-fixed .fusion-header .fusion-row {
+    align-items: center;
+  }
   .home #boxed-wrapper header.is-fixed .fusion-header .fusion-row .logo-column img {
     max-width: 200px;
   }
