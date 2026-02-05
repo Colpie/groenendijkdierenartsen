@@ -46,50 +46,140 @@
                 wrapper.appendChild(next);
             }
 
-            function overrideAvadaCarousel() {
-                document.querySelectorAll('.fusion-image-carousel:not(.full-width-swiper) .awb-swiper-carousel').forEach(function (carousel) {
+            function initFullWidthSwiperScrollParallax() {
+                if (!window.gsap || !window.ScrollTrigger) return;
 
-                    if (carousel.swiper) {
-                        carousel.swiper.destroy(true, true);
-                    }
+                gsap.registerPlugin(ScrollTrigger);
 
-                    const swiper = new Swiper(carousel, {
-                        slidesPerView: 3,
-                        spaceBetween: 13,
-                        speed: 500,
-                        loop: true,
-                        autoHeight: true,
-                        navigation: {
-                            nextEl: carousel.querySelector('.awb-swiper-button-next'),
-                            prevEl: carousel.querySelector('.awb-swiper-button-prev')
-                        },
-                        breakpoints: {
-                            0: {
-                                slidesPerView: 1
-                            },
-                            768: {
-                                slidesPerView: 2
-                            },
-                            1025: {
-                                slidesPerView: 3
+                document.querySelectorAll('.fusion-image-carousel.full-width-swiper .awb-swiper-carousel').forEach((carousel) => {
+                    const imgs = carousel.querySelectorAll('.swiper-slide img');
+                    if (!imgs.length) return;
+
+                    imgs.forEach((img) => {
+                        gsap.set(img, {
+                            willChange: 'transform',
+                            force3D: true,
+                            y: 0,
+                            scale: 1.08 // ✅ beetje inzoomen zodat parallax “ruimte” heeft
+                        });
+
+                        gsap.to(img, {
+                            y: -80,     // ✅ meer parallax (probeer -60 tot -120)
+                            ease: 'none',
+                            scrollTrigger: {
+                                trigger: carousel,
+                                start: 'top bottom',   // start zodra carousel in viewport komt
+                                end: 'bottom top',     // eind zodra carousel eruit is
+                                scrub: 1               // iets smoothing
                             }
-                        },
-                        on: {
-                            init() {
-                                setVisibleSlides(this);
-                                wrapSwiperNavigation(carousel);
-                            },
-                            slideChange() {
-                                setVisibleSlides(this);
-                            },
-                            resize() {
-                                setVisibleSlides(this);
-                            }
-                        }
+                        });
                     });
-
                 });
             }
+
+            function applySwiperImageParallax(swiper, amount = 18) {
+                if (!swiper || !swiper.slides) return;
+
+                const getImg = (slideEl) => slideEl.querySelector('img'); // pas aan indien nodig
+
+                // init
+                swiper.slides.forEach((slideEl) => {
+                    const img = getImg(slideEl);
+                    if (!img) return;
+                    img.style.willChange = "transform";
+                    gsap.set(img, { y: 0, force3D: true });
+                });
+
+                function update() {
+                    swiper.slides.forEach((slideEl) => {
+                        const img = getImg(slideEl);
+                        if (!img) return;
+
+                        const p = slideEl.progress || 0;
+                        const clamped = Math.max(-1, Math.min(1, p));
+                        gsap.set(img, { y: clamped * amount, force3D: true });
+                    });
+                }
+
+                update();
+                swiper.on("setTranslate", update);
+                swiper.on("progress", update);
+                swiper.on("resize", () => {
+                    swiper.slides.forEach((slideEl) => {
+                        const img = getImg(slideEl);
+                        if (!img) return;
+                        gsap.set(img, { y: 0, force3D: true });
+                    });
+                    update();
+                });
+            }
+
+            function overrideAvadaCarousel() {
+                document
+                    .querySelectorAll(".fusion-image-carousel .awb-swiper-carousel")
+                    .forEach(function (carousel) {
+
+                        const isFullWidth = !!carousel.closest(".fusion-image-carousel.full-width-swiper");
+
+                        if (carousel.swiper) {
+                            carousel.swiper.destroy(true, true);
+                        }
+
+                        const swiper = new Swiper(carousel, {
+                            // ✅ full-width altijd 1 slide
+                            // ✅ andere carousels jouw default 3 (met breakpoints 1/2/3)
+                            slidesPerView: isFullWidth ? 1 : 3,
+
+                            spaceBetween: 13,
+                            speed: 500,
+                            loop: true,
+                            autoHeight: true,
+
+                            // enkel nodig voor parallax
+                            watchSlidesProgress: isFullWidth,
+
+                            navigation: {
+                                nextEl: carousel.querySelector(".awb-swiper-button-next"),
+                                prevEl: carousel.querySelector(".awb-swiper-button-prev"),
+                            },
+
+                            breakpoints: isFullWidth
+                                ? {
+                                    0: { slidesPerView: 1 },
+                                    768: { slidesPerView: 1 },
+                                    1025: { slidesPerView: 1 },
+                                }
+                                : {
+                                    0: { slidesPerView: 1 },
+                                    768: { slidesPerView: 2 },
+                                    1025: { slidesPerView: 3 },
+                                },
+
+                            on: {
+                                init() {
+                                    setVisibleSlides(this);
+                                    wrapSwiperNavigation(carousel);
+
+                                    // ✅ parallax alleen op full-width
+                                    if (isFullWidth && window.gsap) {
+                                        applySwiperImageParallax(this, 18);
+                                    }
+                                },
+                                slideChange() {
+                                    setVisibleSlides(this);
+                                },
+                                resize() {
+                                    setVisibleSlides(this);
+                                }
+                            }
+                        });
+
+                    });
+            }
+
+            window.addEventListener('load', function () {
+                initFullWidthSwiperScrollParallax();
+            });
 
             window.addEventListener('load', function () {
                 setTimeout(overrideAvadaCarousel, 300);

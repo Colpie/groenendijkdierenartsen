@@ -3290,7 +3290,7 @@ body {
   margin-bottom: 0 !important;
 }
 #boxed-wrapper .fusion-image-carousel.full-width-swiper {
-  height: 900px;
+  height: 700px;
 }
 #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel {
   height: 100%;
@@ -3310,7 +3310,7 @@ body {
 }
 #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper img {
   border-radius: 180px 180px 0 0;
-  height: 100%;
+  height: 120%;
   width: 100%;
   object-fit: cover;
 }
