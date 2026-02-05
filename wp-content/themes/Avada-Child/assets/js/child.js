@@ -731,7 +731,7 @@
 
             if (!logoImg) return;
 
-            const TRIGGER_Y = 80;
+            const TRIGGER_Y = 180;
             const mq = window.matchMedia('(min-width: 1200px)');
 
             // ✅ Vul deze in
