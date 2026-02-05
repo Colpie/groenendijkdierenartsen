@@ -111,6 +111,8 @@
             height: 150%;
             object-fit: cover;
 
+            margin-top: -50px;
+
             @media (max-width: 640px) {
               height: 110%;
             }
