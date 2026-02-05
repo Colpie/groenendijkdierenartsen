@@ -2709,7 +2709,7 @@ body {
   font-family: font-regular !important;
   font-size: 19px !important;
   color: #ffffff !important;
-  line-height: 1.2 !important;
+  line-height: 1.3 !important;
 }
 
 #boxed-wrapper p, #boxed-wrapper li, #boxed-wrapper td, #boxed-wrapper th {
@@ -2717,7 +2717,7 @@ body {
   font-family: font-regular !important;
   font-size: 19px !important;
   color: #ffffff !important;
-  line-height: 1.2 !important;
+  line-height: 1.3 !important;
 }
 #boxed-wrapper strong, #boxed-wrapper b {
   font-family: font-bold !important;
