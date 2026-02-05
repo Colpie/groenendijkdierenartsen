@@ -3147,6 +3147,12 @@ body {
   pointer-events: all;
 }
 
+#main .lowercase {
+  text-transform: none !important;
+}
+#main .lowercase h1, #main .lowercase h2, #main .lowercase h3, #main .lowercase h4, #main .lowercase h5, #main .lowercase h6, #main .lowercase p {
+  text-transform: none !important;
+}
 #main .static-row .fusion-builder-row {
   position: static !important;
 }
