@@ -3307,6 +3307,12 @@ body {
 }
 #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper {
   height: 100%;
+  border-radius: 180px 180px 0 0;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper {
+    border-radius: 90px 90px 0 0;
+  }
 }
 #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper img {
   border-radius: 180px 180px 0 0;
