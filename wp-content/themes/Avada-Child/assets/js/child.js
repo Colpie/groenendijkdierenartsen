@@ -432,23 +432,15 @@
             temp.childNodes.forEach(n => el.appendChild(splitWords(n)));
 
             const words = el.querySelectorAll('.word');
-            // Bepaal eindkleur op basis van class
-            const endColor = el.classList.contains('other-color')
-                ? '#ffffff'
-                : '#215074';
 
             gsap.fromTo(
                 words,
                 {
-                    color: '#fff',
-                    opacity: 0.6,
-                    y: 6
+                    y: 4
                 },
                 {
-                    color: endColor,
-                    opacity: 1,
                     y: 0,
-                    ease: 'none',     // cruciaal voor perfecte scrub
+                    ease: 'none',      // perfect voor scrub
                     stagger: 0.12,
                     scrollTrigger: {
                         trigger: el,
@@ -459,7 +451,6 @@
                     }
                 }
             );
-
         });
 
         // Reviews Swiper
