@@ -383,75 +383,75 @@
         })();
 
         // Bigger text
-        document.querySelectorAll('.bigger-text').forEach(el => {
-            // Bewaar originele structuur
-            const originalHTML = el.innerHTML;
-            const temp = document.createElement('div');
-            temp.innerHTML = originalHTML;
-
-            // Split text nodes in WORD spans, behoud tags zoals <strong> en <br>
-            function splitWords(node) {
-                // Text node
-                if (node.nodeType === 3) {
-                    const text = node.textContent;
-                    const frag = document.createDocumentFragment();
-
-                    // Split op spaties, maar behoud de spaties in output
-                    // (zodat layout identiek blijft)
-                    const parts = text.split(/(\s+)/);
-
-                    parts.forEach(part => {
-                        if (!part) return;
-
-                        // Whitespace -> gewoon tekst terugplaatsen
-                        if (/^\s+$/.test(part)) {
-                            frag.appendChild(document.createTextNode(part));
-                        } else {
-                            const span = document.createElement('span');
-                            span.className = 'word';
-                            span.textContent = part;
-                            frag.appendChild(span);
-                        }
-                    });
-
-                    return frag;
-                }
-
-                // Element node (bv strong, p, br)
-                if (node.nodeType === 1) {
-                    const clone = node.cloneNode(false);
-                    node.childNodes.forEach(child => clone.appendChild(splitWords(child)));
-                    return clone;
-                }
-
-                return document.createTextNode('');
-            }
-
-            // Rebuild content
-            el.innerHTML = '';
-            temp.childNodes.forEach(n => el.appendChild(splitWords(n)));
-
-            const words = el.querySelectorAll('.word');
-
-            gsap.fromTo(
-                words,
-                {
-                    y: 4
-                },
-                {
-                    y: 0,
-                    ease: 'none',      // perfect voor scrub
-                    stagger: 0.12,
-                    scrollTrigger: {
-                        trigger: el,
-                        start: 'top 85%',
-                        end: 'top 35%',
-                        scrub: true
-                        // markers: true
-                    }
-                }
-            );
-        });
+        // document.querySelectorAll('.bigger-text').forEach(el => {
+        //     // Bewaar originele structuur
+        //     const originalHTML = el.innerHTML;
+        //     const temp = document.createElement('div');
+        //     temp.innerHTML = originalHTML;
+        //
+        //     // Split text nodes in WORD spans, behoud tags zoals <strong> en <br>
+        //     function splitWords(node) {
+        //         // Text node
+        //         if (node.nodeType === 3) {
+        //             const text = node.textContent;
+        //             const frag = document.createDocumentFragment();
+        //
+        //             // Split op spaties, maar behoud de spaties in output
+        //             // (zodat layout identiek blijft)
+        //             const parts = text.split(/(\s+)/);
+        //
+        //             parts.forEach(part => {
+        //                 if (!part) return;
+        //
+        //                 // Whitespace -> gewoon tekst terugplaatsen
+        //                 if (/^\s+$/.test(part)) {
+        //                     frag.appendChild(document.createTextNode(part));
+        //                 } else {
+        //                     const span = document.createElement('span');
+        //                     span.className = 'word';
+        //                     span.textContent = part;
+        //                     frag.appendChild(span);
+        //                 }
+        //             });
+        //
+        //             return frag;
+        //         }
+        //
+        //         // Element node (bv strong, p, br)
+        //         if (node.nodeType === 1) {
+        //             const clone = node.cloneNode(false);
+        //             node.childNodes.forEach(child => clone.appendChild(splitWords(child)));
+        //             return clone;
+        //         }
+        //
+        //         return document.createTextNode('');
+        //     }
+        //
+        //     // Rebuild content
+        //     el.innerHTML = '';
+        //     temp.childNodes.forEach(n => el.appendChild(splitWords(n)));
+        //
+        //     const words = el.querySelectorAll('.word');
+        //
+        //     gsap.fromTo(
+        //         words,
+        //         {
+        //             y: 4
+        //         },
+        //         {
+        //             y: 0,
+        //             ease: 'none',      // perfect voor scrub
+        //             stagger: 0.12,
+        //             scrollTrigger: {
+        //                 trigger: el,
+        //                 start: 'top 85%',
+        //                 end: 'top 35%',
+        //                 scrub: true
+        //                 // markers: true
+        //             }
+        //         }
+        //     );
+        // });
 
         // Reviews Swiper
         $(".reviews-swiper").each(function () {
