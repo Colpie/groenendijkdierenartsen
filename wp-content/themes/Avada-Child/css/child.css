@@ -3936,14 +3936,19 @@ body {
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li.current-menu-item a {
   color: #AFC130 !important;
 }
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li.current-menu-item .sub-menu a {
+  color: #ffffff !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li.current-menu-item .sub-menu a:hover {
+  color: #002B57 !important;
+}
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li a {
   font-family: font-regular !important;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 16px !important;
   border: 0 !important;
-  height: auto !important;
-  padding-bottom: 20px;
+  height: 36px !important;
 }
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li a:hover {
   color: #AFC130 !important;
@@ -3973,6 +3978,7 @@ body {
   padding: 0;
   transition: none !important;
   letter-spacing: 0 !important;
+  height: auto !important;
 }
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li a:hover {
   background: transparent !important;

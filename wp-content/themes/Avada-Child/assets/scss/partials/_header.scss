@@ -145,6 +145,17 @@
                   a {
                     color: $accent-color !important;
                   }
+
+                  .sub-menu {
+
+                    a {
+                      color: $white !important;
+
+                      &:hover {
+                        color: $blue-color !important;
+                      }
+                    }
+                  }
                 }
 
                 a {
@@ -154,9 +165,7 @@
 
                   font-size: 16px !important;
                   border: 0 !important;
-                  height: auto !important;
-
-                  padding-bottom: 20px;
+                  height: 36px !important;
 
                   &:hover {
                     color: $accent-color !important;
@@ -196,6 +205,7 @@
                       transition: none !important;
 
                       letter-spacing: 0 !important;
+                      height: auto !important;
 
                       &:hover {
                         background: transparent !important;
