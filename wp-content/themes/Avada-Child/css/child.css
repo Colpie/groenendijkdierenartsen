@@ -3782,7 +3782,7 @@ body {
   margin-top: 25px;
 }
 #boxed-wrapper .custom-footer .fusion-row .footer-column .footer-column-inner {
-  padding: 20px 30px;
+  padding: 30px 45px;
   background: rgba(0, 43, 87, 0.2);
   border-radius: 50px;
 }
@@ -3791,7 +3791,6 @@ body {
 }
 #boxed-wrapper .custom-footer .fusion-row .footer-column .footer-column-inner span {
   display: block;
-  padding-left: 15px;
 }
 #boxed-wrapper .custom-footer .fusion-row .footer-column.footer-column-last {
   flex-direction: column;

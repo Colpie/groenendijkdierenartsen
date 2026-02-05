@@ -138,7 +138,7 @@
                             // ✅ fade alleen voor full-width
                             effect: isFullWidth ? "fade" : "slide",
                             fadeEffect: isFullWidth ? { crossFade: true } : undefined,
-                            
+
                             // enkel nodig voor parallax
                             watchSlidesProgress: isFullWidth,
 
