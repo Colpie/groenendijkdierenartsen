@@ -2658,13 +2658,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   background: #FAFFD8;
   margin-bottom: 10px;
   font-family: font-regular !important;
-  font-size: 19px !important;
+  font-size: 17px !important;
   border-radius: 50px;
   color: #91A700 !important;
 }
 #boxed-wrapper .contact-form .form-row .wpcf7-form-control::placeholder {
   font-family: font-regular !important;
-  font-size: 19px !important;
+  font-size: 17px !important;
   color: #91A700 !important;
 }
 #boxed-wrapper .contact-form .form-row .wpcf7-form-control.wpcf7-textarea {
@@ -3245,9 +3245,11 @@ body {
   height: 150%;
   object-fit: cover;
   margin-top: -50px;
+  border-radius: 180px 180px 0 0;
 }
 @media (max-width: 640px) {
   #boxed-wrapper .full-width-absolute-image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+    border-radius: 90px 90px 0 0;
     height: 110%;
   }
 }

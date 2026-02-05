@@ -113,7 +113,10 @@
 
             margin-top: -50px;
 
+            border-radius: 180px 180px 0 0;
+
             @media (max-width: 640px) {
+              border-radius: 90px 90px 0 0;
               height: 110%;
             }
           }
