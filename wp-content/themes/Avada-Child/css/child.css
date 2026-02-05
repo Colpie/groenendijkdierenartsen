@@ -3837,9 +3837,6 @@ body {
 }
 
 @media (min-width: 1200px) {
-  .home #boxed-wrapper header.is-fixed {
-    padding-bottom: 20px;
-  }
   .home #boxed-wrapper header.is-fixed .fusion-header .fusion-row {
     align-items: center;
   }
@@ -3918,7 +3915,10 @@ body {
     justify-content: flex-end;
   }
 }
-#boxed-wrapper header .fusion-header .fusion-row .menu-column ul {
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu {
+  overflow: visible !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -3926,21 +3926,46 @@ body {
   gap: 20px;
 }
 @media (max-width: 1300px) {
-  #boxed-wrapper header .fusion-header .fusion-row .menu-column ul {
+  #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul {
     gap: 10px;
   }
 }
-#boxed-wrapper header .fusion-header .fusion-row .menu-column ul li.current-menu-item a {
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li {
+  padding: 0 !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li.current-menu-item a {
   color: #AFC130 !important;
 }
-#boxed-wrapper header .fusion-header .fusion-row .menu-column ul li a {
-  font-family: font-medium !important;
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li a {
+  font-family: font-regular !important;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 16px !important;
+  border: 0 !important;
+  height: auto !important;
+  padding-bottom: 20px;
 }
-#boxed-wrapper header .fusion-header .fusion-row .menu-column ul li a:hover {
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li a:hover {
   color: #AFC130 !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu {
+  flex-direction: column;
+  border-top: 0 !important;
+  background-color: #AFC130;
+  gap: 0;
+  min-width: 250px;
+  padding: 30px 35px;
+  border-radius: 0 0 30px 30px;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li {
+  padding-bottom: 7px !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li:last-child {
+  padding-bottom: 0 !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li a {
+  text-transform: none !important;
+  padding: 0;
 }
 #boxed-wrapper header .fusion-header .fusion-row .logo-column {
   text-align: center;

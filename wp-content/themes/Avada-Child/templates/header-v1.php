@@ -18,7 +18,13 @@ if (!defined('ABSPATH')) {
     <div class="fusion-row">
         <div class="menu-column col-lg-4">
             <?php
-                $menu_left = wp_nav_menu(array('menu' => 'Menu Left'));
+            wp_nav_menu([
+                'menu'            => 'Menu Left',
+                'container'       => 'nav',
+                'container_class' => 'fusion-main-menu fusion-menu-left',
+                'menu_class'      => 'fusion-menu',
+                'fallback_cb'     => false,
+            ]);
             ?>
         </div>
         <div class="logo-column col-lg-3 col-md-8 col-7">
@@ -26,7 +32,13 @@ if (!defined('ABSPATH')) {
         </div>
         <div class="menu-column last-menu-column col-lg-4">
             <?php
-            $menu_right = wp_nav_menu(array('menu' => 'Menu Right'));
+            wp_nav_menu([
+                'menu'            => 'Menu Right',
+                'container'       => 'nav',
+                'container_class' => 'fusion-main-menu fusion-menu-right',
+                'menu_class'      => 'fusion-menu',
+                'fallback_cb'     => false,
+            ]);
             ?>
         </div>
 

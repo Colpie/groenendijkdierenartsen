@@ -10,7 +10,6 @@
       &.is-fixed {
 
         @media (min-width: 1200px) {
-          padding-bottom: 20px;
 
           .fusion-header {
 
@@ -123,36 +122,70 @@
             }
           }
 
-          ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+          .fusion-main-menu {
+            overflow: visible !important;
 
-            display: flex;
-            gap: 20px;
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
 
-            @media (max-width: 1300px) {
-              gap: 10px;
-            }
+              display: flex;
+              gap: 20px;
 
-            li {
-
-              &.current-menu-item {
-
-                a {
-                  color: $accent-color !important;
-                }
+              @media (max-width: 1300px) {
+                gap: 10px;
               }
 
-              a {
-                font-family: $font-medium !important;
-                text-transform: uppercase;
-                letter-spacing: 2px;
+              li {
+                padding: 0 !important;
 
-                font-size: 16px !important;
+                &.current-menu-item {
 
-                &:hover {
-                  color: $accent-color !important;
+                  a {
+                    color: $accent-color !important;
+                  }
+                }
+
+                a {
+                  font-family: $font !important;
+                  text-transform: uppercase;
+                  letter-spacing: 2px;
+
+                  font-size: 16px !important;
+                  border: 0 !important;
+                  height: auto !important;
+
+                  padding-bottom: 20px;
+
+                  &:hover {
+                    color: $accent-color !important;
+                  }
+                }
+
+                .sub-menu {
+                  flex-direction: column;
+                  border-top: 0 !important;
+                  background-color: $accent-color;
+
+                  gap: 0;
+                  min-width: 250px;
+                  padding: 30px 35px;
+
+                  border-radius: 0 0 30px 30px;
+
+                  li {
+                    padding-bottom: 7px !important;
+
+                    &:last-child {
+                      padding-bottom: 0 !important;
+                    }
+
+                    a {
+                      text-transform: none !important;
+                      padding: 0;
+                    }
+                  }
                 }
               }
             }
