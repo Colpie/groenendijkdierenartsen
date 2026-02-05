@@ -47,7 +47,7 @@
             }
 
             function overrideAvadaCarousel() {
-                document.querySelectorAll('.awb-swiper-carousel').forEach(function (carousel) {
+                document.querySelectorAll('.fusion-image-carousel:not(.full-width-swiper) .awb-swiper-carousel').forEach(function (carousel) {
 
                     if (carousel.swiper) {
                         carousel.swiper.destroy(true, true);

@@ -3289,6 +3289,42 @@ body {
 #boxed-wrapper .fusion-image-carousel {
   margin-bottom: 0 !important;
 }
+#boxed-wrapper .fusion-image-carousel.full-width-swiper {
+  height: 900px;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel {
+  height: 100%;
+  overflow: hidden;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper {
+  height: 100% !important;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide {
+  height: 100%;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper {
+  height: 100%;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper {
+  height: 100%;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper img {
+  border-radius: 180px 180px 0 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .swiper-wrapper .swiper-slide .fusion-carousel-item-wrapper .fusion-image-wrapper img {
+    border-radius: 90px 90px 0 0;
+  }
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .awb-swiper-button.awb-swiper-button-next {
+  right: 90px !important;
+}
+#boxed-wrapper .fusion-image-carousel.full-width-swiper .awb-carousel .awb-swiper-button.awb-swiper-button-prev {
+  left: 90px !important;
+}
 #boxed-wrapper .awb-carousel {
   overflow: visible;
 }

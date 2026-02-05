@@ -179,6 +179,54 @@
 
   .fusion-image-carousel {
     margin-bottom: 0 !important;
+
+    &.full-width-swiper {
+      height: 900px;
+
+      .awb-carousel {
+        height: 100%;
+        overflow: hidden;
+
+        .swiper-wrapper {
+          height: 100% !important;
+
+          .swiper-slide {
+            height: 100%;
+
+            .fusion-carousel-item-wrapper {
+                height: 100%;
+
+              .fusion-image-wrapper {
+                height: 100%;
+
+                img {
+                  border-radius: 180px 180px 0 0;
+                  height: 100%;
+                  width: 100%;
+
+                  object-fit: cover;
+
+                  @media (max-width: 640px) {
+                    border-radius: 90px 90px 0 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .awb-swiper-button {
+
+          &.awb-swiper-button-next {
+            right: 90px !important;
+          }
+
+          &.awb-swiper-button-prev {
+            left: 90px !important;
+          }
+        }
+      }
+    }
   }
 
   .awb-carousel {
