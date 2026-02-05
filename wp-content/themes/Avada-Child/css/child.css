@@ -3963,9 +3963,19 @@ body {
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li:last-child {
   padding-bottom: 0 !important;
 }
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li.current-menu-item a {
+  background: transparent !important;
+  font-family: font-medium !important;
+  color: #002B57 !important;
+}
 #boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li a {
   text-transform: none !important;
   padding: 0;
+  transition: none !important;
+}
+#boxed-wrapper header .fusion-header .fusion-row .menu-column .fusion-main-menu ul li .sub-menu li a:hover {
+  background: transparent !important;
+  color: #002B57 !important;
 }
 #boxed-wrapper header .fusion-header .fusion-row .logo-column {
   text-align: center;

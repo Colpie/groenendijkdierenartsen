@@ -181,9 +181,24 @@
                       padding-bottom: 0 !important;
                     }
 
+                    &.current-menu-item {
+
+                      a {
+                        background: transparent !important;
+                        font-family: $font-medium !important;
+                        color: $blue-color !important;
+                      }
+                    }
+
                     a {
                       text-transform: none !important;
                       padding: 0;
+                      transition: none !important;
+
+                      &:hover {
+                        background: transparent !important;
+                        color: $blue-color !important;
+                      }
                     }
                   }
                 }
