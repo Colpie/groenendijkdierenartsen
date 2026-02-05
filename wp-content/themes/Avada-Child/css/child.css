@@ -2816,7 +2816,7 @@ body {
 #boxed-wrapper .wpcf7-submit {
   padding: 5px 5px 5px 35px !important;
   border-radius: 30px !important;
-  background: #AFC130 !important;
+  background: #215074 !important;
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
   font-size: 16px !important;
@@ -2843,7 +2843,7 @@ body {
   opacity: 1;
 }
 #boxed-wrapper .wpcf7-submit:hover .button-icon {
-  background-color: #AFC130;
+  background-color: #002B57;
 }
 #boxed-wrapper .wpcf7-submit:before {
   position: absolute;
@@ -2853,14 +2853,14 @@ body {
   width: 50%;
   height: 0;
   visibility: hidden;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: #002B57;
   opacity: 0;
   z-index: -1;
   transition: all 0.4s ease-in-out;
 }
 #boxed-wrapper .wpcf7-submit:after {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: #002B57;
   bottom: 0;
   right: 0;
   content: "";

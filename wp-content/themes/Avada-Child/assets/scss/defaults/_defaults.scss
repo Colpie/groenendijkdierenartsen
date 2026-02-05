@@ -166,7 +166,7 @@ body {
   .wpcf7-submit {
     padding: 5px 5px 5px 35px !important;
     border-radius: 30px !important;
-    background: $accent-color !important;
+    background: $text-color !important;
 
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
@@ -201,7 +201,7 @@ body {
       }
 
       .button-icon {
-        background-color: $accent-color;
+        background-color: $blue-color;
       }
     }
 
@@ -215,7 +215,7 @@ body {
       height: 0;
 
       visibility: hidden;
-      background-color: rgba($white, .15);
+      background-color: $blue-color;
       opacity: 0;
 
       z-index: -1;
@@ -224,7 +224,7 @@ body {
 
     &:after {
       position: absolute;
-      background-color: rgba($white, .15);
+      background-color: $blue-color;
       bottom: 0;
 
       right: 0;
