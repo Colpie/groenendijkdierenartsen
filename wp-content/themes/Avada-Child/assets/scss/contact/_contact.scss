@@ -14,7 +14,7 @@
 }
 
 .alert-custom {
-  display: none !important;
+  //display: none !important;
 
   &.success {
     display: inline-block !important;
@@ -52,6 +52,7 @@
   position: relative !important;
 }
 
+.alert-custom,
 .wpcf7-mail-sent-ok,
 .fusion-success {
   background: transparent !important;
@@ -80,17 +81,17 @@
     right: auto;
     bottom: auto;
 
-    text-align: center !important;
+    text-align: left !important;
     width: 100% !important;
   }
 
   @media (max-width: 640px) {
     text-align: left !important;
-    padding-left: 30px !important;
   }
 
 
   .fusion-alert-content-wrapper {
+    justify-content: flex-start !important;
     line-height: 1 !important;
   }
 }
@@ -108,46 +109,6 @@
     width: 40px !important;
     height: 40px !important;
   }
-}
-
-input::-webkit-input-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-input:-moz-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-input::-moz-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-input:-ms-input-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-textarea::-webkit-input-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-textarea:-moz-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-textarea::-moz-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
-}
-
-textarea:-ms-input-placeholder {
-  //color: $text-color !important;
-  //font-family: $font-medium !important;
 }
 
 .wpcf7 {

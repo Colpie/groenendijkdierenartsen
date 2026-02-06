@@ -45,75 +45,7 @@
                 wrapper.appendChild(prev);
                 wrapper.appendChild(next);
             }
-
-            function initFullWidthSwiperScrollParallax() {
-                if (!window.gsap || !window.ScrollTrigger) return;
-
-                gsap.registerPlugin(ScrollTrigger);
-
-                document.querySelectorAll('.fusion-image-carousel.full-width-swiper .awb-swiper-carousel').forEach((carousel) => {
-                    const imgs = carousel.querySelectorAll('.swiper-slide img');
-                    if (!imgs.length) return;
-
-                    imgs.forEach((img) => {
-                        gsap.set(img, {
-                            willChange: 'transform',
-                            force3D: true,
-                            y: 0,
-                            scale: 1.08 // ✅ beetje inzoomen zodat parallax “ruimte” heeft
-                        });
-
-                        gsap.to(img, {
-                            y: -80,     // ✅ meer parallax (probeer -60 tot -120)
-                            ease: 'none',
-                            scrollTrigger: {
-                                trigger: carousel,
-                                start: 'top bottom',   // start zodra carousel in viewport komt
-                                end: 'bottom top',     // eind zodra carousel eruit is
-                                scrub: 1               // iets smoothing
-                            }
-                        });
-                    });
-                });
-            }
-
-            function applySwiperImageParallax(swiper, amount = 18) {
-                if (!swiper || !swiper.slides) return;
-
-                const getImg = (slideEl) => slideEl.querySelector('img'); // pas aan indien nodig
-
-                // init
-                swiper.slides.forEach((slideEl) => {
-                    const img = getImg(slideEl);
-                    if (!img) return;
-                    img.style.willChange = "transform";
-                    gsap.set(img, { y: 0, force3D: true });
-                });
-
-                function update() {
-                    swiper.slides.forEach((slideEl) => {
-                        const img = getImg(slideEl);
-                        if (!img) return;
-
-                        const p = slideEl.progress || 0;
-                        const clamped = Math.max(-1, Math.min(1, p));
-                        gsap.set(img, { y: clamped * amount, force3D: true });
-                    });
-                }
-
-                update();
-                swiper.on("setTranslate", update);
-                swiper.on("progress", update);
-                swiper.on("resize", () => {
-                    swiper.slides.forEach((slideEl) => {
-                        const img = getImg(slideEl);
-                        if (!img) return;
-                        gsap.set(img, { y: 0, force3D: true });
-                    });
-                    update();
-                });
-            }
-
+            
             function overrideAvadaCarousel() {
                 document
                     .querySelectorAll(".fusion-image-carousel .awb-swiper-carousel")
@@ -163,11 +95,6 @@
                                 init() {
                                     setVisibleSlides(this);
                                     wrapSwiperNavigation(carousel);
-
-                                    // ✅ parallax alleen op full-width
-                                    if (isFullWidth && window.gsap) {
-                                        applySwiperImageParallax(this, 18);
-                                    }
                                 },
                                 slideChange() {
                                     setVisibleSlides(this);
