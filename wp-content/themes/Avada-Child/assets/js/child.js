@@ -45,7 +45,7 @@
                 wrapper.appendChild(prev);
                 wrapper.appendChild(next);
             }
-            
+
             function overrideAvadaCarousel() {
                 document
                     .querySelectorAll(".fusion-image-carousel .awb-swiper-carousel")

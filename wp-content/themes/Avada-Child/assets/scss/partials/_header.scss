@@ -140,7 +140,8 @@
               li {
                 padding: 0 !important;
 
-                &.current-menu-item {
+                &.current-menu-item,
+                &.current-page-ancestor {
 
                   a {
                     color: $accent-color !important;
