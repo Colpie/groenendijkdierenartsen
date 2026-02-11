@@ -335,4 +335,27 @@
       }
     }
   }
+
+  .custom-team-order {
+
+    @media (max-width: 1024px) {
+      order: 3 !important;
+    }
+
+    @media (max-width: 640px) {
+      order: 2 !important;
+    }
+  }
+
+  .custom-team-title-order {
+    order: 3;
+
+    @media (max-width: 1024px) {
+      order: 2 !important;
+    }
+
+    @media (max-width: 640px) {
+      order: 3 !important;
+    }
+  }
 }

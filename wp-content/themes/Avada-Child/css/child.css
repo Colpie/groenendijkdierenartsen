@@ -3414,6 +3414,29 @@ body {
 #boxed-wrapper .awb-carousel .awb-swiper-button i {
   display: none !important;
 }
+@media (max-width: 1024px) {
+  #boxed-wrapper .custom-team-order {
+    order: 3 !important;
+  }
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .custom-team-order {
+    order: 2 !important;
+  }
+}
+#boxed-wrapper .custom-team-title-order {
+  order: 3;
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .custom-team-title-order {
+    order: 2 !important;
+  }
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .custom-team-title-order {
+    order: 3 !important;
+  }
+}
 
 #boxed-wrapper table {
   border: 0 !important;
