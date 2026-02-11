@@ -4701,7 +4701,7 @@ body {
 #boxed-wrapper .fusion-accordian .panel-group .fusion-panel {
   padding: 30px 45px;
   border-radius: 50px;
-  background: #002B57;
+  background: rgba(33, 80, 116, 0.25);
   border: 0;
   margin-bottom: 15px;
 }
