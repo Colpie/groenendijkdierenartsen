@@ -3739,6 +3739,14 @@ body {
 #boxed-wrapper .arrow-list ul li a:hover {
   color: #AFC130 !important;
 }
+@media (min-width: 1025px) {
+  #boxed-wrapper .team-name-column {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
+
 #boxed-wrapper .custom-footer {
   padding: 100px 15px;
   background: #215074;

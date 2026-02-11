@@ -210,6 +210,11 @@
   }
 
   .team-name-column {
-    
+
+    @media (min-width: 1025px) {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
   }
 }
