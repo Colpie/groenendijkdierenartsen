@@ -217,4 +217,13 @@
       right: 0;
     }
   }
+
+  .team-name-column-left {
+
+    @media (min-width: 1025px) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
 }
