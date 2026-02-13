@@ -3802,6 +3802,8 @@ body {
   align-items: center;
   gap: 10px;
   padding-bottom: 10px;
+  padding-left: 60px;
+  position: relative;
 }
 #boxed-wrapper .check-list ul li:last-child {
   padding-bottom: 0;
@@ -3814,6 +3816,9 @@ body {
   height: 30px;
   min-width: 30px;
   display: inline-flex;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 #boxed-wrapper .custom-footer {
@@ -4499,6 +4504,27 @@ body {
   right: 0;
   bottom: 30px;
 }
+#boxed-wrapper .service-row .fusion-column-wrapper {
+  position: relative;
+}
+#boxed-wrapper .service-row .fusion-column-wrapper .fusion-title h4 {
+  font-size: 26px !important;
+}
+#boxed-wrapper .service-row .fusion-column-wrapper .full-height-service-image .fusion-column-wrapper {
+  height: 100%;
+}
+#boxed-wrapper .service-row .fusion-column-wrapper .full-height-service-image .fusion-column-wrapper .fusion-image-element {
+  height: 100%;
+}
+#boxed-wrapper .service-row .fusion-column-wrapper .full-height-service-image .fusion-column-wrapper .fusion-image-element .fusion-imageframe {
+  height: 100%;
+  width: 100%;
+}
+#boxed-wrapper .service-row .fusion-column-wrapper .full-height-service-image .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 
 #boxed-wrapper .reviews-swiper {
   width: 100%;
@@ -4803,7 +4829,7 @@ body {
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__title {
   font-family: font-bold !important;
-  color: #ffffff !important;
+  color: #AFC130 !important;
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__chev img {
   width: 30px;
@@ -4813,44 +4839,25 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 45px 0;
-}
-@media (max-width: 1024px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner {
-    flex-direction: column;
-    gap: 45px;
-  }
-}
-@media (min-width: 1025px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body {
-    width: 35%;
-  }
+  flex-direction: column;
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child {
   margin-bottom: 0;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  margin-top: 45px;
 }
-@media (min-width: 1025px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__list {
-    width: 65%;
-    padding: 0 0 0 45px;
-  }
-}
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__list li {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div {
   display: flex;
-  gap: 7px;
+  flex: 0 0 calc(50% - 15px);
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__list li img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  min-width: 20px;
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
+  height: 380px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50px;
 }
 
 .single #boxed-wrapper #main {

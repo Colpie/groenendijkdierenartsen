@@ -69,7 +69,7 @@
 
                             // ✅ fade alleen voor full-width
                             effect: isFullWidth ? "fade" : "slide",
-                            fadeEffect: isFullWidth ? { crossFade: true } : undefined,
+                            fadeEffect: isFullWidth ? {crossFade: true} : undefined,
 
                             // enkel nodig voor parallax
                             watchSlidesProgress: isFullWidth,
@@ -81,14 +81,14 @@
 
                             breakpoints: isFullWidth
                                 ? {
-                                    0: { slidesPerView: 1 },
-                                    768: { slidesPerView: 1 },
-                                    1025: { slidesPerView: 1 },
+                                    0: {slidesPerView: 1},
+                                    768: {slidesPerView: 1},
+                                    1025: {slidesPerView: 1},
                                 }
                                 : {
-                                    0: { slidesPerView: 1 },
-                                    768: { slidesPerView: 2 },
-                                    1025: { slidesPerView: 3 },
+                                    0: {slidesPerView: 1},
+                                    768: {slidesPerView: 2},
+                                    1025: {slidesPerView: 3},
                                 },
 
                             on: {
@@ -131,7 +131,7 @@
                 if (!img) return;
 
                 // startpositie
-                gsap.set(img, { yPercent: -10 });
+                gsap.set(img, {yPercent: -10});
 
                 gsap.to(img, {
                     yPercent: 10,
@@ -218,10 +218,10 @@
             const triggerEl = $wrap.length ? $wrap[0] : $items.first().parent()[0];
 
             // Start state
-            gsap.set($items, { autoAlpha: 0, y: 30 });
+            gsap.set($items, {autoAlpha: 0, y: 30});
 
             // Timeline met stagger
-            const tl = gsap.timeline({ paused: true });
+            const tl = gsap.timeline({paused: true});
             tl.to($items.toArray(), {
                 autoAlpha: 1,
                 y: 0,
@@ -273,16 +273,26 @@
 
             function killAll() {
                 // kill desktop STs
-                parallaxSTs.forEach(st => { try { st.kill(true); } catch (e) {} });
+                parallaxSTs.forEach(st => {
+                    try {
+                        st.kill(true);
+                    } catch (e) {
+                    }
+                });
                 parallaxSTs = [];
 
                 // kill mobile floats
-                mobileFloatTweens.forEach(tw => { try { tw.kill(); } catch (e) {} });
+                mobileFloatTweens.forEach(tw => {
+                    try {
+                        tw.kill();
+                    } catch (e) {
+                    }
+                });
                 mobileFloatTweens = [];
 
                 // reset transforms
                 const cols = gsap.utils.toArray(".full-height-image-column, .moving-image");
-                if (cols.length) gsap.set(cols, { clearProps: "transform" });
+                if (cols.length) gsap.set(cols, {clearProps: "transform"});
             }
 
             function buildDesktopParallax() {
@@ -296,7 +306,7 @@
 
                     const tween = gsap.fromTo(
                         col,
-                        { y: amount / 2 },
+                        {y: amount / 2},
                         {
                             y: -amount / 2,
                             ease: "none",
@@ -331,7 +341,7 @@
                     const dur = 3.6 + (i % 4) * 0.35; // variatie in timing
 
                     // start state
-                    gsap.set(col, { willChange: "transform" });
+                    gsap.set(col, {willChange: "transform"});
 
                     const tw = gsap.to(col, {
                         y: -yAmount,
@@ -353,7 +363,10 @@
                 gsap.registerPlugin(ScrollTrigger);
 
                 if (parallaxMM) {
-                    try { parallaxMM.kill(); } catch (e) {}
+                    try {
+                        parallaxMM.kill();
+                    } catch (e) {
+                    }
                     parallaxMM = null;
                 }
 
@@ -662,11 +675,11 @@
 
             // ✅ Vul deze in
             const DEFAULT_LOGO_URL = logoImg.getAttribute('src'); // pakt huidige logo
-            const STICKY_LOGO_URL  = '/wp-content/themes/Avada-Child/assets/images/logo_fixed.png';
+            const STICKY_LOGO_URL = '/wp-content/themes/Avada-Child/assets/images/logo_fixed.png';
 
             // Bewaar ook srcset/sizes zodat je die kan terugzetten
             const DEFAULT_SRCSET = logoImg.getAttribute('srcset');
-            const DEFAULT_SIZES  = logoImg.getAttribute('sizes');
+            const DEFAULT_SIZES = logoImg.getAttribute('sizes');
 
             let placeholder = null;
             let isFixed = false;
@@ -674,13 +687,13 @@
             // Timeline
             const tl = gsap.timeline({
                 paused: true,
-                defaults: { ease: 'power2.out', duration: 0.25 }
+                defaults: {ease: 'power2.out', duration: 0.25}
             });
 
-            if (fusionHeader) tl.to(fusionHeader, { paddingTop: 8, paddingBottom: 8 }, 0);
-            if (row) tl.to(row, { paddingTop: 0, paddingBottom: 0 }, 0);
-            if (logoImg) tl.to(logoImg, { scale: 0.82, transformOrigin: 'left center' }, 0);
-            if (portal) tl.to(portal, { scale: 0.92, transformOrigin: 'right center' }, 0);
+            if (fusionHeader) tl.to(fusionHeader, {paddingTop: 8, paddingBottom: 8}, 0);
+            if (row) tl.to(row, {paddingTop: 0, paddingBottom: 0}, 0);
+            if (logoImg) tl.to(logoImg, {scale: 0.82, transformOrigin: 'left center'}, 0);
+            if (portal) tl.to(portal, {scale: 0.92, transformOrigin: 'right center'}, 0);
 
             function ensurePlaceholder() {
                 if (placeholder) return;
@@ -724,7 +737,7 @@
                 setDefaultLogo();
 
                 tl.pause(0);
-                gsap.set([fusionHeader, row, logoImg, portal].filter(Boolean), { clearProps: 'transform,padding' });
+                gsap.set([fusionHeader, row, logoImg, portal].filter(Boolean), {clearProps: 'transform,padding'});
             }
 
             function setFixed(state) {
@@ -761,7 +774,7 @@
                 ensurePlaceholder();
                 updatePlaceholderHeight();
                 window.addEventListener('resize', updatePlaceholderHeight);
-                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('scroll', onScroll, {passive: true});
                 onScroll();
             }
 
@@ -883,6 +896,41 @@
                     });
                 }
             });
+        });
+
+        function setServiceImageHeight() {
+
+            $('.fusion-builder-row').each(function () {
+
+                var $row = $(this);
+
+                var $contentColumn = $row.find('.service-content-column').first();
+                var $image = $row.find('.full-height-service-image').first();
+
+                if ($contentColumn.length && $image.length) {
+
+                    var contentHeight = $contentColumn.outerHeight();
+
+                    $image.css({
+                        'height': contentHeight + 'px'
+                    });
+
+                }
+
+            });
+        }
+
+        // Run on load
+        setServiceImageHeight();
+
+        // Run again after images load (belangrijk bij Avada)
+        $(window).on('load', function () {
+            setServiceImageHeight();
+        });
+
+        // Run on resize
+        $(window).on('resize', function () {
+            setServiceImageHeight();
         });
 
 
