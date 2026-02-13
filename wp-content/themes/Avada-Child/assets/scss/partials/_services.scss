@@ -58,6 +58,14 @@
 
       .full-height-service-image {
 
+        @media (max-width: 1024px) {
+          height: 500px !important;
+        }
+
+        @media (max-width: 640px) {
+          height: auto !important;
+        }
+
         .fusion-column-wrapper {
           height: 100%;
 
