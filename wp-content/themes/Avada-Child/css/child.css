@@ -3177,6 +3177,9 @@ body {
     gap: 45px;
   }
 }
+#main .underline {
+  text-decoration: underline !important;
+}
 
 @media (max-width: 640px) {
   #boxed-wrapper .border-top-radius-mobile {
