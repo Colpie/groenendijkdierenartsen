@@ -229,6 +229,18 @@
 
   .image-column {
 
+    @media (max-width: 1024px) {
+      width: 30% !important;
+    }
+
+    @media (max-width: 767px) {
+      width: 50% !important;
+    }
+
+    @media (max-width: 500px) {
+      width: 100% !important;
+    }
+
     .fusion-column-wrapper {
       justify-content: center;
       align-items: center;

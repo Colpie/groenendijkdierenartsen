@@ -3779,6 +3779,21 @@ body {
     left: 0;
   }
 }
+@media (max-width: 1024px) {
+  #boxed-wrapper .image-column {
+    width: 30% !important;
+  }
+}
+@media (max-width: 767px) {
+  #boxed-wrapper .image-column {
+    width: 50% !important;
+  }
+}
+@media (max-width: 500px) {
+  #boxed-wrapper .image-column {
+    width: 100% !important;
+  }
+}
 #boxed-wrapper .image-column .fusion-column-wrapper {
   justify-content: center;
   align-items: center;
