@@ -142,7 +142,6 @@
                         end: "bottom top",
                         scrub: true,
                         invalidateOnRefresh: true,
-                        // markers: true,
                     }
                 });
             });

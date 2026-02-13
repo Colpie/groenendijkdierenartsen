@@ -3776,6 +3776,42 @@ body {
     left: 0;
   }
 }
+#boxed-wrapper .image-column .fusion-column-wrapper {
+  justify-content: center;
+  align-items: center;
+}
+#boxed-wrapper .image-column .fusion-column-wrapper .fusion-image-element {
+  margin-bottom: 20px;
+}
+#boxed-wrapper .image-column .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  object-fit: contain;
+}
+#boxed-wrapper .check-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#boxed-wrapper .check-list ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+#boxed-wrapper .check-list ul li:last-child {
+  padding-bottom: 0;
+}
+#boxed-wrapper .check-list ul li:before {
+  content: "";
+  background: url("/wp-content/themes/Avada-Child/assets/images/icon/incl.png") no-repeat;
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  display: inline-flex;
+}
 
 #boxed-wrapper .custom-footer {
   padding: 100px 15px;
