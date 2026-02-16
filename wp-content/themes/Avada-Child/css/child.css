@@ -4471,7 +4471,7 @@ body {
 }
 @media (max-width: 640px) {
   #boxed-wrapper .ae-popup {
-    top: 200px;
+    top: 150px;
     transform: translateX(calc(100% - 75px));
   }
 }
@@ -4498,6 +4498,11 @@ body {
 #boxed-wrapper .ae-popup .ae-popup-wrap .ae-popup-icon img {
   width: 50px;
   object-fit: contain;
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .ae-popup .ae-popup-wrap .ae-popup-icon img {
+    font-size: 40px !important;
+  }
 }
 #boxed-wrapper .ae-popup .ae-popup-wrap .ae-popup-content strong {
   color: #ffffff !important;

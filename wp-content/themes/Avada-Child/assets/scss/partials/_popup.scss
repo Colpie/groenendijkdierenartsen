@@ -15,7 +15,7 @@
     -webkit-transition: -webkit-transform .3s ease-in-out;
 
     @media (max-width: 640px) {
-      top: 200px;
+      top: 150px;
       transform: translateX(calc(100% - 75px));
     }
 
@@ -43,6 +43,10 @@
         img {
           width: 50px;
           object-fit: contain;
+
+          @media (max-width: 640px) {
+            font-size: 40px !important;
+          }
         }
       }
 
