@@ -4471,8 +4471,8 @@ body {
 }
 @media (max-width: 640px) {
   #boxed-wrapper .ae-popup {
-    top: 150px;
-    transform: translateX(calc(100% - 75px));
+    top: 100px;
+    transform: translateX(calc(100% - 65px));
   }
 }
 #boxed-wrapper .ae-popup.active {
@@ -4501,7 +4501,7 @@ body {
 }
 @media (max-width: 640px) {
   #boxed-wrapper .ae-popup .ae-popup-wrap .ae-popup-icon img {
-    font-size: 40px !important;
+    width: 40px !important;
   }
 }
 #boxed-wrapper .ae-popup .ae-popup-wrap .ae-popup-content strong {

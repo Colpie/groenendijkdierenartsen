@@ -15,8 +15,8 @@
     -webkit-transition: -webkit-transform .3s ease-in-out;
 
     @media (max-width: 640px) {
-      top: 150px;
-      transform: translateX(calc(100% - 75px));
+      top: 100px;
+      transform: translateX(calc(100% - 65px));
     }
 
     &.active {
@@ -45,7 +45,7 @@
           object-fit: contain;
 
           @media (max-width: 640px) {
-            font-size: 40px !important;
+            width: 40px !important;
           }
         }
       }
