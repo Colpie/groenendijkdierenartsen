@@ -102,6 +102,7 @@
         align-items: center;
 
         cursor: pointer;
+        gap: 15px;
 
         .gda-toggle__title,
         .gda-voeding-toggle__title {
@@ -183,8 +184,17 @@
           display: flex;
           padding: 45px 0;
 
+          @media (max-width: 767px) {
+            flex-direction: column;
+          }
+
           .gda-voeding__logo {
             margin-right: 45px;
+
+            @media (max-width: 767px) {
+              margin-right: 0;
+              margin-bottom: 45px;
+            }
 
             img {
               width: 220px;

@@ -4864,6 +4864,7 @@ body {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  gap: 15px;
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__title,
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-voeding-toggle__title,
@@ -5018,11 +5019,28 @@ body {
   display: flex;
   padding: 45px 0;
 }
+@media (max-width: 767px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner {
+    flex-direction: column;
+  }
+}
 #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
 #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
 #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo {
   margin-right: 45px;
+}
+@media (max-width: 767px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo {
+    margin-right: 0;
+    margin-bottom: 45px;
+  }
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img,
 #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img,
