@@ -44,7 +44,7 @@ global $post;
                 <div class="post-content">
                     <?php the_content(); ?>
                     <div class="fusion-row">
-                        <a href="/news" class="fusion-button overview-button">
+                        <a href="/nieuws" class="fusion-button overview-button">
                             <span class="fusion-button-text">
                                 <?php print __('Terug naar overzicht') ?>
                             </span>
