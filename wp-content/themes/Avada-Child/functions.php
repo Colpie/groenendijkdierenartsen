@@ -226,7 +226,7 @@ add_action('login_enqueue_scripts', 'custom_login_page_background');
 function print_all_news_shortcode($atts)
 {
     $atts = shortcode_atts([
-        'posts'   => 8,
+        'posts'   => 4,
         'cat'     => '',   // optioneel: category ID(s) of slug(s)
         'excerpt' => 20,   // aantal woorden
     ], $atts, 'print_all_news');
