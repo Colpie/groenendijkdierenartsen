@@ -119,7 +119,10 @@
 
       .fusion-column-wrapper {
         padding: 0 !important;
-        align-items: flex-start;
+
+        @media (min-width: 641px) {
+          align-items: flex-start;
+        }
 
         .fusion-image-element {
           margin-top: -15px;

@@ -3719,7 +3719,11 @@ body {
 }
 #boxed-wrapper .info-column.no-padding-info-column .fusion-column-wrapper {
   padding: 0 !important;
-  align-items: flex-start;
+}
+@media (min-width: 641px) {
+  #boxed-wrapper .info-column.no-padding-info-column .fusion-column-wrapper {
+    align-items: flex-start;
+  }
 }
 #boxed-wrapper .info-column.no-padding-info-column .fusion-column-wrapper .fusion-image-element {
   margin-top: -15px;
