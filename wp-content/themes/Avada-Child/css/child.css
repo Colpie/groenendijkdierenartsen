@@ -2707,6 +2707,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #boxed-wrapper .dark-contact-form .contact-form .form-row .wpcf7-form-control::placeholder {
   color: #ffffff !important;
 }
+#boxed-wrapper .dark-contact-form .contact-form .form-row .wpcf7-form-control.wpcf7-submit {
+  background: #AFC130 !important;
+}
 
 .grecaptcha-badge {
   visibility: hidden;
@@ -2899,6 +2902,15 @@ body {
 #boxed-wrapper .wpcf7-submit .button-icon img {
   width: 20px;
   object-fit: contain;
+}
+#boxed-wrapper .wpcf7-submit.green-button {
+  background: #AFC130 !important;
+}
+#boxed-wrapper .wpcf7-submit.green-button:before, #boxed-wrapper .wpcf7-submit.green-button:after {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+#boxed-wrapper .wpcf7-submit.green-button:hover .button-icon {
+  background-color: #AFC130;
 }
 #boxed-wrapper i {
   font-family: "Font Awesome 5 Pro" !important;

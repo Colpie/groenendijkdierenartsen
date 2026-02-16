@@ -260,6 +260,10 @@
           &::placeholder {
             color: $white !important;
           }
+
+          &.wpcf7-submit {
+            background: $accent-color !important;
+          }
         }
       }
     }

@@ -265,6 +265,22 @@ body {
         object-fit: contain;
       }
     }
+
+    &.green-button {
+      background: $accent-color !important;
+
+      &:before,
+      &:after {
+        background-color: rgba($white, .15);
+      }
+
+      &:hover {
+
+        .button-icon {
+          background-color: $accent-color;
+        }
+      }
+    }
   }
 
   // Fontawesome
