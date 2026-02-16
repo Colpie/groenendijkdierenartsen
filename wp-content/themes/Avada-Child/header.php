@@ -60,6 +60,11 @@ $wrapper_class .= ( is_page_template( 'blank.php' ) ) ? ' wrapper_blank' : '';
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'Avada' ); ?></a>
 
 	<div id="boxed-wrapper">
+        <div class="progress-wrap hover-target">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+            </svg>
+        </div>
         <?php echo do_shortcode('[ae_popup]'); ?>
         <div class="fusion-sides-frame"></div>
 		<div id="wrapper" class="<?php echo esc_attr( $wrapper_class ); ?>">

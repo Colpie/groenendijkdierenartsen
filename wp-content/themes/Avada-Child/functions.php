@@ -29,6 +29,7 @@ function theme_enqueue_styles()
     // Scripts met auto-version
     foreach ([
                  'child-script' => '/assets/js/child.js',
+                 'plugins-script' => '/assets/js/plugins.js',
                  'scrollspy' => '/assets/js/scrollspy.js',
                  'splitting-script' => '/assets/js/splitting.js',
                  'wow' => '/assets/js/wow.min.js',
