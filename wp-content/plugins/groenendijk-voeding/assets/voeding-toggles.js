@@ -2,7 +2,6 @@ jQuery(function ($) {
 
     var headerSel = ".gda-voeding-toggle__header";
 
-    // voorkomen van dubbele binding
     $(document).off("click.gdaVoedingIso", headerSel);
 
     $(document).on("click.gdaVoedingIso", headerSel, function (e) {
@@ -14,6 +13,11 @@ jQuery(function ($) {
 
         var isOpen = $header.attr("aria-expanded") === "true";
 
+        // ✅ SLUIT ALLES ANDERS (accordion)
+        $(".gda-voeding-toggle__header").not($header).attr("aria-expanded", "false");
+        $(".gda-voeding-toggle__panel").not($panel).stop(true, true).slideUp(200);
+
+        // ✅ TOGGLE HUIDIGE
         if (isOpen) {
             $header.attr("aria-expanded", "false");
             $panel.stop(true, true).slideUp(200);
