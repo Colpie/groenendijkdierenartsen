@@ -247,4 +247,21 @@
       }
     }
   }
+
+  .dark-contact-form {
+
+    .contact-form {
+
+      .form-row {
+
+        .wpcf7-form-control {
+          background: transparent !important;
+
+          &::placeholder {
+            color: $white !important;
+          }
+        }
+      }
+    }
+  }
 }
