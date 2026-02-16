@@ -86,26 +86,31 @@
     }
   }
 
-  .gda-toggles {
+  .gda-toggles,
+  .gda-voeding-toggles {
 
-    .gda-toggle {
+    .gda-toggle,
+    .gda-voeding-toggle {
       padding: 30px 0;
       margin-bottom: 15px;
       border-bottom: 1px solid rgba($white, 1);
 
-      .gda-toggle__header {
+      .gda-toggle__header,
+      .gda-voeding-toggle__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         cursor: pointer;
 
-        .gda-toggle__title {
+        .gda-toggle__title,
+        .gda-voeding-toggle__title {
           font-family: $font-bold !important;
           color: $accent-color !important;
         }
 
-        .gda-toggle__chev {
+        .gda-toggle__chev,
+        .gda-voeding-toggle__chev {
 
           img {
             width: 30px;
@@ -114,7 +119,8 @@
         }
       }
 
-      .gda-toggle__panel {
+      .gda-toggle__panel,
+      .gda-voeding-toggle__panel {
 
         .gda-toggle__inner {
           display: flex;
@@ -165,6 +171,34 @@
                 @media (max-width: 767px) {
                   height: 250px;
                 }
+              }
+            }
+          }
+        }
+      }
+
+      .gda-voeding-toggle__panel {
+
+        .gda-voeding-toggle__inner {
+          display: flex;
+          padding: 45px 0;
+
+          .gda-voeding__logo {
+            margin-right: 45px;
+
+            img {
+              width: 220px;
+              min-width: 220px;
+              object-fit: contain;
+            }
+          }
+
+          .gda-voeding__body {
+
+            p {
+
+              &:last-child {
+                margin-bottom: 0;
               }
             }
           }

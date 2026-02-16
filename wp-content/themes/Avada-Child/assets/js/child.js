@@ -109,7 +109,9 @@
             }
 
             window.addEventListener('load', function () {
-                initFullWidthSwiperScrollParallax();
+                if (typeof window.initFullWidthSwiperScrollParallax === 'function') {
+                    window.initFullWidthSwiperScrollParallax();
+                }
             });
 
             window.addEventListener('load', function () {

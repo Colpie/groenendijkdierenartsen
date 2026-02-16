@@ -4844,69 +4844,199 @@ body {
 #boxed-wrapper .fusion-accordian .panel-group .fusion-panel .panel-body p:last-child {
   margin-bottom: 0;
 }
-#boxed-wrapper .gda-toggles .gda-toggle {
+#boxed-wrapper .gda-toggles .gda-toggle,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle {
   padding: 30px 0;
   margin-bottom: 15px;
   border-bottom: 1px solid white;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__header,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__header,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__header,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__header,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__header,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__header,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__title {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__header .gda-voeding-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-toggle__title,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-voeding-toggle__title {
   font-family: font-bold !important;
   color: #AFC130 !important;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__chev img {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__header .gda-voeding-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-toggle__chev img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__header .gda-voeding-toggle__chev img {
   width: 30px;
   object-fit: contain;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner {
   display: flex;
   justify-content: space-between;
   padding: 45px 0;
   flex-direction: column;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child {
   margin-bottom: 0;
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images {
   display: flex;
   justify-content: space-between;
   margin-top: 45px;
 }
 @media (max-width: 767px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images {
     flex-direction: column;
     gap: 15px;
   }
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div {
   display: flex;
   flex: 0 0 calc(50% - 15px);
 }
 @media (max-width: 767px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div {
     flex: none;
   }
 }
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
   height: 380px;
   width: 100%;
   object-fit: cover;
   border-radius: 50px;
 }
 @media (max-width: 1024px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
     height: 250px;
   }
 }
 @media (max-width: 767px) {
-  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images div img,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images div img {
     height: 250px;
   }
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner {
+  display: flex;
+  padding: 45px 0;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo {
+  margin-right: 45px;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__logo img {
+  width: 220px;
+  min-width: 220px;
+  object-fit: contain;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child {
+  margin-bottom: 0;
 }
 
 .single #boxed-wrapper #main {
