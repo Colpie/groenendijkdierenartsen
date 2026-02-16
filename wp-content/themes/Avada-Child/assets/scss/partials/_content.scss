@@ -115,6 +115,18 @@
 
   .info-column {
 
+    &.no-padding-info-column {
+
+      .fusion-column-wrapper {
+        padding: 0 !important;
+        align-items: flex-start;
+
+        .fusion-image-element {
+          margin-top: -15px;
+        }
+      }
+    }
+
     .fusion-column-wrapper {
       padding: 15px 45px;
       border-radius: 50px;

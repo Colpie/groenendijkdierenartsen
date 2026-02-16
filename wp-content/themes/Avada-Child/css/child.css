@@ -3705,6 +3705,13 @@ body {
 #boxed-wrapper .contact-column .fusion-column-wrapper .bigger-text p {
   color: #ffffff !important;
 }
+#boxed-wrapper .info-column.no-padding-info-column .fusion-column-wrapper {
+  padding: 0 !important;
+  align-items: flex-start;
+}
+#boxed-wrapper .info-column.no-padding-info-column .fusion-column-wrapper .fusion-image-element {
+  margin-top: -15px;
+}
 #boxed-wrapper .info-column .fusion-column-wrapper {
   padding: 15px 45px;
   border-radius: 50px;
