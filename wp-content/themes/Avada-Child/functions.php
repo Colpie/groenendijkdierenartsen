@@ -41,6 +41,10 @@ function theme_enqueue_styles()
         $deps = ($handle === 'wow') ? ['jquery'] : [];
         wp_enqueue_script($handle, $uri, $deps, $version, true);
     }
+
+    wp_localize_script('child-script', 'gdaNews', [
+        'ajaxurl' => admin_url('admin-ajax.php'),
+    ]);
 }
 
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles', 99);
@@ -208,3 +212,190 @@ function print_latest_news_shortcode($atts)
 }
 
 add_shortcode('print_latest_news', 'print_latest_news_shortcode');
+
+add_action('login_enqueue_scripts', 'custom_login_page_background');
+
+/**
+ * Shortcode: [print_latest_news]
+ * Toont de 9 nieuwste WP posts.
+ */
+/**
+ * Shortcode: [print_all_news]
+ * Toont de 9 nieuwste WP posts + Load more via AJAX.
+ */
+function print_all_news_shortcode($atts)
+{
+    $atts = shortcode_atts([
+        'posts'   => 8,
+        'cat'     => '',   // optioneel: category ID(s) of slug(s)
+        'excerpt' => 20,   // aantal woorden
+    ], $atts, 'print_all_news');
+
+    $per_page = intval($atts['posts']);
+    $cat_raw  = (string) $atts['cat'];
+
+    $args = [
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $per_page,
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => false, // important: we need max_num_pages
+        'paged'               => 1,
+    ];
+
+    // Optioneel filter op categorie (ID(s) of slug(s))
+    if (!empty($cat_raw)) {
+        if (is_numeric(str_replace(',', '', $cat_raw))) {
+            $args['cat'] = $cat_raw; // bv "3" of "3,8"
+        } else {
+            $args['category_name'] = $cat_raw; // bv "news" of "news,updates"
+        }
+    }
+
+    $q = new WP_Query($args);
+
+    if (!$q->have_posts()) {
+        return '<div class="latest-news latest-news--empty">Geen nieuws gevonden.</div>';
+    }
+
+    $nonce = wp_create_nonce('gda_load_more_news');
+
+    ob_start();
+    ?>
+    <div
+            class="latest-news-wrapper"
+            data-per-page="<?php echo esc_attr($per_page); ?>"
+            data-excerpt="<?php echo esc_attr(intval($atts['excerpt'])); ?>"
+            data-cat="<?php echo esc_attr($cat_raw); ?>"
+            data-nonce="<?php echo esc_attr($nonce); ?>"
+            data-page="1"
+            data-max-pages="<?php echo esc_attr((int) $q->max_num_pages); ?>"
+    >
+        <div class="latest-news fusion-row">
+            <?php while ($q->have_posts()) : $q->the_post(); ?>
+                <article class="latest-news__item">
+                    <div class="latest-news__item-inner">
+                        <div class="latest-news__item-thumb">
+                            <?php the_post_thumbnail('large', ['class' => 'img-fluid']); ?>
+                        </div>
+                        <div class="latest-news__item-content">
+                            <h3 class="latest-news__title">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h3>
+
+                            <div class="latest-news__excerpt">
+                                <?php
+                                $excerpt = wp_trim_words(get_the_excerpt(), intval($atts['excerpt']), '…');
+                                echo esc_html($excerpt);
+                                ?>
+                            </div>
+
+                            <a class="latest-news__readmore fusion-button green-button" href="<?php the_permalink(); ?>">
+                                <span class="fusion-button-text">Lees meer</span>
+                                <span class="button-icon">
+                                    <img src="/wp-content/themes/Avada-Child/assets/images/icon/pijltje_wit.gif">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            <?php endwhile; ?>
+        </div>
+
+        <?php if ((int) $q->max_num_pages > 1) : ?>
+            <div class="latest-news__actions" style="width:100%; text-align:center; margin-top:20px;">
+                <a class="latest-news__loadmore fusion-button green-button">
+                    <span class="fusion-button-text">Laad meer</span>
+                    <span class="button-icon">
+                            <img src="/wp-content/themes/Avada-Child/assets/images/icon/pijltje_wit.gif">
+                        </span>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php
+
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('print_all_news', 'print_all_news_shortcode');
+
+add_action('wp_ajax_gda_load_more_news', 'gda_load_more_news');
+add_action('wp_ajax_nopriv_gda_load_more_news', 'gda_load_more_news');
+
+function gda_load_more_news()
+{
+    check_ajax_referer('gda_load_more_news', 'nonce');
+
+    $page     = isset($_POST['page']) ? max(1, intval($_POST['page'])) : 1;
+    $per_page = isset($_POST['per_page']) ? max(1, intval($_POST['per_page'])) : 9;
+    $excerpt  = isset($_POST['excerpt']) ? max(0, intval($_POST['excerpt'])) : 20;
+    $cat_raw  = isset($_POST['cat']) ? sanitize_text_field(wp_unslash($_POST['cat'])) : '';
+
+    $args = [
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => $per_page,
+        'ignore_sticky_posts' => true,
+        'paged'               => $page,
+        'no_found_rows'       => true,
+    ];
+
+    if (!empty($cat_raw)) {
+        if (is_numeric(str_replace(',', '', $cat_raw))) {
+            $args['cat'] = $cat_raw;
+        } else {
+            $args['category_name'] = $cat_raw;
+        }
+    }
+
+    $q = new WP_Query($args);
+
+    if (!$q->have_posts()) {
+        wp_send_json_success([
+            'html' => '',
+            'has_more' => false,
+        ]);
+    }
+
+    ob_start();
+    while ($q->have_posts()) : $q->the_post(); ?>
+        <article class="latest-news__item">
+            <div class="latest-news__item-inner">
+                <div class="latest-news__item-thumb">
+                    <?php the_post_thumbnail('large', ['class' => 'img-fluid']); ?>
+                </div>
+                <div class="latest-news__item-content">
+                    <h3 class="latest-news__title">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h3>
+
+                    <div class="latest-news__excerpt">
+                        <?php
+                        $ex = wp_trim_words(get_the_excerpt(), $excerpt, '…');
+                        echo esc_html($ex);
+                        ?>
+                    </div>
+
+                    <a class="latest-news__readmore fusion-button green-button" href="<?php the_permalink(); ?>">
+                        <span class="fusion-button-text">Lees meer</span>
+                        <span class="button-icon">
+                            <img src="/wp-content/themes/Avada-Child/assets/images/icon/pijltje_wit.gif">
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </article>
+    <?php endwhile;
+    wp_reset_postdata();
+
+    $html = ob_get_clean();
+
+    // We weten "has_more" niet exact zonder found_rows; simpel: als we minder dan per_page terugkrijgen -> geen meer
+    $has_more = ($q->post_count === $per_page);
+
+    wp_send_json_success([
+        'html' => $html,
+        'has_more' => $has_more,
+    ]);
+}

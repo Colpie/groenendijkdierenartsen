@@ -935,6 +935,70 @@
             setServiceImageHeight();
         });
 
+        $(document).on('click', '.latest-news-wrapper .latest-news__loadmore', function (e) {
+            e.preventDefault();
+
+            const $btn = $(this);
+            const $wrap = $btn.closest('.latest-news-wrapper');
+            const $list = $wrap.find('.latest-news');
+
+            if ($btn.data('loading')) return;
+
+            let page = parseInt($wrap.attr('data-page'), 10) || 1;
+            const maxPages = parseInt($wrap.attr('data-max-pages'), 10) || 1;
+
+            // volgende pagina
+            page++;
+
+            if (page > maxPages) {
+                $btn.closest('.latest-news__actions').remove();
+                return;
+            }
+
+            $btn.data('loading', true);
+            $btn.addClass('is-loading');
+
+            const originalText = $btn.find('.fusion-button-text').text();
+            $btn.find('.fusion-button-text').text('Laden…');
+
+            $.ajax({
+                url: gdaNews.ajaxurl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'gda_load_more_news',
+                    nonce: $wrap.attr('data-nonce'),
+                    page: page,
+                    per_page: $wrap.attr('data-per-page'),
+                    excerpt: $wrap.attr('data-excerpt'),
+                    cat: $wrap.attr('data-cat')
+                }
+            }).done(function (res) {
+
+                if (res && res.success && res.data && res.data.html) {
+                    $list.append(res.data.html);
+                    $wrap.attr('data-page', page);
+                }
+
+                // Hide button if no more
+                if (!res || !res.success || !res.data || res.data.has_more === false || page >= maxPages) {
+                    $btn.closest('.latest-news__actions').remove();
+                }
+
+            }).fail(function () {
+                // fallback tekst terug
+                $btn.find('.fusion-button-text').text('Probeer opnieuw');
+            }).always(function () {
+                $btn.data('loading', false);
+                $btn.removeClass('is-loading');
+
+                if ($btn.closest('body').length) {
+                    // zet terug als hij nog bestaat
+                    $btn.find('.fusion-button-text').text(originalText);
+                }
+            });
+        });
+
 
         // Form submit
         $('.wpcf7-submit').on('click', function () {
