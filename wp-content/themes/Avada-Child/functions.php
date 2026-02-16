@@ -304,7 +304,7 @@ function print_all_news_shortcode($atts)
 
         <?php if ((int) $q->max_num_pages > 1) : ?>
             <div class="latest-news__actions" style="width:100%; text-align:center; margin-top:20px;">
-                <a class="latest-news__loadmore fusion-button green-button">
+                <a class="latest-news__loadmore fusion-button">
                     <span class="fusion-button-text">Laad meer</span>
                     <span class="button-icon">
                             <img src="/wp-content/themes/Avada-Child/assets/images/icon/pijltje_wit.gif">
