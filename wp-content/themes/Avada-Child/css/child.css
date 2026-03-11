@@ -2952,7 +2952,7 @@ body {
 #boxed-wrapper h2 {
   font-family: font-medium !important;
   line-height: 1.2 !important;
-  font-size: 28px !important;
+  font-size: 36px !important;
   color: #215074 !important;
   text-transform: uppercase;
 }
@@ -2964,7 +2964,7 @@ body {
 #boxed-wrapper h2 p {
   font-family: font-medium !important;
   line-height: 1.2 !important;
-  font-size: 28px !important;
+  font-size: 36px !important;
   color: #215074 !important;
   text-transform: uppercase;
 }
