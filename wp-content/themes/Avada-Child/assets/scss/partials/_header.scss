@@ -30,9 +30,10 @@
       .fusion-header {
 
         .logo-column {
+          padding: 0 !important;
 
           .fusion-logo {
-            width: 350px !important;
+            width: 400px !important;
 
             @media (max-width: 1230px) {
               width: 150px !important;

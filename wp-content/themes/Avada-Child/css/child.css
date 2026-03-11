@@ -4053,8 +4053,11 @@ body {
     max-width: 200px;
   }
 }
+.home #boxed-wrapper header .fusion-header .logo-column {
+  padding: 0 !important;
+}
 .home #boxed-wrapper header .fusion-header .logo-column .fusion-logo {
-  width: 350px !important;
+  width: 400px !important;
 }
 @media (max-width: 1230px) {
   .home #boxed-wrapper header .fusion-header .logo-column .fusion-logo {
