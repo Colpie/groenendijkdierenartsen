@@ -5197,6 +5197,13 @@ body {
   min-width: 220px;
   object-fit: contain;
 }
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body .fusion-fullwidth,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body .fusion-fullwidth,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body .fusion-fullwidth,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body .fusion-fullwidth {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,
 #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,
 #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child,

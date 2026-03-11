@@ -247,6 +247,11 @@
 
           .gda-voeding__body {
 
+            .fusion-fullwidth {
+              padding-left: 0 !important;
+              padding-right: 0 !important;
+            }
+
             p {
 
               &:last-child {
