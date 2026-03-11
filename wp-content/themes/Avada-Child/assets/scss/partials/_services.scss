@@ -49,6 +49,11 @@
 
         h4 {
           font-size: 26px !important;
+
+          strong {
+            font-family: $font-medium !important;
+            color: $accent-color !important;
+          }
         }
       }
 

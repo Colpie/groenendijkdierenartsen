@@ -4571,6 +4571,10 @@ body {
 #boxed-wrapper .service-row .fusion-column-wrapper .fusion-title h4 {
   font-size: 26px !important;
 }
+#boxed-wrapper .service-row .fusion-column-wrapper .fusion-title h4 strong {
+  font-family: font-medium !important;
+  color: #AFC130 !important;
+}
 @media (max-width: 1024px) {
   #boxed-wrapper .service-row .fusion-column-wrapper .full-height-service-image {
     height: 500px !important;
