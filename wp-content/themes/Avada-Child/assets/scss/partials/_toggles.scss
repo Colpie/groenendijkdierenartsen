@@ -3,7 +3,33 @@
 
 #boxed-wrapper {
 
+  .custom-image-height {
+    height: 350px;
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .fusion-accordian {
+
+    &.white-toggles {
+
+      .panel-group {
+
+        .fusion-panel {
+          padding-left:0 ;
+          padding-right:0 ;
+          border-bottom: 2px solid $white;
+
+          border-radius: 0 !important;
+          background: transparent !important;
+        }
+      }
+    }
 
     &.no-toggle {
       pointer-events: none !important;
@@ -74,7 +100,7 @@
           padding: 30px 0 0;
           font-size: 16px !important;
 
-          p {
+          p, li {
             font-size: 16px !important;
 
             &:last-child {
