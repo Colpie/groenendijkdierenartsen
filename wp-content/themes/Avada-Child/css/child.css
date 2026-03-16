@@ -5224,6 +5224,36 @@ body {
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-voeding-toggle__inner .gda-voeding__body p:last-child {
   margin-bottom: 0;
 }
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner {
+    flex-direction: row !important;
+  }
+}
+#boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__body {
+  flex: 0 0 calc(50% - 15px);
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__body {
+    flex: none !important;
+  }
+}
+#boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__images {
+  flex: 0 0 calc(50% - 15px);
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__images {
+    flex: none !important;
+  }
+}
+#boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__images .gda-toggle__image {
+  width: 100%;
+  flex: none !important;
+}
+#boxed-wrapper .gda-toggles .gda-toggle__panel .gda-toggle__inner .gda-toggle__images .gda-toggle__image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
 
 .single #boxed-wrapper #main {
   background: #AFC130;
