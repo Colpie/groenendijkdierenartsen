@@ -146,9 +146,36 @@
       height: 100%;
     }
 
-    &.full-height-absolute {
-      //position: absolute;
-      //right: 0;
+    .fusion-column-wrapper {
+
+      @media (min-width: 1360px) {
+        height: 100%;
+      }
+
+      .fusion-image-element {
+
+        @media (min-width: 1360px) {
+          height: 100%;
+        }
+
+        .fusion-imageframe {
+          height: 100%;
+          width: 100%;
+
+          img {
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .full-height-image-column-non-moving {
+    position: relative;
+
+    @media (min-width: 1360px) {
+      height: 100%;
     }
 
     .fusion-column-wrapper {
