@@ -3343,6 +3343,8 @@ body {
 #boxed-wrapper .full-height-image-column-non-moving .fusion-column-wrapper .fusion-image-element .fusion-imageframe img {
   height: 100%;
   width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 #boxed-wrapper .fusion-image-carousel {
   margin-bottom: 0 !important;
