@@ -21,6 +21,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 // phpcs:disable -- third party credit code.
 
 /**
@@ -30,6 +35,7 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
 
     /**
      * Public static variable to hold the single instance of MainWP_Child_IThemes_Security.
+     *
      * @var null
      */
     public static $instance = null;
@@ -96,53 +102,50 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
                         'order'   => 'DESC',
                         'orderby' => 'lockout_start',
                     );
-                    $lockouts = $itsec_lockout->get_lockouts( 'all', $lockout_query );
+                    $lockouts      = $itsec_lockout->get_lockouts( 'all', $lockout_query );
                     if ( $lockouts ) {
                         $information['syncIThemeData']['lockout_count'] = count( $lockouts );
                     }
                 }
-
 
                 $request = new \WP_REST_Request( 'GET', '/ithemes-security/v1/site-scanner/scans' );
 
                 $range1 = \ITSEC_Core::get_current_time_gmt();
                 $range0 = strtotime( '-30 days', $range1 );
 
-
-                $request->set_query_params( [
-                    'after'  => \ITSEC_Lib::to_rest_date( $range0 ),
-                    'before' => \ITSEC_Lib::to_rest_date( $range1 ),
-                ] );
+                $request->set_query_params(
+                    array(
+                        'after'  => \ITSEC_Lib::to_rest_date( $range0 ),
+                        'before' => \ITSEC_Lib::to_rest_date( $range1 ),
+                    )
+                );
 
                 $response = rest_do_request( $request );
-                $scans = rest_get_server()->response_to_data( $response, true );
-
+                $scans    = rest_get_server()->response_to_data( $response, true );
 
                 if ( is_array( $scans ) && count( $scans ) > 0 ) {
                     $scan = current( $scans );
-                    if( is_array($scan ) && isset( $scan['time'] ) ){ // to fix error: "you cannot view site scans".
+                    if ( is_array( $scan ) && isset( $scan['time'] ) ) { // to fix error: "you cannot view site scans".
                         $information['syncIThemeData']['scan_info'] = array(
-                            'time' => $scan['time'],
+                            'time'        => $scan['time'],
                             'description' => $scan['description'],
-                            'status' => $scan['status'],
+                            'status'      => $scan['status'],
                         );
                     }
                 }
 
-
                 if ( class_exists( '\iThemesSecurity\Ban_Users\Database_Repository' ) ) {
-                    try{
-                        $repository = \ITSEC_Modules::get_container()->get( \iThemesSecurity\Ban_Users\Database_Repository::class );
+                    try {
+                        $repository                                  = \ITSEC_Modules::get_container()->get( \iThemesSecurity\Ban_Users\Database_Repository::class );
                         $information['syncIThemeData']['count_bans'] = $repository->count_bans( new \iThemesSecurity\Ban_Hosts\Filters() );
-                    } catch(\Exception $ex){ // NOSONAR - to catch 3r Exception.
+                    } catch ( \Exception $ex ) { // NOSONAR - to catch 3r Exception.
                         $information['syncIThemeData']['count_bans'] = 0;
                     }
                 }
 
-                $information['syncIThemeData']['lockouts_host'] = $this->get_lockouts( 'host', true );
-                $information['syncIThemeData']['lockouts_user'] = $this->get_lockouts( 'user', true );
+                $information['syncIThemeData']['lockouts_host']     = $this->get_lockouts( 'host', true );
+                $information['syncIThemeData']['lockouts_user']     = $this->get_lockouts( 'user', true );
                 $information['syncIThemeData']['lockouts_username'] = $this->get_lockouts( 'username', true );
-
 
             } catch ( MainWP_Exception $e ) {
                 error_log( $e->getMessage() ); // phpcs:ignore -- debug mode only.
@@ -182,8 +185,8 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
 
         /**
          * Itsec modules path.
-         * @global string $mainwp_itsec_modules_path MainWP itsec modules path.
          *
+         * @global string $mainwp_itsec_modules_path MainWP itsec modules path.
          */
         global $mainwp_itsec_modules_path;
 
@@ -281,17 +284,20 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
             add_action( 'admin_menu', array( $this, 'remove_menu' ) );
             add_action( 'admin_init', array( $this, 'admin_init' ) );
             add_action( 'admin_head', array( &$this, 'custom_admin_css' ) );
-            if ( isset( $_GET['page'] ) && ( in_array( $_GET['page'], array(
-                'itsec',
-                'itsec-dashboard',
-                'itsec-site-scan',
-                'itsec-firewall',
-                'itsec-vulnerabilities',
-                'itsec-user-security',
-                'itsec-tools',
-                'itsec-logs',
-                'itsec-go-pro',
-            )) || 'itsec-security-check' === $_GET['page'] ) ) {
+            if ( isset( $_GET['page'] ) && ( in_array(
+                $_GET['page'],
+                array(
+                    'itsec',
+                    'itsec-dashboard',
+                    'itsec-site-scan',
+                    'itsec-firewall',
+                    'itsec-vulnerabilities',
+                    'itsec-user-security',
+                    'itsec-tools',
+                    'itsec-logs',
+                    'itsec-go-pro',
+                )
+            ) || 'itsec-security-check' === $_GET['page'] ) ) {
                 wp_safe_redirect( get_option( 'siteurl' ) . '/wp-admin/index.php' );
                 exit();
             }
@@ -342,11 +348,11 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
             'itsec-go-pro',
             'itsec', // compatible.
         );
-        foreach( $remove_pages as $slug ){
+        foreach ( $remove_pages as $slug ) {
             remove_menu_page( $slug );
         }
-        foreach( $remove_subpages as $slug ){
-            remove_submenu_page('itsec-dashboard',$slug);
+        foreach ( $remove_subpages as $slug ) {
+            remove_submenu_page( 'itsec-dashboard', $slug );
         }
     }
 
@@ -404,6 +410,7 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
             'multisite-tweaks',
             'notification-center',
             'two-factor',
+            'firewall',
         );
 
         $require_permalinks = false;
@@ -414,8 +421,21 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
         // phpcs:disable WordPress.Security.NonceVerification
         $update_settings = isset( $_POST['settings'] ) ? json_decode( base64_decode( wp_unslash( $_POST['settings'] ) ), true ) : ''; // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions  -- base64_encode function is used for http encode compatible..
 
+        $exclude = array(
+            'use_individual_location',
+            'use_individual_exclude',
+        );
+
+        if ( ! is_array( $update_settings ) ) {
+            $update_settings = array();
+        }
+
+        if ( $this->apply_default_solid_security_configuration( $_itsec_modules ) ) {
+            $updated = true;
+        }
+
         foreach ( $update_settings as $module => $settings ) {
-            $do_not_save = false;
+            $do_not_save      = false;
             $current_settings = \ITSEC_Modules::get_settings( $module );
             if ( in_array( $module, $_itsec_modules ) ) {
                 if ( 'wordpress-salts' === $module ) {
@@ -447,7 +467,6 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
                     }
                     if ( ! isset( $settings['exclude'] ) ) {
                         $settings['exclude'] = \ITSEC_Modules::get_setting( $module, 'exclude' );
-
                     }
                 } elseif ( 'hide-backend' === $module ) {
                     if ( isset( $settings['enabled'] ) && ! empty( $settings['enabled'] ) ) {
@@ -480,9 +499,8 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
                     }
                     $settings = $nbf_settings;
                 } elseif ( 'notification-center' === $module ) {
-                    $current_settings = \ITSEC_Modules::get_settings( $module );
                     if ( isset( $settings['notifications'] ) ) {
-                        $update_fields = array( 'schedule', 'enabled', 'subject' );
+                        $update_fields = array( 'schedule', 'enabled', 'subject', 'message' );
                         if ( isset( $_POST['is_individual'] ) && $_POST['is_individual'] ) {
                             $update_fields = array_merge( $update_fields, array( 'user_list', 'email_list' ) );
                         }
@@ -497,15 +515,24 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
                         \ITSEC_Modules::set_settings( $module, $current_settings );
                     }
                     continue;
+                } elseif ( 'file-change' === $module && isset( $settings['show_warning'] ) ) {
+                    unset( $settings['show_warning'] );
+                }
+
+                // Unset use_individual_location.
+                foreach ( $exclude as $key ) {
+                    if ( isset( $settings[ $key ] ) ) {
+                        unset( $settings[ $key ] );
+                    }
                 }
 
                 if ( ! $do_not_save ) {
                     foreach ( $settings as $key => $val ) {
-                        $current_settings[$key] = $val;
+                        $current_settings[ $key ] = $val;
                     }
-                    if('two-factor' === $module ){
+                    if ( 'two-factor' === $module ) {
                         $active = \ITSEC_Modules::is_active( 'two-factor' );
-                        if(!$active){
+                        if ( ! $active ) {
                             \ITSEC_Modules::activate( 'two-factor' );
                         }
                     }
@@ -561,7 +588,75 @@ class MainWP_Child_IThemes_Security { //phpcs:ignore -- NOSONAR - multi methods.
             $return['error'] = esc_html__( 'Not Updated', 'mainwp-child' );
         }
 
+        if ( class_exists( '\ITSEC_Modules' ) && ! \ITSEC_Modules::get_setting( 'global', 'onboard_complete' ) ) {
+            \ITSEC_Modules::set_setting( 'global', 'onboard_complete', true );
+            $return['result'] = 'success';
+            unset( $return['error'] );
+        }
+
         return $return;
+    }
+
+    /**
+     * Seed Solid Security defaults and mark onboarding as complete.
+     *
+     * @param string[] $modules Modules to initialize.
+     *
+     * @return bool True when changes were applied.
+     */
+    private function apply_default_solid_security_configuration( $modules ) {  // phpcs:ignore -- NOSONAR
+        if ( ! class_exists( '\ITSEC_Modules' ) ) {
+            return false;
+        }
+
+        $did_update       = false;
+        $defaults_applied = (bool) get_site_option( 'mainwp_child_itsec_defaults_applied', false );
+
+        if ( ! $defaults_applied ) {
+            foreach ( (array) $modules as $module ) {
+                $defaults = \ITSEC_Modules::get_defaults( $module );
+                if ( empty( $defaults ) ) {
+                    continue;
+                }
+
+                $result = \ITSEC_Modules::set_settings( $module, $defaults );
+                if ( is_wp_error( $result ) ) {
+                    continue;
+                }
+
+                $did_update = true;
+            }
+
+            $active_modules = \ITSEC_Modules::get_active_modules();
+            if ( ! empty( $active_modules ) ) {
+                $stored_active = get_site_option( 'itsec_active_modules', array() );
+                if ( ! is_array( $stored_active ) ) {
+                    $stored_active = array();
+                }
+
+                $changed = false;
+                foreach ( $active_modules as $module ) {
+                    if ( empty( $stored_active[ $module ] ) ) {
+                        $stored_active[ $module ] = true;
+                        $changed                  = true;
+                    }
+                }
+
+                if ( $changed ) {
+                    update_site_option( 'itsec_active_modules', $stored_active );
+                    $did_update = true;
+                }
+            }
+
+            update_site_option( 'mainwp_child_itsec_defaults_applied', time() );
+        }
+
+        if ( ! \ITSEC_Modules::get_setting( 'global', 'onboard_complete' ) ) {
+            \ITSEC_Modules::set_setting( 'global', 'onboard_complete', true );
+            $did_update = true;
+        }
+
+        return $did_update;
     }
 
     /**

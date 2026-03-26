@@ -9,6 +9,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Class MainWP_Connect
  *
@@ -86,7 +91,8 @@ class MainWP_Connect { //phpcs:ignore -- NOSONAR - multi methods.
         // phpcs:disable WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         // Check if the user is valid & login.
         if ( ! isset( $_POST['user'] ) || ! isset( $_POST['pubkey'] ) ) {
-            MainWP_Helper::instance()->error( sprintf( esc_html__( 'Public key could not be set. Please make sure that the OpenSSL library has been configured correctly on your MainWP Dashboard. For additional help, please check this %1$shelp document%2$s.', 'mainwp-child' ), '<strong><a href="https://kb.mainwp.com/docs/cant-connect-website-getting-the-invalid-request-error-message/" target="_blank">', '</a></strong>' ), 'REG_ERROR1' );
+            // translators: 1: Opening link tag, 2: Closing link tag.
+            MainWP_Helper::instance()->error( sprintf( esc_html__( 'Public key could not be set. Please make sure that the OpenSSL library has been configured correctly on your MainWP Dashboard. For additional help, please check this %1$shelp document%2$s.', 'mainwp-child' ), '<strong><a href="https://docs.mainwp.com/troubleshooting/potential-issues" target="_blank">', '</a></strong>' ), 'REG_ERROR1' );
         }
 
         // Already added - can't readd. Deactivate plugin.
@@ -713,6 +719,13 @@ class MainWP_Connect { //phpcs:ignore -- NOSONAR - multi methods.
             }
         }
         // phpcs:enable
+
+        /**
+         * Hook: Fire after login required authed.
+         *
+         * @since 5.5
+         */
+        do_action( 'mainwp_child_login_required_authed', $username );
         $this->check_redirects();
         return true;
     }

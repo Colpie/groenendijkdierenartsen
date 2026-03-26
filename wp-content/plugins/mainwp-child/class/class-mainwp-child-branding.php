@@ -10,6 +10,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 // phpcs:disable Generic.Metrics.CyclomaticComplexity -- to custom read/write files, complex functions/features.
 
 /**
@@ -175,7 +180,6 @@ class MainWP_Child_Branding { //phpcs:ignore -- NOSONAR - multi methods.
     public function child_deactivation() {
         $brandingOptions_empty = array(
             'hide',
-            'disable_change',
             'disable_switching_theme',
             'show_support',
             'support_email',
@@ -267,7 +271,6 @@ class MainWP_Child_Branding { //phpcs:ignore -- NOSONAR - multi methods.
         $current_settings['submit_button_title']      = $settings['child_submit_button_title'];
         $current_settings['hide']                     = $settings['child_plugin_hide'] ? 'T' : '';
         $current_settings['show_support']             = ( $settings['child_show_support_button'] && ! empty( $settings['child_support_email'] ) ) ? 'T' : '';
-        $current_settings['disable_change']           = $settings['child_disable_change'] ? 'T' : '';
         $current_settings['disable_switching_theme']  = $settings['child_disable_switching_theme'] ? 'T' : '';
         if ( isset( $settings['child_disable_wp_branding'] ) && ( 'Y' === $settings['child_disable_wp_branding'] || 'N' === $settings['child_disable_wp_branding'] ) ) {
             $current_settings['disable_wp_branding'] = $settings['child_disable_wp_branding'];
@@ -471,42 +474,6 @@ class MainWP_Child_Branding { //phpcs:ignore -- NOSONAR - multi methods.
         }
 
         add_filter( 'map_meta_cap', array( $this, 'branding_map_meta_cap' ), 10, 5 );
-
-        if ( 'T' === $opts['disable_change'] && ! MainWP_Helper::is_dashboard_request() ) { // phpcs:ignore WordPress.Security.NonceVerification
-
-            // Disable the WordPress plugin update notifications.
-            remove_action( 'load-update-core.php', 'wp_update_plugins' );
-            add_filter( 'pre_site_transient_update_plugins', '__return_null' );
-
-            // Disable the WordPress theme update notifications.
-            remove_action( 'load-update-core.php', 'wp_update_themes' );
-            add_filter(
-                'pre_site_transient_update_themes',
-                function () {
-                    return null;
-                }
-            );
-
-            /**
-             * Disable the WordPress core update notifications.
-             *
-             * @uses MainWP_Child_Branding_Render::get_class_name()
-             */
-            function remove_core_updates() {
-                add_action(
-                    'init',
-                    function () {
-                        remove_action( 'wp_version_check', 'wp_version_check' );
-                    },
-                    2
-                );
-                add_filter( 'pre_option_update_core', '__return_null' );
-                add_filter( 'pre_site_transient_update_core', '__return_null' );
-            } add_action( 'after_setup_theme', 'remove_core_updates' );
-
-            add_action( 'admin_head', array( MainWP_Child_Branding_Render::get_class_name(), 'admin_head_hide_elements' ), 15 );
-            add_action( 'admin_menu', array( $this, 'branding_redirect' ), 9 );
-        }
 
         add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 

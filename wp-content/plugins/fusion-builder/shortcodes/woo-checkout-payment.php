@@ -57,9 +57,11 @@ if ( fusion_is_element_enabled( 'fusion_tb_woo_checkout_payment' ) ) {
 				add_action( 'wp_ajax_get_fusion_tb_woo_checkout_payment', [ $this, 'ajax_render' ] );
 
 				if ( class_exists( 'WC_Stripe' ) ) {
-					$stripe_payment_class = WC_Stripe::get_instance()->payment_request_configuration;
-					add_action( 'woocommerce_review_order_before_submit', [ $stripe_payment_class, 'display_payment_request_button_html' ], 1 );
-					add_action( 'woocommerce_review_order_before_submit', [ $stripe_payment_class, 'display_payment_request_button_separator_html' ], 2 );
+					$stripe_express_checkout = WC_Stripe::get_instance()->express_checkout_configuration;
+
+					if ( $stripe_express_checkout instanceof WC_Stripe_Express_Checkout_Element ) {
+						add_action( 'woocommerce_review_order_before_submit', [ $stripe_express_checkout, 'display_express_checkout_button_html' ], 1 );
+					}
 				}
 
 				if ( ( class_exists( 'WC_Stripe' ) || class_exists( 'WC_Payments' ) ) && ! is_admin() && ! fusion_doing_ajax() ) {

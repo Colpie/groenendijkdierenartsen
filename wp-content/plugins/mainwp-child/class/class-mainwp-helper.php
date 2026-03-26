@@ -7,6 +7,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 //phpcs:disable WordPress.WP.AlternativeFunctions, Generic.Metrics.CyclomaticComplexity -- Custom functions and current complexity is required to achieve desired results, pull request solutions appreciated.
 
 /**
@@ -229,14 +234,15 @@ class MainWP_Helper { //phpcs:ignore -- NOSONAR - multi methods.
      * Method mkdir()
      *
      * @param string $file File path.
-     * @param int    $mode File mode.
+     * @param int    $fs_mode File mode.
+     * @param bool   $recursive Whether to create directories recursively.
      */
-    public static function mkdir( $file, $mode = FS_CHMOD_DIR ) {
+    public static function mkdir( $file, $fs_mode = FS_CHMOD_DIR, $recursive = false ) {
         if ( static::fs_is_connected() ) {
             global $wp_filesystem;
-            return $wp_filesystem->mkdir( $file, $mode );
+            return $wp_filesystem->mkdir( $file, $fs_mode );
         } else {
-            return mkdir( $file );// phpcs:ignore WordPress.WP.AlternativeFunctions
+            return mkdir( $file, $fs_mode, $recursive );// phpcs:ignore WordPress.WP.AlternativeFunctions -- NOSONAR -compatible fallback.
         }
     }
 
@@ -752,7 +758,7 @@ class MainWP_Helper { //phpcs:ignore -- NOSONAR - multi methods.
     /**
      * Method update_option()
      *
-     * Update option.
+     * Update option with caching for better performance.
      *
      * @param string $option_name Contains the option name.
      * @param string $option_value Contains the option value.
@@ -761,10 +767,29 @@ class MainWP_Helper { //phpcs:ignore -- NOSONAR - multi methods.
      * @return bool $success true|false Option updated.
      */
     public static function update_option( $option_name, $option_value, $autoload = 'no' ) {
+        // Try to add the option first.
         $success = add_option( $option_name, $option_value, '', $autoload );
+
+        // If option already exists, update it.
         if ( ! $success ) {
             $success = update_option( $option_name, $option_value );
         }
+
+        // If update was successful, update our cache.
+        if ( $success ) {
+            // Cache the option in our custom cache group for faster access.
+            wp_cache_set( $option_name, $option_value, 'mainwp', 3600 ); // Cache for 1 hour.
+
+            // Also update the alloptions cache if this is an autoloaded option.
+            if ( 'yes' === $autoload ) {
+                $alloptions = wp_cache_get( 'alloptions', 'options' );
+                if ( is_array( $alloptions ) ) {
+                    $alloptions[ $option_name ] = $option_value;
+                    wp_cache_set( 'alloptions', $alloptions, 'options' );
+                }
+            }
+        }
+
         return $success;
     }
 

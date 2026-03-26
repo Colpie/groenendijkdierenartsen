@@ -1081,6 +1081,26 @@ class Base {
 	}
 
 	/**
+	 * Get the dimensions of an image.
+	 *
+	 * Differs from the core wp_getimagesize() in that it always returns an array with two values.
+	 *
+	 * @param string $filename The filename of an image.
+	 * @return array Array of width and height, both set to false on failure.
+	 */
+	public function getimagesize( $filename ) {
+		$width  = false;
+		$height = false;
+
+		$image_data = \wp_getimagesize( $filename );
+		if ( \is_array( $image_data ) && ! empty( $image_data[0] ) && ! empty( $image_data[1] ) ) {
+			$width  = (int) $image_data[0];
+			$height = (int) $image_data[1];
+		}
+		return array( $width, $height );
+	}
+
+	/**
 	 * Check the mimetype of the given file with magic mime strings/patterns.
 	 *
 	 * @param string $path The absolute path to the file.
@@ -1572,21 +1592,29 @@ class Base {
 		}
 		if ( 0 === \strpos( $url, WP_CONTENT_URL ) ) {
 			$path = \str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $url );
-			$this->debug_message( "trying $path based on " . WP_CONTENT_URL );
+			$this->debug_message( "trying $path based on WP_CONTENT_URL " . WP_CONTENT_URL );
 		} elseif ( 0 === \strpos( $url, $this->relative_home_url ) ) {
 			$path = \str_replace( $this->relative_home_url, ABSPATH, $url );
-			$this->debug_message( "trying $path based on " . $this->relative_home_url );
+			$this->debug_message( "trying $path based on relative home URL and ABSPATH" . $this->relative_home_url );
 		} elseif ( 0 === \strpos( $url, $this->home_url ) ) {
 			$path = \str_replace( $this->home_url, ABSPATH, $url );
-			$this->debug_message( "trying $path based on " . $this->home_url );
+			$this->debug_message( "trying $path based on home_url and ABSPATH" . $this->home_url );
 		} else {
 			$this->debug_message( 'not a valid local image' );
 			return false;
 		}
 		$path_parts = \explode( '?', $path );
 		if ( $this->is_file( $path_parts[0] . $extension ) ) {
-			$this->debug_message( 'local file found' );
+			$this->debug_message( 'local file found (appended)' );
 			return $path_parts[0];
+		}
+		if ( ! empty( $extension ) ) {
+			$path_info     = pathinfo( $path_parts[0] );
+			$replaced_path = $path_info['dirname'] . '/' . $path_info['filename'] . $extension;
+			if ( $this->is_file( $replaced_path ) ) {
+				$this->debug_message( 'local file found (replaced)' );
+				return $path_parts[0];
+			}
 		}
 		if ( \class_exists( '\HMWP_Classes_ObjController' ) ) {
 			$hmwp_file_handler = \HMWP_Classes_ObjController::getClass( 'HMWP_Models_Files' );
@@ -1597,8 +1625,16 @@ class Base {
 				$this->debug_message( "trying $path from HMWP" );
 				$path_parts = \explode( '?', $path );
 				if ( $this->is_file( $path_parts[0] . $extension ) ) {
-					$this->debug_message( 'local file found' );
+					$this->debug_message( 'local file found (appended)' );
 					return $path_parts[0];
+				}
+				if ( ! empty( $extension ) ) {
+					$path_info     = pathinfo( $path_parts[0] );
+					$replaced_path = $path_info['dirname'] . '/' . $path_info['filename'] . $extension;
+					if ( $this->is_file( $replaced_path ) ) {
+						$this->debug_message( 'local file found (replaced)' );
+						return $path_parts[0];
+					}
 				}
 			}
 		}

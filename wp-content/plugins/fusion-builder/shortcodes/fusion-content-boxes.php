@@ -712,7 +712,7 @@ if ( fusion_is_element_enabled( 'fusion_content_boxes' ) ) {
 						$image = $image_data['url'];
 					}
 
-					$image = '<img src="' . $image . '" width="' . $image_width . '" height="' . $image_height . '" alt="' . $alt . '" />';
+					$image = '<img src="' . esc_url( $image ) . '" width="' . esc_attr( $image_width ) . '" height="' . esc_attr( $image_height ) . '" alt="' . esc_attr( $alt ) . '" />';
 					$image = fusion_library()->images->apply_lazy_loading( $image, null, $this->child_args['image_id'], 'full' );
 
 					$icon_output  = '<div ' . FusionBuilder::attributes( 'content-box-shortcode-icon' ) . '>';

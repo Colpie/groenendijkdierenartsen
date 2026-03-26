@@ -21,6 +21,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Class MainWP_Child_Back_WP_Up
  */
@@ -247,7 +252,11 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
 
         $information = array();
         $action      = ! empty( $_POST['action'] ) ? sanitize_text_field( wp_unslash( $_POST['action'] ) ) : '';  // phpcs:ignore -- NOSONAR
-
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        if ( ! empty( $_POST['referer_name'] ) ) {
+            $_REQUEST['_wpnonce'] = wp_create_nonce( sanitize_text_field( wp_unslash( $_POST['referer_name'] ) ) );
+        }
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
         if ( empty( $action ) ) {
             $information = array( 'error' => esc_html__( 'Missing action.', 'mainwp-child' ) );
         } else {
@@ -331,11 +340,69 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
             return;
         }
 
+        // Migrate legacy BackWPup cron.
+        self::migrate_backwpup_cron_args();
+
         add_action( 'mainwp_child_site_stats', array( $this, 'do_site_stats' ) );
 
         if ( get_option( 'mainwp_backwpup_hide_plugin' ) === 'hide' ) {
             add_filter( 'all_plugins', array( $this, 'all_plugins' ) );
             add_action( 'admin_menu', array( $this, 'remove_menu' ) );
+        }
+    }
+
+    /**
+     * Migrate legacy BackWPup cron args to positional arrays to avoid PHP 8 named parameter fatals.
+     */
+    public static function migrate_backwpup_cron_args(): void {  // phpcs:ignore -- NOSONAR
+        if ( ! function_exists( '_get_cron_array' ) ) {
+            return;
+        }
+
+        $crons = _get_cron_array();
+        if ( empty( $crons ) || ! is_array( $crons ) ) {
+            return;
+        }
+
+        foreach ( $crons as $timestamp => $hooks ) {
+            if ( empty( $hooks['backwpup_cron'] ) || ! is_array( $hooks['backwpup_cron'] ) ) {
+                continue;
+            }
+
+            foreach ( $hooks['backwpup_cron'] as $event ) {
+                $args = isset( $event['args'] ) ? $event['args'] : array();
+                if ( ! is_array( $args ) || count( $args ) !== 1 ) {
+                    continue;
+                }
+
+                $keys = array_keys( $args );
+                if ( empty( $keys ) || ! is_string( $keys[0] ) ) {
+                    continue;
+                }
+
+                $key = $keys[0];
+                if ( 'arg' !== $key && 'id' !== $key ) {
+                    continue;
+                }
+
+                $new_args = array( $args[ $key ] );
+
+                if ( function_exists( 'wp_get_scheduled_event' ) ) {
+                    $existing = wp_get_scheduled_event( 'backwpup_cron', $new_args, (int) $timestamp );
+                    if ( $existing ) {
+                        wp_unschedule_event( (int) $timestamp, 'backwpup_cron', $args );
+                        continue;
+                    }
+                }
+
+                wp_unschedule_event( (int) $timestamp, 'backwpup_cron', $args );
+                $schedule = isset( $event['schedule'] ) ? $event['schedule'] : false;
+                if ( $schedule ) {
+                    wp_schedule_event( (int) $timestamp, $schedule, 'backwpup_cron', $new_args );
+                } else {
+                    wp_schedule_single_event( (int) $timestamp, 'backwpup_cron', $new_args );
+                }
+            }
         }
     }
 
@@ -617,7 +684,7 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         echo '<tfoot><tr><th>' . esc_html__( 'Setting', 'mainwp-child' ) . '</th><th>' . esc_html__( 'Value', 'mainwp-child' ) . '</th></tr></tfoot>';
         echo '<tr title="&gt;=3.2"><td>' . esc_html__( 'WordPress version', 'mainwp-child' ) . '</td><td>' . esc_html( \BackWPup::get_plugin_data( 'wp_version' ) ) . '</td></tr>';
         if ( ! class_exists( '\BackWPup_Pro', false ) ) {
-            echo '<tr title=""><td>' . esc_html__( 'BackWPup version', 'mainwp-child' ) . '</td><td>' . esc_html( \BackWPup::get_plugin_data( 'Version' ) ) . ' <a href="' . esc_url( translate( \BackWPup::get_plugin_data( 'pluginuri' ), 'backwpup' ) ) . '">' . esc_html__( 'Get pro.', 'mainwp-child' ) . '</a></td></tr>';
+            echo '<tr title=""><td>' . esc_html__( 'BackWPup version', 'mainwp-child' ) . '</td><td>' . esc_html( \BackWPup::get_plugin_data( 'Version' ) ) . ' <a href="' . esc_url( \BackWPup::get_plugin_data( 'pluginuri' ) ) . '">' . esc_html__( 'Get pro.', 'mainwp-child' ) . '</a></td></tr>';
         } else {
             echo '<tr title=""><td>' . esc_html__( 'BackWPup Pro version', 'mainwp-child' ) . '</td><td>' . esc_html( \BackWPup::get_plugin_data( 'Version' ) ) . '</td></tr>';
         }
@@ -642,12 +709,15 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         $raw_response = \BackWPup_Job::get_jobrun_url( 'test' );
         $test_result  = '';
         if ( is_wp_error( $raw_response ) ) {
+            // translators: %s: error message.
             $test_result .= sprintf( esc_html__( 'The HTTP response test get an error "%s"', 'mainwp-child' ), esc_html( $raw_response->get_error_message() ) );
         } elseif ( 200 !== (int) wp_remote_retrieve_response_code( $raw_response ) && 204 !== (int) wp_remote_retrieve_response_code( $raw_response ) ) {
+            // translators: %s: HTTP status code.
             $test_result .= sprintf( esc_html__( 'The HTTP response test get a false http status (%s)', 'mainwp-child' ), esc_html( wp_remote_retrieve_response_code( $raw_response ) ) );
         }
         $headers = wp_remote_retrieve_headers( $raw_response );
         if ( isset( $headers['x-backwpup-ver'] ) && \BackWPup::get_plugin_data( 'version' ) !== $headers['x-backwpup-ver'] ) {
+            // translators: %s: header value.
             $test_result .= sprintf( esc_html__( 'The BackWPup HTTP response header returns a false value: "%s"', 'mainwp-child' ), esc_html( $headers['x-backwpup-ver'] ) );
         }
 
@@ -660,8 +730,10 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
 
         echo '<tr><td>' . esc_html__( 'Temp folder:', 'mainwp-child' ) . '</td><td>';
         if ( ! is_dir( \BackWPup::get_plugin_data( 'TEMP' ) ) ) {
+            // translators: %s: folder path.
             printf( esc_html__( 'Temp folder %s doesn\'t exist.', 'mainwp-child' ), esc_html( \BackWPup::get_plugin_data( 'TEMP' ) ) );
         } elseif ( ! is_writable( \BackWPup::get_plugin_data( 'TEMP' ) ) ) { //phpcs:ignore -- NOSONAR - ok.
+            // translators: %s: folder path.
             printf( esc_html__( 'Temporary folder %s is not writable.', 'mainwp-child' ), esc_html( \BackWPup::get_plugin_data( 'TEMP' ) ) );
         } else {
             echo esc_html( \BackWPup::get_plugin_data( 'TEMP' ) );
@@ -673,8 +745,10 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         $log_folder = \BackWPup_File::get_absolute_path( get_site_option( 'backwpup_cfg_logfolder' ) );
 
         if ( ! is_dir( $log_folder ) ) {
+            // translators: %s: folder path.
             printf( esc_html__( 'Logs folder %s not exist.', 'mainwp-child' ), esc_html( $log_folder ) );
         } elseif ( ! is_writable( $log_folder ) ) { //phpcs:ignore -- NOSONAR - ok.
+            // translators: %s: folder path.
             printf( esc_html__( 'Log folder %s is not writable.', 'mainwp-child' ), esc_html( $log_folder ) );
         } else {
             echo esc_html( $log_folder );
@@ -707,6 +781,7 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         echo '<tr title=""><td>' . esc_html__( 'Server Time', 'mainwp-child' ) . '</td><td>' . esc_html( $now['tm_hour'] ) . ':' . esc_html( $now['tm_min'] ) . '</td></tr>';
         echo '<tr title=""><td>' . esc_html__( 'Blog Time', 'mainwp-child' ) . '</td><td>' . esc_html( date_i18n( 'H:i' ) ) . '</td></tr>';
         echo '<tr title=""><td>' . esc_html__( 'Blog Timezone', 'mainwp-child' ) . '</td><td>' . esc_html( get_option( 'timezone_string' ) ) . '</td></tr>';
+        // translators: %s: number of hours (GMT offset).
         echo '<tr title=""><td>' . esc_html__( 'Blog Time offset', 'mainwp-child' ) . '</td><td>' . sprintf( esc_html__( '%s hours', 'mainwp-child' ), esc_html( get_option( 'gmt_offset' ) ) ) . '</td></tr>';
         echo '<tr title="WPLANG"><td>' . esc_html__( 'Blog language', 'mainwp-child' ) . '</td><td>' . esc_html( get_bloginfo( 'language' ) ) . '</td></tr>';
         echo '<tr title="utf8"><td>' . esc_html__( 'MySQL Client encoding', 'mainwp-child' ) . '</td><td>';
@@ -794,6 +869,8 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
             return array( 'error' => esc_html__( 'Missing job_id.', 'mainwp-child' ) );
         }
 
+        wp_clear_scheduled_hook( 'backwpup_cron', array( $job_id ) );
+        wp_clear_scheduled_hook( 'backwpup_cron', array( 'arg' => $job_id ) );
         wp_clear_scheduled_hook( 'backwpup_cron', array( 'id' => $job_id ) );
         if ( ! \BackWPup_Option::delete_job( $job_id ) ) {
             return array( 'error' => esc_html__( 'Cannot delete job', 'mainwp-child' ) );
@@ -973,8 +1050,9 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
                             $items = $dest_class->file_get_list( $jobid . '_' . $dest );
                             if ( ! empty( $items ) ) {
                                 foreach ( $items as $item ) {
-                                    $temp_single_item              = $item;
-                                    $temp_single_item['dest']      = $jobid . '_' . $dest;
+                                    $temp_single_item         = $item;
+                                    $temp_single_item['dest'] = $jobid . '_' . $dest;
+                                    // translators: 1: date, 2: time.
                                     $temp_single_item['timeloc']   = sprintf( esc_html__( '%1$s at %2$s', 'mainwp-child' ), date_i18n( get_option( 'date_format' ), $temp_single_item['time'], true ), date_i18n( get_option( 'time_format' ), $temp_single_item['time'], true ) );
                                     $temp_single_item['timestamp'] = $item['time'];
                                     $output->items[]               = $temp_single_item;
@@ -1006,8 +1084,9 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
                     }
 
                     if ( \BackWPup_Option::get( $val, 'activetype' ) === 'wpcron' ) {
-                        $nextrun = wp_next_scheduled( 'backwpup_cron', array( 'id' => $val ) );
+                        $nextrun = wp_next_scheduled( 'backwpup_cron', array( $val ) );
                         if ( $nextrun + ( get_option( 'gmt_offset' ) * 3600 ) ) {
+                            // translators: 1: date, 2: time.
                             $temp_array['nextrun'] = sprintf( esc_html__( '%1$s at %2$s by WP-Cron', 'mainwp-child' ), date_i18n( get_option( 'date_format' ), $nextrun, true ), date_i18n( get_option( 'time_format' ), $nextrun, true ) );
                         } else {
                             $temp_array['nextrun'] = esc_html__( 'Not scheduled!', 'mainwp-child' );
@@ -1016,9 +1095,11 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
                         $temp_array['nextrun'] = esc_html__( 'Inactive', 'mainwp-child' );
                     }
                     if ( \BackWPup_Option::get( $val, 'lastrun' ) ) {
-                        $lastrun               = \BackWPup_Option::get( $val, 'lastrun' );
+                        $lastrun = \BackWPup_Option::get( $val, 'lastrun' );
+                        // translators: 1: date, 2: time.
                         $temp_array['lastrun'] = sprintf( esc_html__( '%1$s at %2$s', 'mainwp-child' ), date_i18n( get_option( 'date_format' ), $lastrun, true ), date_i18n( get_option( 'time_format' ), $lastrun, true ) );
                         if ( \BackWPup_Option::get( $val, 'lastruntime' ) ) {
+                            // translators: %d: number of seconds.
                             $temp_array['lastrun'] .= ' ' . sprintf( esc_html__( 'Runtime: %d seconds', 'mainwp-child' ), \BackWPup_Option::get( $val, 'lastruntime' ) );
                         }
                     } else {
@@ -1983,7 +2064,8 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         if ( isset( $return['error'] ) ) {
             return array(
                 'success'       => 1,
-                'error_message' => esc_html__( 'Cannot save jobs: ' . $return['error'], 'mainwp-child' ),
+                // translators: %s: error message.
+                'error_message' => sprintf( esc_html__( 'Cannot save jobs: %s', 'mainwp-child' ), $return['error'] ),
             );
         }
 
@@ -2064,7 +2146,8 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
         $return = $this->check_backwpup_messages();
 
         if ( isset( $return['error'] ) ) {
-            return array( 'error' => esc_html__( 'Cannot save settings: ' . $return['error'], 'mainwp-child' ) );
+            // translators: %s: error message.
+            return array( 'error' => sprintf( esc_html__( 'Cannot save settings: %s', 'mainwp-child' ), $return['error'] ) );
         }
 
         $exclusions = array(
@@ -2332,7 +2415,7 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
             $message  = true === $response['activated'] ? _x(
                 'Activated',
                 'License',
-                'backwpup'
+                'mainwp-child'
             ) . ' | ' : '';
             $message .= $response['message'] ?? '';
             \BackWPup_Admin::message( $message );
@@ -2371,8 +2454,9 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
             case 'jobs':
                 $results = \BackWPup_Option::get_job( $id );
                 if ( \BackWPup_Option::get( $id, 'activetype' ) === 'wpcron' ) {
-                    $nextrun = wp_next_scheduled( 'backwpup_cron', array( 'arg' => $id ) );
+                    $nextrun = wp_next_scheduled( 'backwpup_cron', array( $id ) );
                     if ( $nextrun + ( get_option( 'gmt_offset' ) * 3600 ) ) {
+                        // translators: 1: date, 2: time.
                         $results['nextrun'] = sprintf( esc_html__( '%1$s at %2$s by WP-Cron', 'mainwp-child' ), date_i18n( get_option( 'date_format' ), $nextrun, true ), date_i18n( get_option( 'time_format' ), $nextrun, true ) );
                     } else {
                         $results['nextrun'] = esc_html__( 'Not scheduled!', 'mainwp-child' );
@@ -2381,9 +2465,11 @@ class MainWP_Child_Back_WP_Up { //phpcs:ignore -- NOSONAR - multi methods.
                     $results['nextrun'] = esc_html__( 'Inactive', 'mainwp-child' );
                 }
                 if ( \BackWPup_Option::get( $id, 'lastrun' ) ) {
-                    $lastrun            = \BackWPup_Option::get( $id, 'lastrun' );
+                    $lastrun = \BackWPup_Option::get( $id, 'lastrun' );
+                    // translators: 1: date, 2: time.
                     $results['lastrun'] = sprintf( esc_html__( '%1$s at %2$s', 'mainwp-child' ), date_i18n( get_option( 'date_format' ), $lastrun, true ), date_i18n( get_option( 'time_format' ), $lastrun, true ) );
                     if ( \BackWPup_Option::get( $id, 'lastruntime' ) ) {
+                        // translators: %d: number of seconds.
                         $results['lastrun'] .= ' ' . sprintf( esc_html__( 'Runtime: %d seconds', 'mainwp-child' ), \BackWPup_Option::get( $id, 'lastruntime' ) );
                     }
                 } else {

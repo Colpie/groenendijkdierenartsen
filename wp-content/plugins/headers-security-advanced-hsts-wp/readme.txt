@@ -1,10 +1,10 @@
 === Headers Security Advanced & HSTS WP ===
-Contributors: unicorn03, unicorn07, erku, alexclassroom,
+Contributors: unicorn03, alexclassroom,
 Donate link: https://www.buymeacoffee.com/tentacleplugins
 Tags: headers security, hsts, headers, clickjacking, csp
 Requires at least: 4.7
-Tested up to: 6.8.3
-Stable tag: 5.2.4
+Tested up to: 6.9
+Stable tag: 5.3.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,10 +136,9 @@ Sentry is a well-known platform for monitoring and tracking errors in applicatio
 
 Monitoring and Integration with Sentry, Datadog and URI Reports for optimal security.
 
-**All Free Features**
-The **Headers Security Advanced & HSTS WP** version includes all the free features.
+= Free Forever =
 
-We have implemented **FLoC (Federated Learning of Cohorts)**, using best practices. First, using **Headers Security Advanced & HSTS WP** prevents the browser from including your site in the "cohort calculation" on **FLoC (Federated Learning of Cohorts)**. This means that nothing can call document.interestCohort() to get the FLoC ID of the currently used client. Obviously, this does nothing outside of your currently visited site and does not "disable" FLoC on the client beyond that scope.
+Every security header, every configuration option, and every protection this plugin offers today will remain completely free. No features will ever be moved behind a paywall. Shield is a separate set of brand-new monitoring tools built on top. The free plugin gets better because Shield exists, not worse.
 
 Even though **FLoC** is still fairly new and not yet widely supported, as programmers we think that privacy protection elements are important, so we choose to give you the feature of being opt out of FLoC! We’ve created a special **“automatic blocking of FLoC”** feature, trying to always **offer the best tool with privacy protection and cyber security** as main targets and focus.
 
@@ -155,7 +154,81 @@ Analyze your site before and after using *Headers Security Advanced & HSTS WP* s
 
 This plugin is updated periodically, our limited support is free, we are available for your feedback (bugs, compatibility issues or recommendations for next updates). We are usually fast :-D.
 
+= Shield — Advanced Features (Optional) =
+
+Every feature this plugin offers today is and will remain completely free, forever. **Shield** is a separate set of brand-new advanced tools for professionals who need deeper monitoring and automation:
+
+* **Security Advisor** — Analyzes your configuration and gives personalized recommendations in plain language
+* **CSP Guide** — Recommended tools, safe workflow, WordPress-specific CSP snippets, and CSP FAQ
+* **Security Score Dashboard** — Real-time A+ to F grade with header status for all 10 security headers
+* **Email & Webhook Alerts** — Get notified via email, Slack, Discord, Microsoft Teams, or custom webhook when something changes
+* **CSP Violation Analytics** — See which resources browsers are blocking and why
+* **Weekly Automated Scans** — Automatic security audit with scan history and trend tracking
+
+Nothing existing moves behind a paywall. Revenue from Shield directly funds free updates and maintenance for all 100,000+ users. Learn more at [openheaders.org/pro](https://openheaders.org/pro).
+
 == Frequently Asked Questions ==
+
+= Will this plugin slow down my site? =
+
+No. Headers add less than 1KB to each response. The plugin uses WordPress native hooks and Apache .htaccess. Zero database queries at page load for visitors.
+
+= Does it work with Nginx or LiteSpeed? =
+
+Yes. The PHP method (wp_headers filter) works on any server. The .htaccess method is Apache-only, but the plugin automatically uses the PHP method on other servers.
+
+= Does it work with caching plugins? =
+
+Yes. Compatible with WP Super Cache, W3 Total Cache, LiteSpeed Cache, WP Rocket, and others.
+
+= Does it work with Cloudflare? =
+
+Yes. Cloudflare passes through headers set by WordPress. If you also set headers in Cloudflare dashboard, use the "Resolve duplicate headers" option in Settings to avoid duplicates.
+
+= How do I get an A+ grade on SecurityHeaders.com? =
+
+Your site needs all 6 scored headers present: Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, and Permissions-Policy. The plugin configures all of these automatically.
+
+= Can it conflict with other security plugins? =
+
+Rarely. If another plugin sets the same headers, you may get duplicates. Use the "Resolve duplicate headers" checkboxes in Settings to fix this.
+
+= What is HSTS? =
+
+HTTP Strict Transport Security tells browsers to always use HTTPS. Even if someone types http://, the browser upgrades to https:// automatically. Prevents protocol downgrade attacks.
+
+= What max-age should I use for HSTS? =
+
+Minimum for preload: 31536000 (1 year). Recommended: 63072000 (2 years). Start with 86400 (1 day) to test, then increase.
+
+= Should I enable HSTS Preload? =
+
+Only if your entire domain (including all subdomains) works over HTTPS. Preload is hardcoded in browsers and difficult to undo. Removal takes months. Test thoroughly first.
+
+= What is Content Security Policy (CSP)? =
+
+CSP tells browsers which resources can load on your page. Anything not explicitly allowed is blocked. It is the strongest protection against XSS attacks.
+
+= How do I configure CSP Report URI? =
+
+Enter the report URL from your monitoring service (Sentry, Report URI, URIports, or Datadog) into the CSP Report URI field in Settings. The plugin adds the report-uri directive to your CSP header automatically.
+
+= Content Security Policy — Best Practices =
+
+When writing CSP directives:
+
+* Always use single quotes for keywords: 'self', 'none', 'unsafe-inline', 'unsafe-eval'
+* Never use double quotes inside CSP syntax
+* Avoid smart quotes (curly quotes) — the plugin converts them automatically but standard quotes are recommended
+* The plugin validates and sanitizes CSP input to prevent .htaccess errors
+
+= What happens when Shield license expires? =
+
+Your site stays fully protected. All headers keep working. You lose Shield features (dashboard, advisor, alerts, analytics) and revert to the free version. Nothing breaks.
+
+= Can I report a bug or request a feature? =
+
+Yes — contact us at support@openheaders.org or use the [WordPress.org support forum](https://wordpress.org/support/plugin/headers-security-advanced-hsts-wp/).
 
 = What will Report URI monitor for me? =
 
@@ -394,21 +467,32 @@ This will cause the <a href="https://developers.cloudflare.com/cache/how-to/purg
 
 == Changelog ==
 
-= 5.2.4 =
+= 5.3.2 =
+This update introduces **Shield** — optional advanced tools for professionals who need deeper security monitoring. Every existing feature remains completely free, forever.
+
+- New: Shield tab-based interface (Settings, Dashboard, CSP, Notifications, Export/Import, License, Free vs Shield, FAQ)
+- New: Security Advisor with personalized recommendations
+- New: Security Score Dashboard (A+ to F grading, 10 header status overview)
+- New: CSP Guide with recommended tools (Csper.io, Google CSP Evaluator, Report URI, URIports)
+- New: CSP violation analytics (top blocked domains, directives, trends)
+- New: Email alerts when security score drops or headers change
+- New: Webhook notifications (Slack, Discord, Microsoft Teams, custom JSON endpoint)
+- New: Export/Import settings for agencies managing multiple sites
+- New: Weekly automated scans with history tracking
+- New: Comprehensive FAQ with search and category filters
+- New: Free vs Shield comparison with transparent pricing
+- Improved: Clean uninstall (license auto-deactivated, all options removed)
+
+= 5.2.5 =
 I don't want to tell you what to do, but here's the thing: When you update the Headers Security Advanced & HSTS WP plugin, you don't just click a button, you enter a world of enhanced security and performance.
 
-With version 5.2.4, I have gone above and beyond to ensure that your experience is nothing short of exceptional. I have eliminated numerous bugs, improved annoying pixels, and updated the graphics in a sleek and modern way. The result? A plugin that not only looks great, but works even better.
+With version 5.2.5, I have gone above and beyond to ensure that your experience is nothing short of exceptional. I have eliminated numerous bugs, improved annoying pixels, and updated the graphics in a sleek and modern way. The result? A plugin that not only looks great, but works even better.
 
 But that's not all. This update brings seamless integration with the industry's leading security monitoring platforms-Sentry, Datadog, and Report URI. These integrations offer enhanced reporting capabilities, providing detailed information on content security policy (CSP) violations and improving site security.
 
-- Added: Link for external support in the plugin's action list (under the Plugin section).
-- Added: Support for multiple languages in the configuration process.
-- Fixed: When the plugin is deactivated, custom settings are retained and not lost.
-- Fixed: Fixed an issue with the display of the donation link in some WordPress environments.
-- Fixed: Added protection against malformed CSP values containing double quotes ("") which could break the .htaccess configuration and cause HTTP 500 errors.
-- Fixed: Corrected quote handling in the Permissions-Policy directive to prevent 500 errors in Apache.
-- Improved: Code optimization for better compatibility with WordPress version 6.0.
-- Improved: Improved overall robustness of CSP parsing to avoid site downtime caused by incorrect user input.
-- New: We are adding a new external support system to improve the speed and effectiveness of responses.
+- Update: Code optimization for better compatibility with WordPress version 6.9.
+- Fixed: Improved compatibility with WordPress 6.9 plugin list rendering
+- Fixed: Resolved edge case where plugin list could stop rendering when other plugins return unexpected values from the `plugin_action_links` filter
+- Hardened: Added defensive type checking for better interoperability with third-party plugins
 
-By updating to 5.2.4, you’re not just improving your site’s security – you’re optimizing it with the best tools available. Our goal is to provide you with the most beautiful, fastest, and most impressive plugin experience around. So, shall we get started? Hit "update" and step into a new era of security and performance with Headers Security Advanced & HSTS WP. Enjoy the upgrade!
+By updating to 5.2.5, you’re not just improving your site’s security – you’re optimizing it with the best tools available. Our goal is to provide you with the most beautiful, fastest, and most impressive plugin experience around. So, shall we get started? Hit "update" and step into a new era of security and performance with Headers Security Advanced & HSTS WP. Enjoy the upgrade!

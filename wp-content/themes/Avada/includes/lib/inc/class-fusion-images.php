@@ -786,6 +786,7 @@ class Fusion_Images {
 	 */
 	public function get_attachment_data_by_helper( $attachment_id_size = 0, $attachment_url = '' ) {
 		$attachment_data = false;
+		$attachment_url  = esc_url_raw( $attachment_url );
 
 		// Image ID is set, so we can get the image data directly.
 		if ( $attachment_id_size ) {

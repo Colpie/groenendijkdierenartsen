@@ -532,7 +532,14 @@ class FusionBuilder {
 		}
 
 		$post_content = $handle_slashes ? stripslashes( $post_content ) : $post_content;
-		$post_content = preg_replace_callback( '/( link="[^"]+"| link_url="[^"]+"| href="[^"]+"| url="[^"]+"| full_image="[^"]+"| video_url="[^"]+"| link_attributes="[^"]+")/', [ $this, 'process_urls_and_links' ], $post_content );
+		$pattern      = '/\b
+			(link|link_url|href|url|image|full_image|video_url|link_attributes) # attribute name
+			=
+			(["\'])      # opening quote
+			(.*?)        # value (captured)
+			\2           # matching closing quote
+		/x';		
+		$post_content = preg_replace_callback( $pattern, [ $this, 'process_urls_and_links' ], $post_content );
 		$post_content = preg_replace_callback( '/\[fusion_code\](.+)\[\/fusion_code\]/U', [ $this, 'process_code_block' ], $post_content );
 		$post_content = $handle_slashes ? addslashes( $post_content ) : $post_content;
 
@@ -552,8 +559,7 @@ class FusionBuilder {
 			return ' link_attributes=""';
 		}
 
-		$link_param_raw = str_replace( [ ' link="', ' link_url="', ' url="', ' href="', ' full_image="', ' video_url="' ], '', $link_param[0] );
-		$link_param_raw = trim( $link_param_raw, '"' );
+		$link_param_raw = $link_param[3];
 		$new_link_param = str_replace( 'javascript', '', $link_param_raw );
 		$new_link_param = sanitize_url( $new_link_param );
 

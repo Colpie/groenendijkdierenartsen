@@ -18,6 +18,11 @@
 
 namespace MainWP\Child;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 // phpcs:disable PSR1.Classes.ClassDeclaration, WordPress.WP.AlternativeFunctions --  to use external code, third party credit.
 
 /**
@@ -440,7 +445,7 @@ class MainWP_Child_Pagespeed {
         if ( defined( 'GPI_DIRECTORY' ) ) {
             $checkstatus = apply_filters( 'gpi_check_status', false );
             if ( $checkstatus ) {
-                $information['error'] = esc_html__( 'The API is busy checking other pages, please try again later.', 'gpagespeedi' );
+                $information['error'] = esc_html__( 'The API is busy checking other pages, please try again later.', 'mainwp-child' );
             } else {
                 do_action( 'run_gpi', $forceRecheck );
                 $information['checked_pages'] = 1;
