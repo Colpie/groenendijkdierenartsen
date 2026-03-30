@@ -1,6 +1,42 @@
 (function ($) {
     $(document).ready(function () {
 
+        $('.check-list ul').each(function() {
+            $(this).find('li').each(function(i) {
+                $(this).addClass('wow fadeInRight');
+                $(this).css('animation-delay', (i * 0.1) + 's');
+            });
+        });
+
+        $('.panel-collapse').on('show.bs.collapse', function () {
+
+            $(this).find('.toggle-content ul li').css({
+                opacity: 0,
+                animation: 'none'
+            });
+
+        });
+
+        $('.panel-collapse').on('shown.bs.collapse', function () {
+
+            $(this).find('.toggle-content ul').each(function() {
+
+                $(this).find('li').each(function(i) {
+                    var $li = $(this);
+
+                    setTimeout(function() {
+                        $li.css({
+                            animation: 'fadeInRight 0.6s forwards',
+                            'animation-delay': (i * 0.1) + 's'
+                        });
+                    }, 10);
+
+                });
+
+            });
+
+        });
+        
         $('img').hover(function () {
             $(this).data('title', $(this).attr('title')).removeAttr('title');
         }, function () {
