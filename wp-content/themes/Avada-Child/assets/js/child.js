@@ -36,7 +36,7 @@
             });
 
         });
-        
+
         $('img').hover(function () {
             $(this).data('title', $(this).attr('title')).removeAttr('title');
         }, function () {
