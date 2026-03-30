@@ -27,6 +27,45 @@
 
           border-radius: 0 !important;
           background: transparent !important;
+
+          .toggle-content {
+
+            ul {
+              list-style: none;
+              padding: 0;
+              //margin: 0;
+
+              li {
+                padding-left: 45px;
+                position: relative;
+                padding-bottom: 10px;
+
+                opacity: 0;
+                visibility: hidden;
+
+                &:last-child {
+                  padding-bottom: 0;
+                }
+
+                &:before {
+                  content: '';
+                  background: url("/wp-content/themes/Avada-Child/assets/images/icon/incl.png") no-repeat;
+                  background-size: contain;
+
+                  width: 25px;
+                  height: 25px;
+                  min-width: 25px;
+
+                  display: inline-flex;
+                  position: absolute;
+                  left: 0;
+
+                  top: 0;
+                  filter: brightness(0) invert(1);
+                }
+              }
+            }
+          }
         }
       }
     }

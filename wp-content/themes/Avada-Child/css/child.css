@@ -4896,6 +4896,33 @@ body {
   border-radius: 0 !important;
   background: transparent !important;
 }
+#boxed-wrapper .fusion-accordian.white-toggles .panel-group .fusion-panel .toggle-content ul {
+  list-style: none;
+  padding: 0;
+}
+#boxed-wrapper .fusion-accordian.white-toggles .panel-group .fusion-panel .toggle-content ul li {
+  padding-left: 45px;
+  position: relative;
+  padding-bottom: 10px;
+  opacity: 0;
+  visibility: hidden;
+}
+#boxed-wrapper .fusion-accordian.white-toggles .panel-group .fusion-panel .toggle-content ul li:last-child {
+  padding-bottom: 0;
+}
+#boxed-wrapper .fusion-accordian.white-toggles .panel-group .fusion-panel .toggle-content ul li:before {
+  content: "";
+  background: url("/wp-content/themes/Avada-Child/assets/images/icon/incl.png") no-repeat;
+  background-size: contain;
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  display: inline-flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  filter: brightness(0) invert(1);
+}
 #boxed-wrapper .fusion-accordian.no-toggle {
   pointer-events: none !important;
 }

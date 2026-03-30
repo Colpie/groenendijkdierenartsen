@@ -1,6 +1,39 @@
 (function ($) {
     $(document).ready(function () {
 
+        $('.check-list ul').each(function() {
+            $(this).find('li').each(function(i) {
+                $(this).addClass('wow fadeInRight animated');
+                $(this).css('animation-delay', (i * 0.1) + 's');
+            });
+        });
+
+        $('.panel-collapse').on('shown.bs.collapse', function () {
+
+            $(this).find('.toggle-content ul').each(function() {
+
+                $(this).find('li').each(function(i) {
+                    var $li = $(this);
+
+                    // reset eerst (belangrijk bij heropenen)
+                    $li.removeClass('animated fadeInRight');
+                    $li.css({
+                        visibility: 'visible',
+                        animation: 'fadeInRight 0.6s forwards',
+                        'animation-delay': (i * 0.1) + 's'
+                    });
+                    // kleine timeout zodat reset effectief is
+                    setTimeout(function() {
+                        $li.addClass('animated fadeInRight');
+                        $li.css('animation-delay', (i * 0.1) + 's');
+                    }, 50);
+                });
+
+            });
+
+        });
+
+
         $('img').hover(function () {
             $(this).data('title', $(this).attr('title')).removeAttr('title');
         }, function () {
