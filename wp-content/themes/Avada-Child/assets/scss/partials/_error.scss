@@ -79,6 +79,19 @@
       gap: 45px;
       padding-bottom: 90px;
 
+      .gda-404-number {
+        font-size: 180px !important;
+        line-height: 1 !important;
+
+        @media (max-width: 640px) {
+          font-size: 90px !important;
+        }
+      }
+
+      .gda-404-text {
+        text-align: center;
+      }
+
       .gda-404-actions {
         text-align: center;
       }
