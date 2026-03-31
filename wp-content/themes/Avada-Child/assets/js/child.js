@@ -1,10 +1,11 @@
 (function ($) {
     $(document).ready(function () {
 
-        $('.check-list ul').each(function() {
-            $(this).find('li').each(function(i) {
-                $(this).addClass('wow fadeInRight');
-                $(this).css('animation-delay', (i * 0.1) + 's');
+        $('.check-list ul').each(function () {
+            $(this).children('li').each(function (i) {
+                $(this)
+                    .addClass('wow fadeInRight')
+                    .css('animation-delay', (i * 0.1) + 's');
             });
         });
 
@@ -52,10 +53,13 @@
             });
         });
 
-        $('img').hover(function () {
+        $('img[title]').hover(function () {
             $(this).data('title', $(this).attr('title')).removeAttr('title');
         }, function () {
-            $(this).attr('title', $(this).data('title'));
+            var originalTitle = $(this).data('title');
+            if (originalTitle) {
+                $(this).attr('title', originalTitle);
+            }
         });
 
         // Default swiper
@@ -847,129 +851,256 @@
             if (typeof mq.addEventListener === 'function') mq.addEventListener('change', handleMQChange);
             else mq.addListener(handleMQChange);
         })();
+
+        // Mobile menu
         // Mobile menu
         $(function () {
             let menuOpen = false;
 
             const $menuBg = $('.fusion-flyout-menu-bg');
             const $menu = $('.fusion-flyout-menu');
-            const $menuItems = $('.fusion-flyout-menu .fusion-menu > li');
             const $toggle = $('.fusion-flyout-menu-toggle');
+            const $body = $('body');
 
-            function resetSubmenus() {
-                $('.sub-menu').removeClass('open').css({height: 0, opacity: 0});
-                $('.custom-caret').removeClass('rotate');
+            function getMenuItems() {
+                return $('.fusion-flyout-menu .fusion-menu > li');
             }
 
-            $toggle.on('click', function (e) {
-                e.preventDefault();
-                $('.fusion-header').removeAttr('style');
-                $('.fusion-flyout-mobile-menu-icons').toggleClass('change');
-                $('.custom-caret').remove();
+            function buildMenuCarets() {
+                $('.fusion-flyout-menu .fusion-menu .menu-item-has-children > a').each(function () {
+                    const $link = $(this);
 
-                if (!menuOpen) {
-                    menuOpen = true;
+                    if (!$link.find('.custom-caret').length) {
+                        $link.append(
+                            '<span class="fusion-caret custom-caret">' +
+                            '<i class="fusion-dropdown-indicator" aria-hidden="true"></i>' +
+                            '</span>'
+                        );
+                    }
+                });
+            }
 
-                    // Add caret icons
-                    $('.fusion-flyout-menu .fusion-menu .menu-item-has-children > a').each(function () {
-                        $(this).append('<span class="fusion-caret custom-caret"><i class="fusion-dropdown-indicator" aria-hidden="true"></i></span>');
-                    });
+            function resetSubmenus() {
+                $('.fusion-flyout-menu .sub-menu').removeClass('open').css({
+                    height: 0,
+                    opacity: 0,
+                    overflow: 'hidden'
+                });
 
-                    // Submenu toggle logic
-                    $('.custom-caret').on('click', function (e) {
-                        e.preventDefault();
-                        const $submenu = $(this).closest('li').find('.sub-menu').first();
-                        const isOpen = $submenu.hasClass('open');
+                $('.fusion-flyout-menu .custom-caret').removeClass('rotate');
+            }
 
-                        if (isOpen) {
-                            gsap.to($submenu, {height: 0, opacity: 0, duration: 0.4});
-                            $submenu.removeClass('open');
-                            $submenu.find('.sub-menu').removeClass('open');
-                            $(this).removeClass('rotate');
-                        } else {
-                            $submenu.addClass('open');
-                            $submenu.find('.sub-menu').addClass('open');
-                            gsap.set($submenu, {height: 'auto'});
-                            gsap.from($submenu, {height: 0, opacity: 0, duration: 0.4});
-                            $(this).addClass('rotate');
-                        }
-                    });
+            function openSubmenu($caret) {
+                const $li = $caret.closest('li');
+                const $submenu = $li.children('.sub-menu').first();
 
-                    // Animate background in
-                    gsap.set($menuBg, {y: '100%', autoAlpha: 0});
-                    gsap.to($menuBg, {y: '0%', autoAlpha: 1, duration: 0.7, ease: 'power3.out'});
+                if (!$submenu.length) return;
 
-                    // Animate menu in
-                    gsap.set($menu, {y: 50, autoAlpha: 0});
-                    gsap.to($menu, {y: 0, autoAlpha: 1, duration: 0.6, delay: 0.2, ease: 'power3.out'});
+                $submenu.addClass('open');
 
-                    // Animate items
-                    gsap.fromTo($menuItems, {
-                        opacity: 0,
-                        y: 30
-                    }, {
+                gsap.killTweensOf($submenu[0]);
+
+                gsap.set($submenu, {
+                    height: 'auto',
+                    opacity: 1,
+                    overflow: 'hidden'
+                });
+
+                const targetHeight = $submenu.outerHeight();
+
+                gsap.fromTo($submenu[0],
+                    {
+                        height: 0,
+                        opacity: 0
+                    },
+                    {
+                        height: targetHeight,
                         opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        delay: 0.3,
-                        stagger: 0.05,
-                        ease: 'power3.out'
-                    });
-
-                } else {
-                    // CLOSE SEQUENCE
-                    menuOpen = false;
-                    resetSubmenus();
-
-                    // Animate menu items out
-                    gsap.to($menuItems.get().reverse(), {
-                        opacity: 0,
-                        y: 30,
-                        duration: 0.6,
-                        stagger: 0.06,
-                        ease: 'power2.in',
+                        duration: 0.4,
+                        ease: 'power2.out',
                         onComplete: function () {
-                            // Then animate menu down
-                            gsap.to($menu, {
-                                y: 50,
-                                autoAlpha: 0,
-                                duration: 0.6,
-                                ease: 'power3.inOut',
-                                onComplete: function () {
-                                    // Finally hide background
-                                    gsap.to($menuBg, {
-                                        y: '100%',
-                                        autoAlpha: 0,
-                                        duration: 0.7,
-                                        ease: 'power3.inOut'
-                                    });
-                                }
+                            $submenu.css({
+                                height: 'auto',
+                                overflow: ''
                             });
                         }
-                    });
+                    }
+                );
+
+                $caret.addClass('rotate');
+            }
+
+            function closeSubmenu($caret) {
+                const $li = $caret.closest('li');
+                const $submenu = $li.children('.sub-menu').first();
+
+                if (!$submenu.length) return;
+
+                gsap.killTweensOf($submenu[0]);
+
+                gsap.set($submenu, {
+                    height: $submenu.outerHeight(),
+                    opacity: 1,
+                    overflow: 'hidden'
+                });
+
+                gsap.to($submenu[0], {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.35,
+                    ease: 'power2.out',
+                    onComplete: function () {
+                        $submenu.removeClass('open').css({
+                            height: 0,
+                            opacity: 0,
+                            overflow: 'hidden'
+                        });
+                    }
+                });
+
+                $caret.removeClass('rotate');
+            }
+
+            function openMenu() {
+                menuOpen = true;
+
+                $('.fusion-header').removeAttr('style');
+                $('.fusion-flyout-mobile-menu-icons').addClass('change');
+
+                buildMenuCarets();
+                resetSubmenus();
+
+                const $menuItems = getMenuItems();
+
+                gsap.killTweensOf([$menuBg[0], $menu[0]]);
+                gsap.killTweensOf($menuItems.toArray());
+
+                gsap.set($menuBg, {
+                    y: '100%',
+                    autoAlpha: 0
+                });
+
+                gsap.set($menu, {
+                    y: 50,
+                    autoAlpha: 0
+                });
+
+                gsap.set($menuItems.toArray(), {
+                    opacity: 0,
+                    y: 30
+                });
+
+                gsap.to($menuBg, {
+                    y: '0%',
+                    autoAlpha: 1,
+                    duration: 0.7,
+                    ease: 'power3.out'
+                });
+
+                gsap.to($menu, {
+                    y: 0,
+                    autoAlpha: 1,
+                    duration: 0.6,
+                    delay: 0.2,
+                    ease: 'power3.out'
+                });
+
+                gsap.to($menuItems.toArray(), {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    delay: 0.3,
+                    stagger: 0.05,
+                    ease: 'power3.out'
+                });
+
+                $body.addClass('flyout-menu-open');
+            }
+
+            function closeMenu() {
+                menuOpen = false;
+
+                $('.fusion-flyout-mobile-menu-icons').removeClass('change');
+
+                const $menuItems = getMenuItems();
+
+                resetSubmenus();
+
+                gsap.killTweensOf([$menuBg[0], $menu[0]]);
+                gsap.killTweensOf($menuItems.toArray());
+
+                gsap.to($menuItems.get().reverse(), {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.4,
+                    stagger: 0.04,
+                    ease: 'power2.in',
+                    onComplete: function () {
+                        gsap.to($menu, {
+                            y: 50,
+                            autoAlpha: 0,
+                            duration: 0.45,
+                            ease: 'power3.inOut',
+                            onComplete: function () {
+                                gsap.to($menuBg, {
+                                    y: '100%',
+                                    autoAlpha: 0,
+                                    duration: 0.55,
+                                    ease: 'power3.inOut'
+                                });
+                            }
+                        });
+                    }
+                });
+
+                $body.removeClass('flyout-menu-open');
+            }
+
+            function toggleMenu(e) {
+                e.preventDefault();
+
+                if (!menuOpen) {
+                    openMenu();
+                } else {
+                    closeMenu();
+                }
+            }
+
+            $toggle.on('click', toggleMenu);
+
+            $(document).on('click', '.fusion-flyout-menu .custom-caret', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $caret = $(this);
+                const $submenu = $caret.closest('li').children('.sub-menu').first();
+
+                if (!$submenu.length) return;
+
+                if ($submenu.hasClass('open')) {
+                    closeSubmenu($caret);
+                } else {
+                    openSubmenu($caret);
+                }
+            });
+
+            $(window).on('resize', function () {
+                if (window.innerWidth >= 1200 && menuOpen) {
+                    closeMenu();
                 }
             });
         });
 
         function setServiceImageHeight() {
-
-            $('.fusion-builder-row').each(function () {
-
+            $('.fusion-builder-row').has('.service-content-column, .full-height-service-image').each(function () {
                 var $row = $(this);
-
                 var $contentColumn = $row.find('.service-content-column').first();
                 var $image = $row.find('.full-height-service-image').first();
 
-                if ($contentColumn.length && $image.length) {
+                if (!$contentColumn.length || !$image.length) return;
 
-                    var contentHeight = $contentColumn.outerHeight();
-
-                    $image.css({
-                        'height': contentHeight + 'px'
-                    });
-
-                }
-
+                var contentHeight = $contentColumn.outerHeight();
+                $image.height(contentHeight);
             });
         }
 
@@ -981,9 +1112,13 @@
             setServiceImageHeight();
         });
 
-        // Run on resize
+        let serviceResizeTimer = null;
+
         $(window).on('resize', function () {
-            setServiceImageHeight();
+            clearTimeout(serviceResizeTimer);
+            serviceResizeTimer = setTimeout(function () {
+                setServiceImageHeight();
+            }, 150);
         });
 
         $(document).on('click', '.latest-news-wrapper .latest-news__loadmore', function (e) {
@@ -1043,8 +1178,7 @@
                 $btn.data('loading', false);
                 $btn.removeClass('is-loading');
 
-                if ($btn.closest('body').length) {
-                    // zet terug als hij nog bestaat
+                if ($btn.length && $.contains(document, $btn[0])) {
                     $btn.find('.fusion-button-text').text(originalText);
                 }
             });
@@ -1052,78 +1186,26 @@
 
 
         // Form submit
+        document.addEventListener('wpcf7submit', function () {
+            $('.loading-spinner').hide();
+        });
+
         $('.wpcf7-submit').on('click', function () {
-            $('.contact-form').prepend('<div class="loading-spinner"><img src="/wp-content/themes/Avada-Child/assets/images/Spinner.gif"> </div>');
-            setTimeout(function () {
-                if ($('.wpcf7-acceptance-as-validation').hasClass('sent')) {
-                    // $('.wpcf7-response-output.success').remove();
-                    $('.loading-spinner').hide();
-                }
+            const $form = $('.contact-form');
 
-                if ($('.wpcf7-acceptance-as-validation').hasClass('invalid')) {
-                    $('.loading-spinner').hide();
-                }
-
-            }, 5000);
+            if (!$form.find('.loading-spinner').length) {
+                $form.prepend('<div class="loading-spinner"><img src="/wp-content/themes/Avada-Child/assets/images/Spinner.gif" alt=""></div>');
+            } else {
+                $form.find('.loading-spinner').show();
+            }
         });
 
-        $('.schade .wpcf7-submit').on('click', function () {
-            setTimeout(function () {
-                if ($('.wpcf7-acceptance-as-validation').hasClass('sent')) {
-                    $('.fusion-alert.fusion-success .fusion-alert-content-wrapper .fusion-alert-content').text('Bedankt, uw bericht is succesvol verzonden.');
-                }
-            }, 5000);
-        });
-
-        // $('.fusion-flyout-menu').append('<div class="menu-cover-title">Menu</div>');
         // *********************************************************************************
-
-        // Equal heights
-        $.fn.equalHeights = function () {
-            var max_height = 0;
-            $(this).each(function () {
-                max_height = Math.max($(this).height(), max_height);
-            });
-            $(this).each(function () {
-                $(this).height(max_height);
-            });
-        };
-
-        $('.equal-height').equalHeights();
-
-        // Cijfers en indexen
-        $('.insufeed-category').click(function (e) {
-            e.preventDefault();
-
-            $(this).siblings('.cijfers-content-container').slideToggle();
-
-        });
-
-        // Lord icons
-        if ($('lord-icon').length) {
-
-            $('.trigger-hover').on('mouseenter', function (e) {
-                $(this).find('lord-icon').attr('trigger', 'loop');
-            });
-
-            $('.trigger-hover').on('mouseleave', function () {
-                $(this).find('lord-icon').attr('trigger', '');
-            });
-        }
-
-        // News clicktrough
-        $('.latest-news-item .card').on('click', function () {
-            var url = $(this).find('a').attr('href');
-            window.location = url;
-        });
-
 
         // Animations
 
-        var t = 0.2;
         $('.delay').each(function (i) {
-            $(this).css('animation-delay', t + 's');
-            t = t + 0.2;
+            $(this).css('animation-delay', ((i + 1) * 0.2) + 's');
         });
 
         // Animation Callup (always on bottom of this script !!!!)
@@ -1144,8 +1226,6 @@
             }).removeClass('animated');
             wow.addBox(this);
         }).scrollSpy();
-
-        new WOW().init();
 
         // *********************************************************************************
 
