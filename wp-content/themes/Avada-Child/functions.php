@@ -81,26 +81,6 @@ function add_slug_body_class($classes)
 
 add_filter('body_class', 'add_slug_body_class');
 
-function option_schade()
-{
-    ob_start();
-    include "templates/schade.php";
-    return ob_get_clean();
-}
-
-add_shortcode('print_option_schade', 'option_schade');
-
-function redirecting_404_to_home()
-{
-    if (is_404()) {
-        wp_safe_redirect(site_url());
-        exit();
-    }
-}
-
-;
-add_action('template_redirect', 'redirecting_404_to_home');
-
 function my_login_logo_one()
 {
     ?>
@@ -399,4 +379,135 @@ function gda_load_more_news()
         'html' => $html,
         'has_more' => $has_more,
     ]);
+}
+
+add_action('admin_menu', 'ae_404_admin_menu');
+function ae_404_admin_menu()
+{
+    add_submenu_page(
+        'options-general.php',
+        '404 Pagina',
+        '404 Pagina',
+        'manage_options',
+        'ae-404-settings',
+        'ae_404_settings_page'
+    );
+}
+
+add_action('admin_init', 'ae_404_register_settings');
+function ae_404_register_settings()
+{
+    register_setting('ae_404_group', 'ae_404_bg_id', [
+        'type' => 'integer',
+        'sanitize_callback' => 'absint',
+        'default' => 0,
+    ]);
+
+    register_setting('ae_404_group', 'ae_404_title', [
+        'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'default' => 'Pagina niet gevonden',
+    ]);
+}
+
+function ae_404_settings_page()
+{
+    $image_id = (int) get_option('ae_404_bg_id', 0);
+    $title    = (string) get_option('ae_404_title', 'Pagina niet gevonden');
+    $img_url  = $image_id ? wp_get_attachment_image_url($image_id, 'large') : '';
+    ?>
+    <div class="wrap">
+        <h1>404 Pagina instellingen</h1>
+
+        <form method="post" action="options.php">
+            <?php settings_fields('ae_404_group'); ?>
+
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row">Titel</th>
+                    <td>
+                        <input type="text" name="ae_404_title" class="regular-text" value="<?php echo esc_attr($title); ?>">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Banner afbeelding</th>
+                    <td>
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <div>
+                                <img id="ae-404-preview"
+                                     src="<?php echo esc_url($img_url); ?>"
+                                     alt=""
+                                     style="width:150px; height:auto; border:1px solid #ddd; background:#f3f3f3; <?php echo $img_url ? '' : 'display:none;'; ?>" />
+                            </div>
+
+                            <div>
+                                <input type="hidden" id="ae_404_bg_id" name="ae_404_bg_id" value="<?php echo esc_attr($image_id); ?>" />
+
+                                <button type="button" class="button" id="ae-404-upload">
+                                    Upload / kies afbeelding
+                                </button>
+
+                                <button type="button" class="button" id="ae-404-remove" <?php echo $img_url ? '' : 'style="display:none;"'; ?>>
+                                    Verwijder
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <?php submit_button('Opslaan'); ?>
+        </form>
+    </div>
+    <?php
+}
+
+add_action('admin_enqueue_scripts', 'ae_404_admin_scripts');
+function ae_404_admin_scripts($hook)
+{
+    if ($hook !== 'settings_page_ae-404-settings') {
+        return;
+    }
+
+    wp_enqueue_media();
+
+    wp_add_inline_script('jquery', "
+        jQuery(function($){
+            let frame;
+
+            $('#ae-404-upload').on('click', function(e){
+                e.preventDefault();
+
+                if(frame){
+                    frame.open();
+                    return;
+                }
+
+                frame = wp.media({
+                    title: 'Kies banner afbeelding',
+                    button: { text: 'Gebruik deze afbeelding' },
+                    multiple: false
+                });
+
+                frame.on('select', function(){
+                    const attachment = frame.state().get('selection').first().toJSON();
+                    $('#ae_404_bg_id').val(attachment.id);
+
+                    const url = (attachment.sizes && attachment.sizes.large) ? attachment.sizes.large.url : attachment.url;
+                    $('#ae-404-preview').attr('src', url).show();
+                    $('#ae-404-remove').show();
+                });
+
+                frame.open();
+            });
+
+            $('#ae-404-remove').on('click', function(e){
+                e.preventDefault();
+                $('#ae_404_bg_id').val('');
+                $('#ae-404-preview').hide().attr('src', '');
+                $(this).hide();
+            });
+        });
+    ");
 }
