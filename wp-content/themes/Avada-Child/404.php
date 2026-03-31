@@ -42,9 +42,8 @@ $ae_404_text      = get_option('ae_404_text', 'De pagina die je zoekt bestaat ni
             </div>
         </div>
 
-        <div class="fusion-row gda-404-content">
+        <div class="fusion-row fusion-404 gda-404-content">
             <div class="gda-404-box">
-                <div class="gda-404-number">404</div>
                 <p class="gda-404-text"><?php echo esc_html($ae_404_text); ?></p>
 
                 <div class="gda-404-actions">

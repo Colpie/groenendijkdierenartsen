@@ -5527,4 +5527,7 @@ body {
   gap: 45px;
   padding-bottom: 90px;
 }
+.error404 #boxed-wrapper .fusion-404 .gda-404-actions {
+  text-align: center;
+}
 /*# sourceMappingURL=maps/child.css.map */
