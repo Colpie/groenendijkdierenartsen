@@ -41,7 +41,6 @@ $ae_404_text = get_option('ae_404_text', 'De pagina die je zoekt bestaat niet me
                 </div>
             </div>
         <?php endif; ?>
-        <div class="fusion-clearfix"></div>
         <div class="error-page">
             <div class="fusion-row fusion-404">
                 <div class="gda-404-number">404</div>
