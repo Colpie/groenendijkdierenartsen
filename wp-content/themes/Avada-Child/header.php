@@ -111,7 +111,7 @@ $wrapper_class .= (is_page_template('blank.php')) ? ' wrapper_blank' : '';
             $main_class .= ' full-bg';
         }
 
-        if (is_single()) {
+        if (is_single() || is_404()) {
             $main_class .= ' width-100';
             $row_css = 'max-width:100%;';
         }
