@@ -13,7 +13,6 @@ if (!defined('ABSPATH')) {
 }
 global $post;
 ?>
-<?php get_header(); ?>
 
     <section id="content" style="<?php echo esc_attr(apply_filters('awb_content_tag_style', '')); ?>">
         <?php if (fusion_get_option('blog_pn_nav')) : ?>
@@ -61,6 +60,5 @@ global $post;
     </section>
 <?php do_action('avada_after_content'); ?>
 <?php
-get_footer();
 
 /* Omit closing PHP tag to avoid "Headers already sent" issues. */
