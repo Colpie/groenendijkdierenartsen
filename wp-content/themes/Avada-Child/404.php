@@ -47,6 +47,13 @@ $ae_404_text      = get_option( 'ae_404_text', 'De pagina die je zoekt bestaat n
                 <div class="fusion-row fusion-404">
                     <div class="gda-404-number">404</div>
                     <p class="gda-404-text"><?php echo esc_html( $ae_404_text ); ?></p>
+                    <div class="gda-404-actions">
+                        <?php
+                        echo do_shortcode(
+                            '[fusion_button link="' . esc_url( home_url( '/' ) ) . '" color="custom" size="medium" class="gda-404-button"]Terug naar de homepagina[/fusion_button]'
+                        );
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>

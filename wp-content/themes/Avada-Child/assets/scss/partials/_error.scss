@@ -74,14 +74,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
 
-      gap: 45px;
+      flex-direction: column;
       padding-bottom: 90px;
 
       .gda-404-number {
         font-size: 180px !important;
         line-height: 1 !important;
+        margin-bottom: 30px !important;
 
         @media (max-width: 640px) {
           font-size: 90px !important;
@@ -90,6 +90,7 @@
 
       .gda-404-text {
         text-align: center;
+        margin-bottom: 30px !important;
       }
 
       .gda-404-actions {
