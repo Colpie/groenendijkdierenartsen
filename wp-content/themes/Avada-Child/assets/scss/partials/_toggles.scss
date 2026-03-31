@@ -20,6 +20,16 @@
 
       .panel-group {
 
+        .panel-heading {
+
+          h4 {
+
+            a {
+              color: $text-color !important;
+            }
+          }
+        }
+
         .fusion-panel {
           padding-left:0 ;
           padding-right:0 ;

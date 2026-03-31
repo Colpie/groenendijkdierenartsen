@@ -4889,6 +4889,9 @@ body {
   height: 100%;
   object-fit: cover;
 }
+#boxed-wrapper .fusion-accordian.white-toggles .panel-group .panel-heading h4 a {
+  color: #215074 !important;
+}
 #boxed-wrapper .fusion-accordian.white-toggles .panel-group .fusion-panel {
   padding-left: 0;
   padding-right: 0;
