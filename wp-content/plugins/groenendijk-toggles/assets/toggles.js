@@ -1,25 +1,68 @@
 jQuery(function ($) {
     const hasGSAP = !!window.gsap;
 
+    function getAnimatedItems($panel) {
+        return $panel.find(".check-list ul li, .icon-body-content ul li");
+    }
+
+    function hideAnimatedItems($panel) {
+        getAnimatedItems($panel).css({
+            opacity: "0",
+            visibility: "hidden",
+            animation: "none",
+            "animation-delay": ""
+        });
+    }
+
+    function clearAnimatedItems($panel) {
+        getAnimatedItems($panel).css({
+            opacity: "",
+            visibility: "",
+            animation: "",
+            "animation-delay": ""
+        });
+    }
+
+    function animateListItems($panel) {
+        $panel.find(".check-list ul, .icon-body-content ul").each(function () {
+            $(this).children("li").each(function (i) {
+                const $li = $(this);
+
+                $li.css({
+                    opacity: "0",
+                    visibility: "hidden",
+                    animation: "none",
+                    "animation-delay": ""
+                });
+
+                this.offsetHeight;
+
+                $li.css({
+                    visibility: "visible",
+                    animation: "fadeInRight 0.6s ease forwards",
+                    "animation-delay": (i * 0.1) + "s"
+                });
+            });
+        });
+    }
+
     function closeToggle($toggle) {
-        const $btn = $toggle.find(".gda-toggle__header").first();
-        const $panel = $toggle.find(".gda-toggle__panel").first();
+        const $btn = $toggle.children(".gda-toggle__header");
+        const $panel = $toggle.children(".gda-toggle__panel");
 
         $btn.attr("aria-expanded", "false");
         $toggle.removeClass("is-open");
 
+        hideAnimatedItems($panel);
+
         if (!hasGSAP) {
-            $panel.prop("hidden", true);
+            $panel.attr("hidden", "hidden");
             return;
         }
 
-        // Zorg dat we kunnen animeren (panel moet zichtbaar zijn om height te meten)
-        $panel.prop("hidden", false);
-
-        // Kill bestaande animaties op panel
+        $panel.removeAttr("hidden");
         gsap.killTweensOf($panel[0]);
 
-        // Animate close
         gsap.to($panel[0], {
             height: 0,
             opacity: 0,
@@ -27,32 +70,37 @@ jQuery(function ($) {
             duration: 0.28,
             ease: "power2.out",
             onComplete: () => {
-                $panel.prop("hidden", true);
-                gsap.set($panel[0], { clearProps: "height,opacity,transform" });
-            },
+                $panel.attr("hidden", "hidden");
+                gsap.set($panel[0], { clearProps: "height,opacity,transform,overflow" });
+            }
         });
     }
 
     function openToggle($toggle) {
-        const $btn = $toggle.find(".gda-toggle__header").first();
-        const $panel = $toggle.find(".gda-toggle__panel").first();
+        const $btn = $toggle.children(".gda-toggle__header");
+        const $panel = $toggle.children(".gda-toggle__panel");
 
         $btn.attr("aria-expanded", "true");
         $toggle.addClass("is-open");
 
+        // Heel belangrijk: eerst direct verbergen vóór panel zichtbaar wordt
+        hideAnimatedItems($panel);
+
         if (!hasGSAP) {
-            $panel.prop("hidden", false);
+            $panel.removeAttr("hidden");
+            animateListItems($panel);
             return;
         }
 
-        // panel moet zichtbaar zijn
-        $panel.prop("hidden", false);
-
-        // Kill bestaande animaties
+        $panel.removeAttr("hidden");
         gsap.killTweensOf($panel[0]);
 
-        // Start: height 0 -> auto (via scrollHeight)
-        gsap.set($panel[0], { height: 0, opacity: 0, y: -6 });
+        gsap.set($panel[0], {
+            height: 0,
+            opacity: 0,
+            y: -6,
+            overflow: "hidden"
+        });
 
         const targetH = $panel[0].scrollHeight;
 
@@ -63,40 +111,41 @@ jQuery(function ($) {
             duration: 0.35,
             ease: "power2.out",
             onComplete: () => {
-                // height terug op auto (clearProps) zodat content responsive blijft
-                gsap.set($panel[0], { clearProps: "height" });
-            },
+                gsap.set($panel[0], { clearProps: "height,overflow" });
+                animateListItems($panel);
+            }
         });
     }
 
-    // Init: zorg dat gesloten panels netjes “ready” zijn
     $(".gda-toggle").each(function () {
         const $toggle = $(this);
-        const $btn = $toggle.find(".gda-toggle__header").first();
-        const $panel = $toggle.find(".gda-toggle__panel").first();
+        const $btn = $toggle.children(".gda-toggle__header");
+        const $panel = $toggle.children(".gda-toggle__panel");
 
-        // standaard dicht (tenzij je later een "default open" wil)
         $btn.attr("aria-expanded", "false");
         $toggle.removeClass("is-open");
-        $panel.prop("hidden", true);
+
+        if (!$panel.is("[hidden]")) {
+            $panel.attr("hidden", "hidden");
+        }
 
         if (hasGSAP) {
-            gsap.set($panel[0], { opacity: 1, y: 0, clearProps: "all" });
+            gsap.set($panel[0], { clearProps: "all" });
         }
+
+        // Meteen bij load al hidden zetten zodat ze nooit eerst zichtbaar flashen
+        hideAnimatedItems($panel);
     });
 
-    // Click handler
-    $(document).on("click", ".gda-toggle__header", function () {
-        const $btn = $(this);
-        const $toggle = $btn.closest(".gda-toggle");
-        const isOpen = $btn.attr("aria-expanded") === "true";
+    $(document).on("click", ".gda-toggle__header", function (e) {
+        e.preventDefault();
 
-        // Accordion: sluit andere open toggles
-        $toggle
-            .siblings(".gda-toggle.is-open")
-            .each(function () {
-                closeToggle($(this));
-            });
+        const $toggle = $(this).closest(".gda-toggle");
+        const isOpen = $toggle.hasClass("is-open");
+
+        $toggle.siblings(".gda-toggle.is-open").each(function () {
+            closeToggle($(this));
+        });
 
         if (isOpen) {
             closeToggle($toggle);
@@ -105,36 +154,30 @@ jQuery(function ($) {
         }
     });
 
-    // Optional: als je met anchors werkt (#id), open die toggle automatisch
-    // + smooth scroll (zonder gedoe met sticky header offsets)
     function openFromHash() {
         const hash = window.location.hash;
         if (!hash || hash.length < 2) return;
+        if (typeof CSS === "undefined" || typeof CSS.escape !== "function") return;
 
         const id = hash.substring(1);
         const $target = $("#" + CSS.escape(id) + ".gda-toggle");
 
         if (!$target.length) return;
 
-        // open target + sluit rest
-        $target
-            .siblings(".gda-toggle.is-open")
-            .each(function () {
-                closeToggle($(this));
-            });
+        $target.siblings(".gda-toggle.is-open").each(function () {
+            closeToggle($(this));
+        });
 
         openToggle($target);
 
-        // scroll naar header (niet naar panel)
-        const $header = $target.find(".gda-toggle__header").first();
+        const $header = $target.children(".gda-toggle__header");
         if ($header.length) {
             setTimeout(() => {
                 $header[0].scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 50);
+            }, 80);
         }
     }
 
-    // bij load + bij hash change
     openFromHash();
     $(window).on("hashchange", openFromHash);
 });

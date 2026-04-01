@@ -5055,6 +5055,127 @@ body {
   padding: 45px 0;
   flex-direction: column;
 }
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 640px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout {
+    align-items: center;
+  }
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col {
+  margin-right: 210px;
+}
+@media (max-width: 1300px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col {
+    margin-right: 90px;
+  }
+}
+@media (max-width: 1024px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col {
+    margin-bottom: 25px;
+    margin-right: 0;
+  }
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3 {
+  color: #ffffff !important;
+  font-size: 24px !important;
+  text-transform: none !important;
+  text-align: center;
+}
+@media (min-width: 1025px) {
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,
+  #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col {
+    padding-right: 90px;
+  }
+}
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
 #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
 #boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
@@ -5064,6 +5185,16 @@ body {
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body p:last-child {
   margin-bottom: 0;
+}
+#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li,
+#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__body.icon-body-content ul li {
+  color: #ffffff !important;
 }
 #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__images,
 #boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__images,

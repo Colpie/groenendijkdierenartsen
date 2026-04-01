@@ -78,7 +78,7 @@ function gda_register_toggles_taxonomy() {
 add_action('init', 'gda_register_toggles_taxonomy');
 
 /**
- * Metaboxen: 1 afbeelding + anchor id
+ * Metaboxen: 1 afbeelding + anchor id + Icoon
  */
 function gda_toggles_add_metaboxes() {
 
@@ -89,6 +89,15 @@ function gda_toggles_add_metaboxes() {
         'gda_toggle',
         'normal',
         'high'
+    );
+
+    add_meta_box(
+        'gda_toggle_icon_box',
+        'Icoon instellingen',
+        'gda_toggle_icon_metabox_render',
+        'gda_toggle',
+        'normal',
+        'default'
     );
 
     add_meta_box(
@@ -145,6 +154,47 @@ function gda_toggle_image_metabox_render($post) {
                 class="button"
                 id="gda-toggle-remove"
                 style="<?php echo $image_url ? '' : 'display:none;'; ?>"
+        >Verwijderen</button>
+    </div>
+    <?php
+}
+
+function gda_toggle_icon_metabox_render($post) {
+    wp_nonce_field('gda_toggle_icon_save', 'gda_toggle_icon_nonce');
+
+    $icon_id     = (int) get_post_meta($post->ID, '_gda_toggle_icon', true);
+    $icon_active = get_post_meta($post->ID, '_gda_toggle_icon_active', true);
+
+    $icon_url = $icon_id ? wp_get_attachment_image_url($icon_id, 'medium') : '';
+    ?>
+    <div class="gda-toggle-icon-field">
+        <p style="margin-top:0;">
+            <label>
+                <input type="checkbox" name="gda_toggle_icon_active" value="1" <?php checked($icon_active, '1'); ?>>
+                Gebruik icoonlayout voor dit item
+            </label>
+        </p>
+
+        <p style="color:#666;">
+            Als dit actief is, wordt de gewone afbeelding op de voorkant genegeerd en tonen we links het icoon en rechts de content.
+        </p>
+
+        <div style="margin:10px 0;">
+            <img
+                    id="gda-toggle-icon-preview"
+                    src="<?php echo esc_url($icon_url); ?>"
+                    style="<?php echo $icon_url ? '' : 'display:none;'; ?>max-width:140px;height:auto;border:1px solid #ddd;border-radius:6px;background:#fff;padding:8px;"
+            />
+        </div>
+
+        <input type="hidden" id="gda-toggle-icon" name="gda_toggle_icon" value="<?php echo esc_attr($icon_id); ?>" />
+
+        <button type="button" class="button button-primary" id="gda-toggle-icon-pick">Kies icoon</button>
+        <button
+                type="button"
+                class="button"
+                id="gda-toggle-icon-remove"
+                style="<?php echo $icon_url ? '' : 'display:none;'; ?>"
         >Verwijderen</button>
     </div>
     <?php
@@ -217,6 +267,27 @@ function gda_toggle_anchor_id_save($post_id) {
 }
 add_action('save_post_gda_toggle', 'gda_toggle_anchor_id_save');
 
+function gda_toggle_icon_save($post_id) {
+    if (!isset($_POST['gda_toggle_icon_nonce']) || !wp_verify_nonce($_POST['gda_toggle_icon_nonce'], 'gda_toggle_icon_save')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $icon_id = isset($_POST['gda_toggle_icon']) ? (int) $_POST['gda_toggle_icon'] : 0;
+    $icon_active = isset($_POST['gda_toggle_icon_active']) ? '1' : '0';
+
+    if ($icon_id > 0) {
+        update_post_meta($post_id, '_gda_toggle_icon', $icon_id);
+    } else {
+        delete_post_meta($post_id, '_gda_toggle_icon');
+    }
+
+    update_post_meta($post_id, '_gda_toggle_icon_active', $icon_active);
+}
+add_action('save_post_gda_toggle', 'gda_toggle_icon_save');
+
 /**
  * Admin assets
  */
@@ -235,43 +306,77 @@ function gda_toggle_admin_assets($hook) {
         );
 
         wp_add_inline_script('gda-toggle-admin', "
-            jQuery(document).ready(function($){
-                var frame;
+    jQuery(document).ready(function($){
+        var imageFrame;
+        var iconFrame;
 
-                $('#gda-toggle-pick').on('click', function(e){
-                    e.preventDefault();
+        $('#gda-toggle-pick').on('click', function(e){
+            e.preventDefault();
 
-                    if (frame) {
-                        frame.open();
-                        return;
-                    }
+            if (imageFrame) {
+                imageFrame.open();
+                return;
+            }
 
-                    frame = wp.media({
-                        title: 'Kies afbeelding',
-                        button: {
-                            text: 'Gebruik deze afbeelding'
-                        },
-                        multiple: false
-                    });
-
-                    frame.on('select', function(){
-                        var attachment = frame.state().get('selection').first().toJSON();
-                        $('#gda-toggle-image').val(attachment.id);
-                        $('#gda-toggle-preview').attr('src', attachment.url).show();
-                        $('#gda-toggle-remove').show();
-                    });
-
-                    frame.open();
-                });
-
-                $('#gda-toggle-remove').on('click', function(e){
-                    e.preventDefault();
-                    $('#gda-toggle-image').val('');
-                    $('#gda-toggle-preview').attr('src', '').hide();
-                    $(this).hide();
-                });
+            imageFrame = wp.media({
+                title: 'Kies afbeelding',
+                button: {
+                    text: 'Gebruik deze afbeelding'
+                },
+                multiple: false
             });
-        ");
+
+            imageFrame.on('select', function(){
+                var attachment = imageFrame.state().get('selection').first().toJSON();
+                $('#gda-toggle-image').val(attachment.id);
+                $('#gda-toggle-preview').attr('src', attachment.url).show();
+                $('#gda-toggle-remove').show();
+            });
+
+            imageFrame.open();
+        });
+
+        $('#gda-toggle-remove').on('click', function(e){
+            e.preventDefault();
+            $('#gda-toggle-image').val('');
+            $('#gda-toggle-preview').attr('src', '').hide();
+            $(this).hide();
+        });
+
+        $('#gda-toggle-icon-pick').on('click', function(e){
+            e.preventDefault();
+
+            if (iconFrame) {
+                iconFrame.open();
+                return;
+            }
+
+            iconFrame = wp.media({
+                title: 'Kies icoon',
+                button: {
+                    text: 'Gebruik dit icoon'
+                },
+                multiple: false
+            });
+
+            iconFrame.on('select', function(){
+                var attachment = iconFrame.state().get('selection').first().toJSON();
+                $('#gda-toggle-icon').val(attachment.id);
+                $('#gda-toggle-icon-preview').attr('src', attachment.url).show();
+                $('#gda-toggle-icon-remove').show();
+            });
+
+            iconFrame.open();
+        });
+
+        $('#gda-toggle-icon-remove').on('click', function(e){
+            e.preventDefault();
+            $('#gda-toggle-icon').val('');
+            $('#gda-toggle-icon-preview').attr('src', '').hide();
+            $(this).hide();
+        });
+    });
+");
     }
 }
 add_action('admin_enqueue_scripts', 'gda_toggle_admin_assets');
@@ -340,6 +445,8 @@ function gda_toggles_shortcode($atts) {
         <?php while ($q->have_posts()) : $q->the_post(); ?>
             <?php
             $post_id = get_the_ID();
+            $icon_id = (int) get_post_meta($post_id, '_gda_toggle_icon', true);
+            $icon_active = get_post_meta($post_id, '_gda_toggle_icon_active', true);
 
             $anchor_id = get_post_meta($post_id, '_gda_toggle_anchor_id', true);
             if (!$anchor_id) {
@@ -373,18 +480,37 @@ function gda_toggles_shortcode($atts) {
                 </a>
 
                 <div class="gda-toggle__panel" hidden>
-                    <div class="gda-toggle__inner">
+                    <div class="gda-toggle__inner <?php echo ($icon_active === '1' && $icon_id) ? 'gda-toggle__inner--icon-layout' : ''; ?>">
 
-                        <div class="gda-toggle__body">
-                            <?php the_content(); ?>
-                        </div>
+                        <?php if ($icon_active === '1' && $icon_id) : ?>
+                            <div class="gda-toggle__icon-layout">
+                                <div class="gda-toggle__icon-col">
+                                    <div class="gda-toggle__icon-wrap">
+                                        <?php echo wp_get_attachment_image($icon_id, 'medium', false, array('class' => 'gda-toggle__icon')); ?>
+                                    </div>
+                                    <h3>
+                                        <?php echo get_the_title(); ?>
+                                    </h3>
+                                </div>
 
-                        <?php if ($image_id) : ?>
-                            <div class="gda-toggle__images gda-toggle__images--single">
-                                <div class="gda-toggle__image gda-toggle__image--single">
-                                    <?php echo wp_get_attachment_image($image_id, 'large'); ?>
+                                <div class="gda-toggle__content-col">
+                                    <div class="gda-toggle__body icon-body-content check-list">
+                                        <?php the_content(); ?>
+                                    </div>
                                 </div>
                             </div>
+                        <?php else : ?>
+                            <div class="gda-toggle__body">
+                                <?php the_content(); ?>
+                            </div>
+
+                            <?php if ($image_id) : ?>
+                                <div class="gda-toggle__images gda-toggle__images--single">
+                                    <div class="gda-toggle__image gda-toggle__image--single">
+                                        <?php echo wp_get_attachment_image($image_id, 'large'); ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                     </div>
@@ -416,23 +542,3 @@ function gda_toggles_deactivate() {
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'gda_toggles_deactivate');
-
-function gda_migrate_uiergezondheid_to_toggles() {
-    if (get_option('gda_toggle_migrated')) return;
-
-    $posts = get_posts(array(
-        'post_type'      => 'gda_uiergezondheid',
-        'posts_per_page' => -1,
-        'post_status'    => 'any',
-    ));
-
-    foreach ($posts as $post) {
-        wp_update_post(array(
-            'ID'        => $post->ID,
-            'post_type' => 'gda_toggle',
-        ));
-    }
-
-    update_option('gda_toggle_migrated', 1);
-}
-add_action('init', 'gda_migrate_uiergezondheid_to_toggles');
