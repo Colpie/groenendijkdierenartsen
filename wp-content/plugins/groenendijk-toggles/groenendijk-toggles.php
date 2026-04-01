@@ -541,8 +541,3 @@ register_activation_hook(__FILE__, 'gda_toggles_activate');
 function gda_toggles_deactivate() {
     flush_rewrite_rules();
 }
-<<<<<<< HEAD
-register_deactivation_hook(__FILE__, 'gda_toggles_deactivate');
-=======
-register_deactivation_hook(__FILE__, 'gda_toggles_deactivate');
->>>>>>> 73f6d60 (merge)
