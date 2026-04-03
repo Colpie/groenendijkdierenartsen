@@ -5100,7 +5100,7 @@ body {
 #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col {
-  margin-right: 210px;
+  margin-right: 150px;
 }
 @media (max-width: 1300px) {
   #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col,
@@ -5147,22 +5147,10 @@ body {
 #boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img,
 #boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col .gda-toggle__icon-wrap img {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
-}
-#boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-voeding-toggles .gda-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3,
-#boxed-wrapper .gda-voeding-toggles .gda-voeding-toggle .gda-voeding-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__icon-col h3 {
-  color: #ffffff !important;
-  font-size: 24px !important;
-  text-transform: none !important;
-  text-align: center;
+  min-width: 150px;
 }
 @media (min-width: 1025px) {
   #boxed-wrapper .gda-toggles .gda-toggle .gda-toggle__panel .gda-toggle__inner .gda-toggle__icon-layout .gda-toggle__content-col,

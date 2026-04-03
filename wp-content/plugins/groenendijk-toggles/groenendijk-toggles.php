@@ -488,15 +488,19 @@ function gda_toggles_shortcode($atts) {
                                     <div class="gda-toggle__icon-wrap">
                                         <?php echo wp_get_attachment_image($icon_id, 'medium', false, array('class' => 'gda-toggle__icon')); ?>
                                     </div>
-                                    <h3>
-                                        <?php echo get_the_title(); ?>
-                                    </h3>
                                 </div>
 
                                 <div class="gda-toggle__content-col">
                                     <div class="gda-toggle__body icon-body-content check-list">
                                         <?php the_content(); ?>
                                     </div>
+                                    <?php if ($image_id) : ?>
+                                        <div class="gda-toggle__images gda-toggle__images--single gda-toggle__images--icon-layout">
+                                            <div class="gda-toggle__image gda-toggle__image--single">
+                                                <?php echo wp_get_attachment_image($image_id, 'large'); ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php else : ?>

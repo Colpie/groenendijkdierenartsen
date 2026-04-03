@@ -221,7 +221,7 @@
             }
 
             .gda-toggle__icon-col {
-              margin-right: 210px;
+              margin-right: 150px;
 
               @media (max-width: 1300px) {
                 margin-right: 90px;
@@ -238,18 +238,13 @@
                 align-items: center;
 
                 img {
-                  width: 120px;
-                  height: 120px;
+                  width: 150px;
+                  height: 150px;
                   object-fit: contain;
+
+                  min-width: 150px;
+
                 }
-              }
-
-              h3 {
-                color: $white !important;
-                font-size: 24px !important;
-                text-transform: none !important;
-
-                text-align: center;
               }
             }
 
