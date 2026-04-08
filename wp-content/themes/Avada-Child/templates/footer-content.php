@@ -59,7 +59,7 @@ $c_page_id = Avada()->fusion_library->get_page_id();
                 <div class="footer-column-inner">
                     <strong>Open:</strong>
                     <span class="footer-text">
-                        <p>Ma-vr: 8u30 tot 17u30<br>Za: 9u tot 12u30</p>
+                        <p>Ma-vr: 8u30 tot 20u<br>Za: 9u tot 13u</p>
                     </span>
                     <strong>Inplannen afspraken:</strong>
                     <span class="footer-text">
