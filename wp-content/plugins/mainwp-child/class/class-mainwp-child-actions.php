@@ -108,6 +108,29 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
     }
 
     /**
+     * Normalize a theme reference into a stylesheet slug.
+     *
+     * @param mixed $theme Theme slug or WP_Theme instance.
+     *
+     * @return string|null
+     */
+    private function normalize_theme_slug( $theme ) {
+        if ( $theme instanceof \WP_Theme ) {
+            $theme = $theme->get_stylesheet();
+        }
+
+        if ( is_scalar( $theme ) ) {
+            $theme = (string) $theme;
+        }
+
+        if ( ! is_string( $theme ) || '' === $theme ) {
+            return null;
+        }
+
+        return $theme;
+    }
+
+    /**
      * MainWP_Child_Callable constructor.
      *
      * Run any time class is called.
@@ -116,7 +139,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
         static::$connected_admin = get_option( 'mainwp_child_connected_admin', '' );
         $this->init_actions      = array(
             'upgrader_pre_install',
-            'upgrader_process_complete',
+            // 'upgrader_process_complete', // moved to changes logs.
             // 'activate_plugin', // moved to changes logs, log id ##1461.
             'deactivate_plugin',
             'switch_theme',
@@ -388,7 +411,7 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
                 $name    = $data['Name'];
                 $version = $data['Version'];
             } else { // theme.
-                $slug = $upgrader->theme_info();
+                $slug = $this->normalize_theme_slug( $upgrader->theme_info() );
 
                 if ( ! $slug ) {
                     return false;
@@ -708,9 +731,10 @@ class MainWP_Child_Actions { //phpcs:ignore -- NOSONAR - multi method.
 
         // Get WordPress version using the centralized method.
         // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Using static access for centralized version retrieval
-        $new_version  = MainWP_Child_Server_Information_Base::get_wordpress_version();
-        $old_version  = $new_version; // Current version is now the old version after update.
-        $auto_updated = ( 'update-core.php' !== $pagenow );
+        $new_version = MainWP_Child_Server_Information_Base::get_wordpress_version();
+        $old_version = $new_version; // Current version is now the old version after update.
+
+        $auto_updated = empty( $pagenow ) || 'update-core.php' !== $pagenow;
 
         if ( $auto_updated ) {
             // translators: Placeholder refers to a version number (e.g. "4.2").

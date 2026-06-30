@@ -35,14 +35,14 @@ class MainWP_Child {
      *
      * @var string MainWP Child plugin version.
      */
-    public static $version = '6.0.5'; // NOSONAR - not IP.
+    public static $version = '6.1.2'; // NOSONAR - not IP.
 
     /**
      * Private variable containing the latest MainWP Child update version.
      *
      * @var string MainWP Child update version.
      */
-    private $update_version = '1.6.3';
+    private $update_version = '1.6.4';
 
     /**
      * Public variable containing the MainWP Child plugin slug.
@@ -230,6 +230,9 @@ class MainWP_Child {
     private function init_cron_support() {
         // Support for cron jobs.
         if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+            MainWP_Child_Plugins_Check::instance();
+            MainWP_Child_Themes_Check::instance();
+
             // Normalize BackWPup cron args early to avoid PHP 8 named-parameter fatals.
             MainWP_Child_Back_WP_Up::migrate_backwpup_cron_args();
             $mainwp_child_run = filter_input( INPUT_GET, 'mainwp_child_run', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
@@ -315,7 +318,8 @@ class MainWP_Child {
                 'mainwp_child_pingnonce',
                 'mainwp_child_ignored_changes_logs',
                 'mainwp_child_ignored_nonmainwp_actions',
-
+                'mainwp_child_changes_logs_ttl',
+                'mainwp_child_changes_logs_enabled',
             );
 
             // Execute individual queries for each option for maximum security.
@@ -397,7 +401,51 @@ class MainWP_Child {
             MainWP_Child_DB::fix_autoload( 'mainwp_child_actions_saved_data' );
         }
 
+        if ( empty( $update_version ) || version_compare( $update_version, '1.6.4', '<' ) ) {
+            $this->maybe_generate_unique_id_for_passwordless_auth();
+        }
+
         MainWP_Helper::update_option( 'mainwp_child_update_version', $this->update_version, 'yes' );
+    }
+
+    /**
+     * Generate a Unique Security ID for legacy passwordless setups.
+     *
+     * @return void
+     */
+    private function maybe_generate_unique_id_for_passwordless_auth() {
+        if ( '' !== MainWP_Helper::get_site_unique_id() ) {
+            return;
+        }
+
+        global $wpdb;
+
+        $disabled_auth_users = get_users(
+            array(
+                'fields'      => 'ID',
+                'number'      => 1,
+                'count_total' => false,
+                'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- One-time update migration.
+                    'relation' => 'OR',
+                    array(
+                        'key'     => $wpdb->prefix . 'mainwp_child_user_enable_passwd_auth_connect',
+                        'value'   => '0',
+                        'compare' => '=',
+                    ),
+                    array(
+                        'key'     => 'mainwp_child_user_enable_passwd_auth_connect',
+                        'value'   => '0',
+                        'compare' => '=',
+                    ),
+                ),
+            )
+        );
+
+        if ( empty( $disabled_auth_users ) ) {
+            return;
+        }
+
+        MainWP_Helper::update_option( 'mainwp_child_uniqueId', MainWP_Helper::rand_string( 12 ) );
     }
 
     /**

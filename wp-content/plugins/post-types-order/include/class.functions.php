@@ -30,6 +30,37 @@
                     return ($user_level);
                 }
                 
+                
+            
+            /**
+            * Resolve the capability required to use the re-order interfaces / AJAX endpoints
+            * 
+            * Centralises the logic previously duplicated in add_menu() and init_cpto(),
+            * so the menu, the page-load gate, and the AJAX handlers can never drift apart.
+            * 
+            * @param string $post_type_name Optional post type, passed through to the pto/edit_capability filter
+            * @return string A capability name suitable for current_user_can()
+            */
+            function get_required_capability($post_type_name = '')
+                {
+                    $options = self::get_options();
+
+                    if (isset($options['capability']) && !empty($options['capability']))
+                        {
+                            $capability = $options['capability'];
+                        }
+                    else if (isset($options['level']) && is_numeric($options['level']))
+                        {
+                            $capability = $this->userdata_get_user_level();
+                        }
+                        else
+                            {
+                                $capability = 'manage_options';
+                            }
+
+                    return apply_filters('pto/edit_capability', $capability, $post_type_name);
+                }
+                
             
             /**
             * Retrieve the plugin options
@@ -67,9 +98,9 @@
                 {
                     ?>
                         <div id="cpt_info_box">
-                            <h4><a href="https://www.nsp-code.com/premium-plugins/advanced-post-types-order/" target="_blank"><img width="151" src="<?php echo esc_url ( CPTURL . "/images/logo.png" ) ?>" class="attachment-large size-large wp-image-36927" alt=""></a><br /><?php esc_html_e('Did you know there is available an Advanced version of this plug-in?', 'post-types-order') ?> <a target="_blank" href="https://www.nsp-code.com/premium-plugins/advanced-post-types-order/"><?php esc_html_e('Read more', 'post-types-order') ?></a></h4>
+                            <h4><a href="https://www.nsp-code.com/premium-plugins/advanced-post-types-order/" target="_blank"><img width="151" src="<?php echo esc_url ( CPTURL . "/images/logo.png" ) ?>" class="attachment-large size-large wp-image-36927" alt=""></a><br /><?php esc_html_e('Did you know an Advanced version of this plug-in is available, with Automatic Sorting, AI Prompts, and many more?', 'post-types-order') ?> <a target="_blank" href="https://www.nsp-code.com/premium-plugins/advanced-post-types-order/"><?php esc_html_e('Read more', 'post-types-order') ?></a></h4>
                             <p><?php esc_html_e('Check our', 'post-types-order') ?> <a target="_blank" href="https://wordpress.org/plugins/taxonomy-terms-order/">Category Order - Taxonomy Terms Order</a> <?php esc_html_e('plugin which allow to custom sort categories and custom taxonomies terms', 'post-types-order') ?> </p>
-                            <p><span style="color:#CC0000" class="dashicons dashicons-megaphone" alt="f488">&nbsp;</span> <?php esc_html_e('Check our', 'post-types-order') ?> <a href="https://wordpress.org/plugins/wp-hide-security-enhancer/" target="_blank"><b>WP Hide & Security Enhancer</b></a> <?php esc_html_e('an extra layer of security for your site. The easy way to completely hide your WordPress core files, themes and plugins', 'post-types-order') ?>.</p>
+                            <p><span style="color:#CC0000" class="dashicons dashicons-megaphone" alt="f488">&nbsp;</span> <?php esc_html_e('Check our', 'post-types-order') ?> <a href="https://wordpress.org/plugins/wp-hide-security-enhancer/" target="_blank"><b>WP Hide & Security Enhancer</b></a> <?php esc_html_e('an extra layer of security for your site. It provides an easy way to protect your website’s code from being exploited by hiding your WordPress core files, themes, and plugins.', 'post-types-order') ?>.</p>
                             <p><span style="color:#CC0000" class="dashicons dashicons-megaphone" alt="f488">&nbsp;</span> <?php esc_html_e('Check our', 'post-types-order') ?> <a href="https://wordpress.org/plugins/software-license-lite/" target="_blank"><b>Software License Lite for WooCommerce</b></a> <?php esc_html_e('A centralized licensing solution for WooCommerce that manages product licenses, delivers software updates, supports ongoing maintenance, and helps protect your code.', 'post-types-order') ?>.</p>
                             <div class="clear"></div>
                         </div>

@@ -5,9 +5,9 @@ Author: mainwp
 Author URI: https://mainwp.com
 Plugin URI: https://mainwp.com
 Requires at least: 6.2
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.0.5
+Stable tag: 6.1.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,48 @@ We have an extensive FAQ with more questions and answers [here](https://mainwp.c
 11. Dashboard Insights
 
 == Changelog ==
+
+= 6.1.2 - 6-16-2026 =
+
+* Updated: Hardened MainWP Child connection verification and settings behavior for passwordless setups. If Password Authentication is disabled, adding or reconnecting a site now requires the Unique Security ID, including when using the MainWP REST API or other automations. Thanks to Khaled Alenazi (Nxploited).
+
+= 6.1.1 - 6-2-2026 =
+
+* Updated: Improved session cleanup when authentication failures occur to ensure proper logout behavior. [(Pull Request by Sixela)](https://github.com/sixela)
+* Updated: Improved premium theme and plugin update detection to prevent system hangs caused by slow or unreachable servers. [(Pull Request by Contributolo)](https://github.com/Contributolo)
+
+= 6.1 - 5-26-2026 =
+
+* Fixed: Typos and inconsistencies in user login event log descriptions and action identifiers for improved clarity and consistency across Network Activity logs.
+* Updated: Spammed comments are now properly excluded from being counted in reports and token metrics.
+* Updated: Updated the PHPSecLib library to the latest version.
+* Updated: Enhanced plugin and theme health check monitoring with improved background task scheduling and automatic recovery from missed scheduled events.
+
+= 6.0.11 - 5-5-2026 =
+* Fixed: Global `customize_register` hook exposes legacy Customizer UI issues.
+
+= 6.0.10 - 4-28-2026 =
+* Fixed: Improved namespace prefix handling to ensure more accurate module loading.
+* Updated: Enhanced background synchronization for detecting and reporting outdated plugins and themes.
+
+= 6.0.9 - 4-21-2026 =
+* Updated: Improved Network Activity entries for WordPress auto-updates to avoid showing "Unknown User" and better reflect automated update actions.
+
+= 6.0.8 - 4-14-2026 =
+* Fixed: Added the `normalize_theme_slug()` method to better handle theme references and prevent PHP warnings when installing themes by uploading a ZIP file.
+* Updated: Expanded Network Activity tracking to monitor core, plugin, and theme updates handled by WordPress auto-updates.
+
+= 6.0.7 - 4-7-2026 =
+
+* Fixed: Resolved an issue where the Network Activity feature continued logging events even when the feature was disabled.
+* Fixed: Conflict with the SureFeedback plugin.
+* Added: Added detailed sync monitoring with per-call timing and execution data to the Custom Event Monitor.
+* Added: Added an option to set a custom Network Activity data retention period in child site databases.
+
+= 6.0.6 - 3-31-2026 =
+
+* Fixed: Improved timestamp strict typing compatibility on newer PHP versions.
+* Fixed: Corrected an issue where the UpdraftPlus add-on option "Do not overwrite Remote Storage settings" was not respected in individual site settings.
 
 = 6.0.5 - 3-24-2026 =
 

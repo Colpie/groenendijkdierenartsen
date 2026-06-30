@@ -11,11 +11,37 @@ use ReallySimplePlugins\RSS\Core\Support\Helpers\Storage;
  */
 final class RequestStorage extends Storage
 {
-	public function __construct()
-	{
-		parent::__construct([
-			'global' => $_REQUEST,
-			'files'  => $_FILES,
-		]);
-	}
+    public function __construct()
+    {
+        $body = $this->getRequestBody();
+
+        parent::__construct([
+            'global' => $_REQUEST,
+            'files' => $_FILES,
+            'body' => $body,
+        ]);
+    }
+
+    private function getRequestBody(): array
+    {
+        $body = [];
+        if (!isset($_SERVER['REQUEST_METHOD'])) {
+            return $body;
+        }
+
+        $requestMethod = strtoupper((string) $_SERVER['REQUEST_METHOD']);
+
+        if ($requestMethod === 'GET') {
+            return $body;
+        }
+
+        $input = file_get_contents('php://input');
+        $decoded = json_decode($input, true);
+
+        if (is_array($decoded)) {
+            $body = $decoded;
+        }
+
+        return $body;
+    }
 }

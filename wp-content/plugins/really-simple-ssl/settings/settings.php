@@ -60,20 +60,39 @@ add_filter('rest_url', 'rsssl_fix_rest_url_for_wpml', 10, 4);
  */
 function rsssl_get_chunk_translations($path = 'settings/build'  ) {
 	//get all files from the settings/build folder
-	$files = scandir(rsssl_path . $path );
+	$base_path = rsssl_path . $path;
+	$files = scandir($base_path );
 	$json_translations = [];
 
 	// filter the filenames to get the JavaScript and asset filenames
 	$jsFilename = '';
 	$assetFilename = '';
+	$candidates = [];
 
 	foreach ($files as $file) {
-		if (strpos($file, 'index.') === 0) {
-			if (substr($file, -3) === '.js') {
-				$jsFilename = $file;
-			} elseif (substr($file, -10) === '.asset.php') {
-				$assetFilename = $file;
+		// Collect build candidates and pick the newest matching index.<version>.js + asset.php pair.
+		if (strpos($file, 'index.') === 0 && substr($file, -10) === '.asset.php') {
+			$asset_file_path = trailingslashit($base_path) . $file;
+			$asset_data = require $asset_file_path;
+			if (!is_array($asset_data) || empty($asset_data['version']) || !is_string($asset_data['version'])) {
+				continue;
 			}
+
+			$version = $asset_data['version'];
+			$js_file = 'index.' . $version . '.js';
+			$js_file_path = trailingslashit($base_path) . $js_file;
+
+			if (!file_exists($js_file_path)) {
+				continue;
+			}
+
+			$mtime = max((int) @filemtime($asset_file_path), (int) @filemtime($js_file_path));
+			$candidates[] = [
+				'version' => $version,
+				'js' => $js_file,
+				'asset' => $file,
+				'mtime' => $mtime,
+			];
 		}
 
 		if (strpos($file, '.js') === false) {
@@ -90,6 +109,16 @@ function rsssl_get_chunk_translations($path = 'settings/build'  ) {
 		}
 		wp_deregister_script( $chunk_handle );
 	}
+
+	// Prefer the newest valid build output.
+	if (!empty($candidates)) {
+		usort($candidates, static function($a, $b) {
+			return ($b['mtime'] ?? 0) <=> ($a['mtime'] ?? 0);
+		});
+		$jsFilename = $candidates[0]['js'];
+		$assetFilename = $candidates[0]['asset'];
+	}
+
 	if (empty($jsFilename) || empty($assetFilename) ) {
 		return [];
 	}
@@ -373,6 +402,12 @@ function rsssl_do_action($request, $ajax_data = false)
             $response = apply_filters("rsssl_do_action", [], $action, $data);
 	}
 
+	// Backward compatibility: some legacy actions returned the payload at the top-level,
+	// while older Settings code expects it under `data`.
+	if (in_array($action, ['hardening_data'], true) && is_array($response) && !isset($response['data'])) {
+		$response = array_merge(['data' => $response], $response);
+	}
+
 	if (is_array($response)) {
 		$response['request_success'] = true;
 	}
@@ -631,21 +666,25 @@ function rsssl_rest_api_fields_set(WP_REST_Request $request, $ajax_data = false)
 	$config_fields = rsssl_fields(false);
 	$config_ids = array_column($config_fields, 'id');
 	foreach ($fields as $index => $field) {
-		$config_field_index = array_search($field['id'], $config_ids);
-		$config_field = $config_fields[$config_field_index];
+		if (!isset($field['id'])) {
+			unset($fields[$index]);
+			continue;
+		}
+		$field_id = sanitize_text_field($field['id']);
+		$config_field_index = array_search($field_id, $config_ids);
 		if ($config_field_index === false) {
 			unset($fields[$index]);
 			continue;
 		}
-		$type = rsssl_sanitize_field_type($field['type']);
+		$config_field = $config_fields[$config_field_index];
+		$type = isset($config_field['type']) ? rsssl_sanitize_field_type($config_field['type']) : false;
         if ($type === false) {
             return [
                 'success' => false,
-                'error'   => 'Invalid field type provided for field ' . sanitize_text_field($field['id']),
+                'error'   => 'Invalid field type configured for field ' . $field_id,
             ];
         }
-		$field_id = sanitize_text_field($field['id']);
-		$value = rsssl_sanitize_field($field['value'], $type, $field_id);
+		$value = rsssl_sanitize_field($field['value'] ?? false, $type, $field_id);
 		//if an endpoint is defined, we use that endpoint instead
 		if (isset($config_field['data_endpoint'])) {
 			//the updateItemId allows us to update one specific item in a field set.
@@ -668,6 +707,8 @@ function rsssl_rest_api_fields_set(WP_REST_Request $request, $ajax_data = false)
 		}
 
 		$field['value'] = $value;
+		$field['id'] = $field_id;
+		$field['type'] = $type;
 		$fields[$index] = $field;
 	}
 
@@ -678,8 +719,10 @@ function rsssl_rest_api_fields_set(WP_REST_Request $request, $ajax_data = false)
 	}
 
 	//build a new options array
+	$previous_values = [];
 	foreach ($fields as $field) {
 		$prev_value = isset($options[$field['id']]) ? $options[$field['id']] : false;
+		$previous_values[ $field['id'] ] = $prev_value;
 		do_action("rsssl_before_save_option", $field['id'], $field['value'], $prev_value, $field['type']);
 		$options[$field['id']] = apply_filters("rsssl_fieldvalue", $field['value'], $field['id'], $field['type']);
 	}
@@ -691,10 +734,7 @@ function rsssl_rest_api_fields_set(WP_REST_Request $request, $ajax_data = false)
 		}
 	}
 	RSSSL()->admin->clear_admin_notices_cache();
-	do_action('rsssl_after_saved_fields', $fields );
-	foreach ( $fields as $field ) {
-		do_action( "rsssl_after_save_field", $field['id'], $field['value'], $prev_value, $field['type'] );
-	}
+	rsssl_finalize_saved_fields_actions( $fields, $previous_values );
 	return [
 		'success' => true,
 		'progress' => RSSSL()->progress->get(),
@@ -737,7 +777,7 @@ function rsssl_update_option($name, $value)
 	$name = sanitize_text_field($name);
 	$type = rsssl_sanitize_field_type($config_field['type']);
 	$value = rsssl_sanitize_field($value, $type, $name);
-	$value = apply_filters("rsssl_fieldvalue", $value, sanitize_text_field($name), $type);
+	$value = apply_filters('rsssl_fieldvalue', $value, sanitize_text_field($name), $type);
 	#skip if value wasn't changed
 	if (isset($options[$name]) && $options[$name] === $value) {
 		return;
@@ -751,8 +791,12 @@ function rsssl_update_option($name, $value)
 	}
 	$config_field['value'] = $value;
 	RSSSL()->admin->clear_admin_notices_cache();
-	do_action('rsssl_after_saved_fields',[$config_field] );
-	do_action( "rsssl_after_save_field", $name, $value, $prev_value, $type );
+	rsssl_finalize_saved_fields_actions(
+		[ $config_field ],
+		[
+			$name => $prev_value,
+		]
+	);
 }
 
 /**
@@ -1012,6 +1056,36 @@ function rsssl_sanitize_datatable($value, $type, $field_name)
 		}
 	}
 	return $value;
+}
+
+function rsssl_maybe_process_scheduled_htaccess_update(): void
+{
+	if ( ! function_exists( 'rsssl_flush_scheduled_htaccess_update' ) ) {
+		return;
+	}
+
+	rsssl_flush_scheduled_htaccess_update();
+}
+
+function rsssl_finalize_saved_fields_actions( array $fields, array $previous_values ): void
+{
+	do_action( 'rsssl_after_saved_fields', $fields );
+	rsssl_maybe_process_scheduled_htaccess_update();
+
+	foreach ( $fields as $field ) {
+		$field_id = $field['id'] ?? false;
+		if ( $field_id === false ) {
+			continue;
+		}
+
+		do_action(
+			'rsssl_after_save_field',
+			$field_id,
+			$field['value'] ?? '',
+			$previous_values[ $field_id ] ?? false,
+			$field['type'] ?? ''
+		);
+	}
 }
 
 

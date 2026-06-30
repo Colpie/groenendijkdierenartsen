@@ -82,11 +82,22 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
         try {
             $user = $this->check_login_and_get_user($parameters->user_id, $parameters->login_nonce);
         } catch (Exception $e) {
-            return new WP_REST_Response(['error' => $e->getMessage()], 403);
+            return new WP_REST_Response(['message' => $e->getMessage()], 403);
         }
+
+		// Do not start a new email setup from the pre-auth flow after 2FA exists.
+		if ( $this->has_configured_provider( $user ) ) {
+			return new WP_REST_Response(
+				array(
+					'error' => __( 'Two-Factor Authentication must be completed before it can be changed.', 'really-simple-ssl' ),
+				),
+				403
+			);
+		}
+
         // Check if the provider.
         if ('email' !== $parameters->provider) {
-            return new WP_REST_Response(array('error' => 'Invalid provider'), 401);
+            return new WP_REST_Response(array('message' => __('Invalid provider', 'really-simple-ssl')), 401);
         }
 
         // Finally redirect the user to the redirect_to page with a response.
@@ -108,12 +119,22 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
         try {
             $user = $this->check_login_and_get_user($parameters->user_id, $parameters->login_nonce);
         } catch (Exception $e) {
-            return new WP_REST_Response(['error' => $e->getMessage()], 403);
+            return new WP_REST_Response(['message' => $e->getMessage()], 403);
         }
+
+		// Do not start a new email setup from the pre-auth flow after 2FA exists.
+		if ( $this->has_configured_provider( $user ) ) {
+			return new WP_REST_Response(
+				array(
+					'error' => __( 'Two-Factor Authentication must be completed before it can be changed.', 'really-simple-ssl' ),
+				),
+				403
+			);
+		}
 
         // Check if the provider.
         if ('email' !== $parameters->provider) {
-	        return new WP_REST_Response(array('error' => __('Invalid provider', 'really-simple-ssl')), 401);
+	        return new WP_REST_Response(array('message' => __('Invalid provider', 'really-simple-ssl')), 401);
         }
 
         // Finally redirect the user to the redirect_to page with a response.
@@ -139,14 +160,24 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
 
         // Check if the provider is 'email'.
         if ('email' !== $parameters->provider) {
-            return new WP_REST_Response(array('error' => 'Invalid provider'), 401);
+            return new WP_REST_Response(array('message' => __('Invalid provider', 'really-simple-ssl')), 401);
         }
 
         try {
             $user = $this->check_login_and_get_user($parameters->user_id, $parameters->login_nonce);
         } catch (Exception $e) {
-            return new WP_REST_Response(['error' => $e->getMessage()], 403);
+            return new WP_REST_Response(['message' => $e->getMessage()], 403);
         }
+
+		// Email may finish only its own challenge; it may not replace another active method.
+		if ( $this->has_configured_provider_other_than( $user, 'email' ) ) {
+			return new WP_REST_Response(
+				array(
+					'error' => __( 'Two-Factor Authentication must be completed before it can be changed.', 'really-simple-ssl' ),
+				),
+				403
+			);
+		}
 
 
         // Validate the provided token.
@@ -156,7 +187,7 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
             // Log out the user.
             wp_logout();
 
-            return new WP_REST_Response(array('error' => __('Code was was invalid, try "Resend Code"', 'really-simple-ssl')), 401);
+            return new WP_REST_Response(array('error' => __('Code was invalid, try "Resend Code"', 'really-simple-ssl')), 401);
         }
 
         // Mark all other providers as inactive.
@@ -179,13 +210,13 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
         try {
             $user = $this->check_login_and_get_user($parameters->user_id, $parameters->login_nonce);
         } catch (Exception $e) {
-            return new WP_REST_Response(['error' => $e->getMessage()], 403);
+            return new WP_REST_Response(['message' => $e->getMessage()], 403);
         }
 
         // Sanitize and verify the provider.
         $provider = sanitize_text_field($parameters->provider);
         if ('email' !== $provider) {
-            return new WP_REST_Response(['error' => __('Invalid provider', 'really-simple-ssl')], 400);
+            return new WP_REST_Response(['message' => __('Invalid provider', 'really-simple-ssl')], 400);
         }
 
         // Determine email 2FA status for this user.
@@ -199,7 +230,7 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
 
 	    if ('active' !== $email_status && !('open' === $email_status && 'onboarding' === $login_action)) {
 		    return new WP_REST_Response([
-			    'error' => __('Email authentication is not active for this user', 'really-simple-ssl')
+			    'message' => __('Email authentication is not active for this user', 'really-simple-ssl')
 		    ], 403);
 	    }
 
@@ -207,7 +238,7 @@ final class Rsssl_Email_Controller extends Rsssl_Abstract_Controller
         try {
             Rsssl_Two_Factor_Email::get_instance()->generate_and_email_token($user, (bool) $parameters->profile);
         } catch (WP_Error $e) {
-            return new WP_REST_Response(['error' => $e->get_error_message()], 500);
+            return new WP_REST_Response(['message' => $e->get_error_message()], 500);
         }
 
         return new WP_REST_Response(

@@ -8,7 +8,7 @@ Author URI: http://ciphercoin.com/
 Text Domain: contact-form-cfdb7
 License: GPL v2 or later
 Domain Path: /languages/
-Version: 1.3.5
+Version: 1.3.6
 */
 
 function cfdb7_create_table(){
@@ -136,6 +136,9 @@ function cfdb7_before_send_mail( $form_tag ) {
         foreach ($_FILES as $file_key => $file) {
             array_push($uploaded_files, $file_key);
         }
+
+        $files = apply_filters( 'cfdb7_before_file_copy', $files );
+
         foreach ($files as $file_key => $file) {
             $file = is_array( $file ) ? reset( $file ) : $file;
             if( empty($file) ) continue;

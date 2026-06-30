@@ -163,6 +163,32 @@ class Changes_Logs_DB_Log {
         return $current_dbversion;
     }
 
+    /**
+     * Method get_logs_db_size()
+     *
+     * @return int Logs db size.
+     */
+    public function get_logs_db_size() {
+        global $wpdb;
+
+        $table_name      = self::table_name( 'changes_logs' );
+        $meta_table_name = self::table_name( 'changes_meta' );
+
+        $logs_size = $this->db->wpdb->get_var(
+            "SELECT SUM(data_length + index_length)
+         FROM information_schema.tables
+         WHERE table_schema = '{$wpdb->dbname}'
+         AND table_name = '{$table_name}'" //phpcs:ignore -- NOSONAR - escape ok.
+        );
+
+        $meta_size = $this->db->wpdb->get_var(
+            "SELECT SUM(data_length + index_length)
+         FROM information_schema.tables
+         WHERE table_schema = '{$wpdb->dbname}'
+         AND table_name = '{$meta_table_name}'" //phpcs:ignore -- NOSONAR - escapeok.
+        );
+        return (int) ( $logs_size + $meta_size );
+    }
 
     /**
      * Method is_installed_db().
@@ -329,6 +355,9 @@ class Changes_Logs_DB_Log {
             $record['duration'] = MainWP_Child_Actions::get_instance()->get_exec_time();
 
             $log_id = $this->save_log( $record );
+            if ( $log_id ) {
+                Changes_Logs_Logger::handled_log_type( $type_id );
+            }
 
             if ( 0 !== $log_id && ! empty( $data ) ) {
                 $sqls = '';
@@ -702,6 +731,48 @@ class Changes_Logs_DB_Log {
         }
 
         return $results;
+    }
+
+    /**
+     * Bulk Cleans up the changes log database.
+     *
+     * @return void.
+     */
+    public function bulk_clean_up() {
+
+        global $wpdb;
+
+        $table_logs = static::table_name( 'changes_logs' );
+        $table_meta = static::table_name( 'changes_meta' );
+        $wpdb->query( "TRUNCATE TABLE `$table_meta`" ); //phpcs:ignore -- escaped ok.
+        $wpdb->query( "TRUNCATE TABLE `$table_logs`" ); //phpcs:ignore -- escaped ok.
+    }
+
+    /**
+     * Cleans up the changes log database records.
+     *
+     * @return void
+     */
+    public function perform_clean_records() {
+
+        $days_number = get_option( 'mainwp_child_changes_logs_ttl', false );
+
+        if ( false === $days_number ) {
+            $days_number = 7; // days.
+        }
+        $days_number = intval( $days_number );
+
+        if ( ! is_numeric( $days_number ) || $days_number <= 0 ) {
+                    $days_number = 7;
+        }
+
+        $max_stamp = strtotime( '-' . intval( $days_number ) . ' days' );
+
+        if ( empty( $max_stamp ) ) {
+            return;
+        }
+
+        $this->delete( array( 'created_on <= %s' => intval( $max_stamp ) ) );
     }
 
     /**

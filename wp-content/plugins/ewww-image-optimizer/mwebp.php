@@ -17,22 +17,23 @@ function ewww_image_optimizer_webp_migrate_preview() {
 	$naming_mode = ewww_image_optimizer_get_option( 'ewww_image_optimizer_webp_naming_mode', 'append' );
 	?>
 	<div class="wrap">
-	<h1><?php esc_html_e( 'Rename WebP Images', 'ewww-image-optimizer' ); ?></h1>
-	<p>
-		<?php if ( 'replace' === $naming_mode ) : ?>
-			<?php esc_html_e( 'This tool will search your entire WordPress folder for images with a .webp extension appended and convert them to replacement naming.', 'ewww-image-optimizer' ); ?>
-		<?php else : ?>
-			<?php esc_html_e( 'This tool will search your entire WordPress folder for images with a .webp extension in place of the original, and append the extension instead.', 'ewww-image-optimizer' ); ?>
-		<?php endif; ?>
-	</p>
-	<div id="webp-loading"></div>
-	<div id="webp-progressbar"></div>
-	<div id="webp-counter"></div>
-	<div id="webp-status"></div>
+		<h1><?php esc_html_e( 'Rename WebP Images', 'ewww-image-optimizer' ); ?></h1>
+		<p>
+			<?php if ( 'replace' === $naming_mode ) : ?>
+				<?php esc_html_e( 'This tool will search your entire WordPress folder for images with a .webp extension appended and convert them to replacement naming.', 'ewww-image-optimizer' ); ?>
+			<?php else : ?>
+				<?php esc_html_e( 'This tool will search your entire WordPress folder for images with a .webp extension in place of the original, and append the extension instead.', 'ewww-image-optimizer' ); ?>
+			<?php endif; ?>
+		</p>
+		<div id="webp-loading"></div>
+		<div id="webp-progressbar"></div>
+		<div id="webp-counter"></div>
+		<div id="webp-status"></div>
 		<div id="bulk-forms">
-		<form id="webp-start" class="webp-form" method="post" action="">
-			<input id="webp-first" type="submit" class="button-secondary action" value="<?php esc_attr_e( 'Start Migration', 'ewww-image-optimizer' ); ?>" />
-		</form>
+			<form id="webp-start" class="webp-form" method="post" action="">
+				<input id="webp-first" type="submit" class="button-secondary action" value="<?php esc_attr_e( 'Start Migration', 'ewww-image-optimizer' ); ?>" />
+			</form>
+		</div>
 	</div>
 	<?php
 }
@@ -104,11 +105,11 @@ function ewww_image_optimizer_webp_scan() {
  * @param string $hook The hook identifier for the current page.
  */
 function ewww_image_optimizer_webp_script( $hook ) {
-	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
 	// Make sure we are being called from the migration page.
 	if ( 'admin_page_ewww-image-optimizer-webp-migrate' !== $hook ) {
 		return;
 	}
+	ewwwio_debug_message( '<b>' . __FUNCTION__ . '()</b>' );
 	$images = ewww_image_optimizer_webp_scan();
 	// Remove the images array from the db if it currently exists, and then store the new list in the database.
 	if ( get_option( 'ewww_image_optimizer_webp_images' ) ) {

@@ -4,9 +4,9 @@ Donate link: https://www.paypal.me/reallysimplessl
 Tags: security, https, 2fa, vulnerabilities, two factor
 Requires at least: 6.6
 License: GPL2
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 9.5.8
+Stable tag: 9.6.0
 
 Easily improve site security with WordPress Hardening, Two-Factor Authentication (2FA), Login Protection, Vulnerability Detection and SSL certificate.
 
@@ -160,6 +160,31 @@ Yes. The plugin enforces HTTPS and handles all necessary redirects, optionally u
 Really Simple Security and WordFence greatly overlap in term of functionality. If you like to use specific features from both plugins, we strongly recommend not to enable similar features twice. The benefit of Really Simple Security is that disabled features don't load any code, so won't have an impact on site performance.
 
 == Changelog ==
+= 9.6.0 - 2026-06-16 =
+* Fixed: 2FA grace period reminder emails could be sent unexpectedly.
+* Fixed: Review notice is now correctly dismissed when pressing the X.
+* Changed: Vulnerability details now load only for the plugin or theme being activated.
+* Changed: Improved rule writing with file locking to avoid race conditions.
+* Changed: Uninstall cleanup now removes plugin options and transients more reliably.
+* Changed: Added RSSSL_INFO_LOG for extra debugging details.
+* Changed: Added more prerequisite checks before features can be enabled.
+
+= 9.5.11 - 2026-05-05 =
+* Fixed: fatal error that could occur when a plugin uses admin_enqueue_scripts incorrectly.
+* Fixed: a bug where the wrong settings value could be saved.
+
+= 9.5.10.1 - 2026-04-29 =
+* Fixed: Undefined variable during cron.
+* Changed: Updated 2FA login flow to address inconsistent verification behavior.
+
+= 9.5.10 - 2026-04-21 =
+* Fixed: Some styling (CSS) issues to improve compatibility with WordPress 7.0.
+* Changed: Removed an unused AJAX callback.
+* Changed: Tested up to WordPress 7.0.
+
+= 9.5.9 - 2026-03-31 =
+* Changed: Reworked vulnerability detection and measures logic.
+
 = 9.5.8 - 2026-02-26 =
 * Fixed: Prevent using "Do Not Ask Again" for user roles where 2FA is required.
 * Fixed: Resolved an issue where "Prevent login feedback" could show a ghost username on the login retry screen.

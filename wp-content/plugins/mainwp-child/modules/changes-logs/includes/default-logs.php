@@ -507,7 +507,7 @@ return array(
         'type_id'     => 1570,
         'desc'        => esc_html__( 'Successfully logged in', 'mainwp-child' ),
         'context'     => 'user',
-        'action_name' => 'logined-in',
+        'action_name' => 'logged-in',
     ),
     1575 => array(
         'type_id'     => 1575,
@@ -519,7 +519,7 @@ return array(
         'type_id'     => 1580,
         'desc'        => esc_html__( 'Successful log in but other sessions exist for user', 'mainwp-child' ),
         'context'     => 'user',
-        'action_name' => 'logined-in',
+        'action_name' => 'logged-in',
     ),
     1585 => array(
         'type_id'     => 1585,
@@ -537,13 +537,13 @@ return array(
         'type_id'     => 1595,
         'desc'        => esc_html__( 'Switched to another user', 'mainwp-child' ),
         'context'     => 'user',
-        'action_name' => 'logined-in',
+        'action_name' => 'logged-in',
     ),
     1596 => array(
         'type_id'     => 1596,
         'desc'        => esc_html__( 'User login from dashboard', 'mainwp-child' ),
         'context'     => 'user',
-        'action_name' => 'logined-in',
+        'action_name' => 'logged-in',
     ),
     1600 => array(
         'type_id'     => 1600,
@@ -991,5 +991,35 @@ return array(
         'desc'        => esc_html__( 'Deleted recurring task (cron job)', 'mainwp-child' ),
         'context'     => 'cron-job',
         'action_name' => 'deleted',
+    ),
+    1960 => array(
+        'type_id'     => 1960,
+        'desc'        => esc_html__( 'WordPress updated', 'mainwp-child' ),
+        'context'     => 'wordpress', //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText -- No need for singular/plural here.
+        'action_name' => 'updated',
+    ),
+    1965 => array(
+        'type_id'     => 1965,
+        'desc'        => esc_html__( 'Plugin installed.', 'mainwp-child' ),
+        'context'     => 'plugin',
+        'action_name' => 'installed',
+    ),
+    1970 => array(
+        'type_id'     => 1970,
+        'desc'        => esc_html__( 'Plugin updated.', 'mainwp-child' ),
+        'context'     => 'plugin',
+        'action_name' => 'updated',
+    ),
+    1975 => array(
+        'type_id'     => 1975,
+        'desc'        => esc_html__( 'Theme installed.', 'mainwp-child' ),
+        'context'     => 'theme',
+        'action_name' => 'installed',
+    ),
+    1980 => array(
+        'type_id'     => 1980,
+        'desc'        => esc_html__( 'Theme updated.', 'mainwp-child' ),
+        'context'     => 'theme',
+        'action_name' => 'updated',
     ),
 );

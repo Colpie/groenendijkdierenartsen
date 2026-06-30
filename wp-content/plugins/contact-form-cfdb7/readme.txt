@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=H5F3Z6S3
 Tags: cf7, contact form 7, contact form 7 db, cf7 database, wpcf7
 Requires at least: 4.8
 Tested up to: 6.9
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.0
@@ -36,7 +36,7 @@ By simply installing the plugin, it will automatically begin to capture form sub
 * [WP mail smtp](https://wordpress.org/plugins/wp-mail-smtp-mailer/)
 
 = Pro Addons =
-* [Scheduled CSV Export](https://ciphercoin.com/downloads/public-export-csv/)
+* [Entry Automation](https://ciphercoin.com/downloads/public-export-csv/)
 Automatically export CFDB7 form entries to CSV on a schedule
 * [Advanced MYSQL DB](https://ciphercoin.com/downloads/contact-form-7-column-base-mysql-database-addon/)
 Separate MySQL column for each cf7 input field
@@ -80,6 +80,9 @@ add_filter('cfdb7_csv_delimiter', function( $delimiter ){
 
 == Changelog ==
 
+= 1.3.6 =
+New hooks added
+
 = 1.3.3 =
 Security improvements
 
@@ -103,30 +106,4 @@ Changed csv delimiter to semicolon
 
 = 1.2.7 =
 Extra protection for files
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
